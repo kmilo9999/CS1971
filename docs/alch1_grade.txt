@@ -1,0 +1,67 @@
+[ ] - Playtesting
+[ ] - Primary
+[ ] - Secondary
+Total: -/4
+
+Retries used: NONE STANDARD EXTRA (2 extra retries remaining)
+
+[ ] - Attended a design check
+[ ] - Completed playtesting
+
+========================================
+
+Playtesting Requirements
+========================================
+[ ] - Handin meets all global requirements
+[ ] - Handin only crashes on edge cases
+[ ] - Viewport is visible
+[ ] - Viewport allows panning
+
+Primary Engine Requirements
+========================================
+[ ] - System class containing a List or Set of GameObjects
+[ ] - GameWorld class
+
+Primary Game Requirements
+========================================
+[ ] - Handin meets all playtesting requirements
+[ ] - No game logic is handled outside of the game world
+[ ] - Most game logic is contained within behaviors
+[ ] - GameObjects do not gain any functionality from inheritance
+[ ] - Behaviors are extensible- no hardcoding required to add new behaviors
+[ ] - Systems are extensible- minimal hardcoding required to add new systems
+[ ] - Unit visible in the viewport
+[ ] - Unit responds to being clicked
+[ ] - Unit is freely movable
+[ ] - Unit is drawn and moved with separate behaviors
+
+Secondary Engine Requirements
+=======================================
+[ ] - Handin meets all primary engine requirements
+[ ] - Viewport allows zooming
+
+Secondary Game Requirements
+======================================
+[ ] - Handin meets all primary game requirements
+[ ] - Player can zoom the viewport
+[ ] - Clicking isn't broken when zooming
+[ ] - Player can make copies of the unit by clicking and dragging it from a menu
+[ ] - Original is not destroyed or moved when making copies
+
+Global Requirements (you don't need to show how to verify these)
+======================================
+[ ] - Eclipse project or ant build file
+[ ] - README
+    [ ] - has a copy of the rubric
+    [ ] - shows how to verify non-global requirements
+    [ ] - documents known bugs
+    [ ] - approximate hours to complete checkpoint
+[ ] - INSTRUCTIONS file included
+[ ] - No external dependencies
+[ ] - Engine and game in separate packages
+[ ] - Engine and game logically separated
+[ ] - Engine code isn't horribly designed
+[ ] - Game code isn't horribly designed
+[ ] - Handin runs on department machines
+[ ] - Handin isn't permanent fixed size
+[ ] - Handin runs 20+ UPS

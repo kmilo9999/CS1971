@@ -1,0 +1,32 @@
+﻿
+
+
+Primary Engine Requirements
+
+- System class containing a List or Set of GameObjects: Check the class fxengine.systemBaseGameSystem. All the otehr systems inherit form it
+- GameWorld class: Check the class fxengine.objects.GameWorld
+
+
+Primary Game Requirements:
+- No game logic is handled outside of the game world : All the logic occur inside the components
+- Most game logic is contained within behaviors : Check MouseEventComponent
+- GameObjects do not gain any functionality from inheritance: GameObject class doesn inherit from any other object except java.object
+- Behaviors are extensible- no hardcoding required to add new behaviors: 
+- Systems are extensible- minimal hardcoding required to add new systems: All my Systems inherit form a Base System.
+- Unit visible in the viewport : that inital circle in the viewport is a gameobject
+- Unit responds to being clicked : click on the game object
+- Unit is freely movable : dragged it around the scene
+- Unit is drawn and moved with separate behaviors: check GraphicsComponent, TransfromComponent and MouseEVentComponent
+
+
+Secondary Engine Requirements
+- Your engine must meet all primary engine requirements
+- Viewport allows zooming: not implemented
+
+Secondary Game Requirements
+-  Player can make copies of the unit by clicking and dragging it from a menu: If you press C on a selected gameobject , it will genrate a copy
+- Original is not destroyed or moved when making copies: it doesnt happen
+
+
+
+

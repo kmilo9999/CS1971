@@ -1,0 +1,4 @@
+It doesnt resize the game elements on the screen. I did not know how to implement this funcitonality
+It does zoom or pan
+clipping has causing me low fps
+Sometimes the copied objects have a strange color when selected

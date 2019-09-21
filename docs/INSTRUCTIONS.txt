@@ -1,0 +1,7 @@
+1. execute the jar
+2. there is one game object within the view port
+3. clikc on the game object will select it
+4. if you press C after selecting the game object, it will copy it and place it at position 0,0
+
+
+ENJOY
