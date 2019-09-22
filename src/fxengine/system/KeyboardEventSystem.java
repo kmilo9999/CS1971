@@ -1,8 +1,8 @@
 package fxengine.system;
 
 import fxengine.components.ComponetContants;
-import fxengine.components.KeyEventComponent;
-import fxengine.components.MouseEventComponent;
+import fxengine.components.KeyControllerBehaviorComponent;
+import fxengine.components.MouseControllerBehaviorComponent;
 import fxengine.event.Event;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,7 +20,7 @@ public class KeyboardEventSystem extends EventSystem{
 		for(GameObject gameObject:myGameObjects)
 		{
 			if(gameObject.hasComponent(ComponetContants.keyEvents)) {
-				KeyEventComponent keyEventComponent = (KeyEventComponent)gameObject.getComponent(ComponetContants.keyEvents);
+				KeyControllerBehaviorComponent keyEventComponent = (KeyControllerBehaviorComponent)gameObject.getComponent(ComponetContants.keyEvents);
 				keyEventComponent.processEvent(evt);
 			}
 		}

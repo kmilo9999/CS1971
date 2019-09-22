@@ -1,7 +1,7 @@
 package fxengine.system;
 
 import fxengine.components.ComponetContants;
-import fxengine.components.MouseEventComponent;
+import fxengine.components.MouseControllerBehaviorComponent;
 import fxengine.event.Event;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -36,8 +36,8 @@ public class MouseEventSystem extends EventSystem{
 		{
 			if(gameObject.hasComponent(ComponetContants.mouseEvents)) {
 				// check if the click was within the sprite area
-				MouseEventComponent mouseEventComponent = (MouseEventComponent)gameObject.getComponent(ComponetContants.mouseEvents);
-				mouseEventComponent.onMouseClicked( new Vec2d(e.getX(),e.getY()), mapMouseButtonToInt(e.getButton()));
+				MouseControllerBehaviorComponent mouseEventComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.mouseEvents);
+				mouseEventComponent.mouseClicked( new Vec2d(e.getX(),e.getY()), mapMouseButtonToInt(e.getButton()));
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class MouseEventSystem extends EventSystem{
 		for(GameObject gameObject:myGameObjects)
 		{
 			if(gameObject.hasComponent(ComponetContants.mouseEvents)) {
-				MouseEventComponent mouseEventComponent = (MouseEventComponent)gameObject.getComponent(ComponetContants.mouseEvents);
+				MouseControllerBehaviorComponent mouseEventComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.mouseEvents);
 				mouseEventComponent.processEvent(evt);
 			}
 		}

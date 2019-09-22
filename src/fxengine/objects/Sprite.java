@@ -43,7 +43,7 @@ public class Sprite extends Layout{
 		if(this.mySourceImage != null)
 		{
 			//this.myColor = this.myIsHoverd? UIConstants.LIGTHGRAY:UIConstants.TRANSPARENT;
-			this.myColor = UIConstants.LIGTHGRAY;
+			//this.myColor = UIConstants.LIGTHGRAY;
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
 			super.onDraw(graphicsCx);

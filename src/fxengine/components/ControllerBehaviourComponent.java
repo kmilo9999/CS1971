@@ -34,16 +34,10 @@ public class ControllerBehaviourComponent extends Component{
 	private void checkClicked() {
 		// TODO Auto-generated method stub
 		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
-		if(transformComponent != null)
+		MouseControllerBehaviorComponent mouseComponent = (MouseControllerBehaviorComponent)this.myParent.getComponent(ComponetContants.mouseEvents);
+		if(transformComponent != null && mouseComponent !=null)
 		{
-			MouseEventComponent mouseComponent = (MouseEventComponent)this.myParent.getComponent(ComponetContants.mouseEvents);
-			Vec2d mousePositionScreenSpace = mouseComponent.getPosition();	
-			Affine affineTransformation = this.myParent.getGameWorld().getAffineTransform();
-			affineTransformation.appendTranslation(-this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x , -this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y);
-			affineTransformation.appendScale(1/this.myParent.getGameWorld().getViewportScaleFactor(), 1/this.myParent.getGameWorld().getViewportScaleFactor());
-			affineTransformation.appendTranslation(this.myParent.getGameWorld().getPanelGameViewPort().x , this.myParent.getGameWorld().getPanelGameViewPort().y);
-			
-			
+			//MouseEventComponent mouseComponent = (MouseEventComponent)this.myParent.getComponent(ComponetContants.mouseEvents);
 			
 		}
 		

@@ -61,7 +61,7 @@ public class GraphicsComponent extends Component{
         	}
         	else
         	{
-        		mySprite.setColor(UIConstants.TRANSPARENT);
+        		mySprite.setColor(UIConstants.LIGTHGRAY);
         	}
         	
         	

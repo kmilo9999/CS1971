@@ -56,7 +56,7 @@ public class GraphicsSystem extends BaseGameSystem{
 			for(GameObject gameObject:gameObjects) 
 			{
 				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponetContants.graphics);
-				//gComponent.clip(panelScreenViewPortUpperLeft,panelScreenViewPortSize,viewportScaleFactor,panelGameViewPort);
+				
 				if(gComponent != null)
 				{
 					gComponent.draw(graphicsCx);	

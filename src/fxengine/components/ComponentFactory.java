@@ -30,12 +30,12 @@ public class ComponentFactory {
 		
 		if(componentName.equals(ComponetContants.mouseEvents))
 		{
-			return new MouseEventComponent(ComponetContants.mouseEvents);
+			return new MouseControllerBehaviorComponent(ComponetContants.mouseEvents);
 		}
 		
 		if(componentName.equals(ComponetContants.keyEvents))
 		{
-			return new KeyEventComponent(ComponetContants.keyEvents);
+			return new KeyControllerBehaviorComponent(ComponetContants.keyEvents);
 		}
 		
 		if(componentName.equals(ComponetContants.transform))

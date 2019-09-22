@@ -9,13 +9,12 @@ import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
-import fxengine.system.ControllerBehaviourSystem;
 import fxengine.system.MouseEventSystem;
 
 
 public class AlchScene extends GameWorldScene{
 
-	protected ControllerBehaviourSystem myControllerBehaviorSystem = new ControllerBehaviourSystem();
+	
 	
 	public AlchScene(String name, FXFrontEnd application) {
 		super(name, application);
@@ -28,7 +27,7 @@ public class AlchScene extends GameWorldScene{
 		
         // Initialize game world
 		super.initScene();
-		this.myGameWorld.addSystem(ComponetContants.controlled,myControllerBehaviorSystem);
+		
 		
 		GameObject gameObject = new GameObject("Sprite1");
 		

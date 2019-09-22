@@ -5,7 +5,7 @@ import fxengine.UISystem.PaintedButton;
 import fxengine.UISystem.UIConstants;
 import fxengine.components.ComponetContants;
 import fxengine.components.GraphicsComponent;
-import fxengine.components.MouseEventComponent;
+import fxengine.components.MouseControllerBehaviorComponent;
 import javafx.scene.paint.Color;
 
 public class ShapeFactory {
