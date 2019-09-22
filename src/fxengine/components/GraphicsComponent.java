@@ -24,6 +24,9 @@ public class GraphicsComponent extends Component{
 	private Vec2d myPanelScreenViewPortUpperLeft;
 	private Vec2d myPanelScreenViewPortSize;
 	
+	private boolean myInViewportX = false;
+	private boolean myInViewportY = false;
+	
 	public GraphicsComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -65,17 +68,19 @@ public class GraphicsComponent extends Component{
         	//paints in screen space			
 			//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
 			//mySprite.setPosition(screenPosition);
-			this.clip();
-				
-			mySprite.onDraw(graphicsCx);
-        	
+        	this.clip();
+        	if(this.myInViewportX || this.myInViewportY)
+        	{
+        						
+    			mySprite.onDraw(graphicsCx);
+        	}
 
-        	
         		
         }
 		
 	}
-	
+
+
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
@@ -177,11 +182,15 @@ public class GraphicsComponent extends Component{
 				Vec2d currentPositionInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
 				Vec2d currentSizeInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition().plus(spriteSizeGameSpace));
 				
-				Vec2d p1 = currentPositionInScreenSpace;
-				
 				double startPosX =  Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
-				double startPosY =  Math.min(currentPositionInScreenSpace.y, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.y);
+				startPosX =  Math.min(startPosX, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.y);
 				
+				double startPosY =  Math.max(currentPositionInScreenSpace.y, myPanelScreenViewPortUpperLeft.y);
+				startPosY =  Math.min(startPosY, myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y);
+				
+				mySprite.setPosition(new Vec2d(startPosX,startPosY));
+				
+				Vec2d p1 = currentPositionInScreenSpace;
 				
 				Vec2d currentWidth = new Vec2d( currentSizeInScreenSpace.x,p1.y);
 				Vec2d currentHeigth =  new Vec2d(p1.x, currentSizeInScreenSpace.y);
@@ -192,13 +201,40 @@ public class GraphicsComponent extends Component{
 				mySprite.setSize(new Vec2d(vCurretWidth,vCurretHeight));
 				
 				// actual clip
-				
+				// at this point the sprite size is in screen space coordinates
 				Vec2d p2x = new Vec2d(p1.x+ mySprite.getSize().x,p1.y);
 				Vec2d p2y = new Vec2d(p1.x,p1.y+ mySprite.getSize().y);
+				Vec2d p2xy = new Vec2d(p1.x + mySprite.getSize().x ,p1.y+ mySprite.getSize().y);
 				
 				
 				Vec2d xclipCoords[] = cohenSutherlandClip(p1,p2x);
+				double xDistance = 0;
 				
+				if(xclipCoords[0] == null  && xclipCoords[1] == null)
+				{
+					
+					xclipCoords = cohenSutherlandClip(p2xy,p2y);
+					
+					if(xclipCoords[0] == null  )
+					{
+						// not in viewport
+						this.myInViewportX = false;
+					}
+					else
+					{
+						xDistance = xclipCoords[0].x;
+						this.myInViewportX = true;
+					}
+						
+				}
+				else
+				{
+					xDistance = xclipCoords[1].x;
+					this.myInViewportX = true;
+				}
+				
+				
+			
 				/*if(xclipCoords[0] == null  && xclipCoords[1] == null)
 				{
 					//p1.x is either above or below clipping plane
@@ -214,7 +250,36 @@ public class GraphicsComponent extends Component{
 					}
 				}*/
 				
+				
 				Vec2d yclipCoords[] = cohenSutherlandClip(p1,p2y);
+                double yDistance = 0;
+				
+				if(yclipCoords[0] == null  && yclipCoords[1] == null)
+				{
+					
+					xclipCoords = cohenSutherlandClip(p2xy,p2x);
+					if(xclipCoords[0] ==  null)
+					{
+						//not in viewport
+						this.myInViewportY = false;
+						
+					}
+					else
+					{
+						yDistance = xclipCoords[0].y;
+						this.myInViewportY = true;
+					}
+					
+				}
+				else
+				{
+					yDistance = yclipCoords[1].y;
+					this.myInViewportY = true;
+				}
+				
+				
+				
+				
 				
 				
 				/*if(yclipCoords[0] == null  && yclipCoords[1] == null)
@@ -233,8 +298,10 @@ public class GraphicsComponent extends Component{
 				}*/
 				
 				
-				mySprite.setPosition(new Vec2d(xclipCoords[0].x,yclipCoords[0].y));
-				mySprite.setSize(new Vec2d(p1.dist(xclipCoords[1]),p1.dist(yclipCoords[1])));
+				//mySprite.setPosition(new Vec2d(xclipCoords[0].x,yclipCoords[0].y));
+				double dx = Math.abs(mySprite.getPosition().x - xDistance);
+				double dy =  Math.abs(mySprite.getPosition().y - yDistance);
+				mySprite.setSize(new Vec2d(dx,dy));
 			}
 			 
 		}	

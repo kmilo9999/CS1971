@@ -38,7 +38,7 @@ public class AlchScene extends GameWorldScene{
 		Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
 		Component keyEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.keyEvents);
 		Component controllerBehaviorComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.controlled);
-		((TransformComponent)tranformComponent).setPosition(new Vec2d(50));
+		((TransformComponent)tranformComponent).setPosition(new Vec2d(0,-2));
 		
 		gameObject.addComponent(graphicsComponent);
 		gameObject.addComponent(tranformComponent);

@@ -85,7 +85,7 @@ public class MouseEventComponent extends Component {
 			
 			
 			Vec2d elemetSize = sprite.getSize();
-			Vec2d elemetPosition = transform.getPosition();
+			Vec2d elemetPosition = sprite.getPosition();
 			Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
 		  	//System.out.println("clickPos: " + elemetPosition.x + " " + elemetPosition.y + " ");
 		  	

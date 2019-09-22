@@ -94,9 +94,10 @@ public class KeyEventComponent extends Component{
 		// TODO Auto-generated method stub
 		if(value.length() == 1)
 		{
-			if((int)value.charAt(0) - 97 < 256)
-			{
-				keys[(int)value.charAt(0) - 97] = true;	
+			int keyCode = (int)value.charAt(0) - 97;
+			if(keyCode >= 0 && keyCode < 256)
+            {
+				keys[keyCode] = true;	
 			}
 			
 		}
