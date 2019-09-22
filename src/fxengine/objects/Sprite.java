@@ -17,6 +17,7 @@ public class Sprite extends Layout{
 	protected double myWidth;
 	protected double myHeight;
 	
+	
 	public Sprite(String imagePath)
 	{
 		super(0, 0, 0, 0);

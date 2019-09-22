@@ -7,6 +7,7 @@ import fxengine.components.GraphicsComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.transform.Affine;
 
 public class GraphicsSystem extends BaseGameSystem{
 
@@ -106,6 +107,7 @@ public class GraphicsSystem extends BaseGameSystem{
 		this.viewportScaleFactor = viewportScaleFactor;
 	}
 
+	
 
 	
 }

@@ -216,8 +216,8 @@ public class GameWorld {
 		return mySystems.get(systemName);
 	}
 
-	public void addSystem(String name, BaseGameSystem System) {
-		this.mySystems.put(name,System);
+	public void addSystem(String name, BaseGameSystem system) {
+		this.mySystems.put(name,system);
 	}
 
 	public Affine getAffineTransform() {
@@ -293,5 +293,40 @@ public class GameWorld {
 
 	public void setSelected(GameObject selected) {
 		this.mySelected = selected;
+	}
+	
+	public Vec2d screenToGameTransform(Vec2d screenCoordinates)
+	{
+		if(mySystems.containsKey(ComponetContants.graphics) && myAffineTransform!=null)
+		{
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			Affine affineTransformation = myAffineTransform.clone();
+			affineTransformation.appendTranslation(screenCoordinates.x-graphicsSystem.getPanelScreenViewPortUpperLeft().x , screenCoordinates.y -graphicsSystem.getPanelScreenViewPortUpperLeft().y);
+			affineTransformation.appendScale(1/graphicsSystem.getViewportScaleFactor(), 1/graphicsSystem.getViewportScaleFactor());
+			affineTransformation.appendTranslation(graphicsSystem.getPanelGameViewPort().x , graphicsSystem.getPanelGameViewPort().y);
+			return new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
+		
+		}
+		
+		return null;
+		
+	}
+	
+	
+	public Vec2d gameToScreenTransform(Vec2d gameCoordinates)
+	{
+		if(mySystems.containsKey(ComponetContants.graphics) && myAffineTransform!=null)
+		{
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			Affine affineTransformation = myAffineTransform.clone();
+			
+			affineTransformation.appendTranslation(gameCoordinates.x-graphicsSystem.getPanelGameViewPort().x , gameCoordinates.y -graphicsSystem.getPanelGameViewPort().y);
+			affineTransformation.appendScale(graphicsSystem.getViewportScaleFactor(), graphicsSystem.getViewportScaleFactor());
+			affineTransformation.appendTranslation(graphicsSystem.getPanelScreenViewPortUpperLeft().x , graphicsSystem.getPanelScreenViewPortUpperLeft().y);
+			return new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
+		}
+		
+		return null;
+		
 	}
 }

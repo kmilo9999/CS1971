@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fxengine.objects.GameObject;
+import fxengine.objects.GameWorld;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class BaseGameSystem {
 	
 	
 	// Filtered list of game objects of interest
-	List<GameObject> myGameObjects = new ArrayList<GameObject>();
+	protected List<GameObject> myGameObjects = new ArrayList<GameObject>();
 	
-	
+
 	public abstract void initialize();
 
 	public abstract void update(long nanosSincePreviousTick);
@@ -26,4 +27,5 @@ public abstract class BaseGameSystem {
 		myGameObjects.add(gameObject);
 	}
 	
+
 }

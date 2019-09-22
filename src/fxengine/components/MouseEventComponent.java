@@ -59,17 +59,9 @@ public class MouseEventComponent extends Component {
 		TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
 		Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponetContants.graphics)).getSprite();
 		
-		
-		 	
-		Affine affineTransformation = this.myParent.getGameWorld().getAffineTransform().clone();
-		affineTransformation.appendTranslation(clickPosition.x-this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x , clickPosition.y -this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y);
-		affineTransformation.appendScale(1/this.myParent.getGameWorld().getViewportScaleFactor(), 1/this.myParent.getGameWorld().getViewportScaleFactor());
-		affineTransformation.appendTranslation(this.myParent.getGameWorld().getPanelGameViewPort().x , this.myParent.getGameWorld().getPanelGameViewPort().y);
-		
-		
 		Vec2d elemetSize = sprite.getSize();
 		Vec2d elemetPosition = transform.getPosition();
-		Vec2d transFormClickPos = new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
+		Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
 	  	//System.out.println("clickPos: " + elemetPosition.x + " " + elemetPosition.y + " ");
 	  	
 		
@@ -91,15 +83,10 @@ public class MouseEventComponent extends Component {
 			TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
 			Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponetContants.graphics)).getSprite();
 			
-			Affine affineTransformation = this.myParent.getGameWorld().getAffineTransform().clone();
-			affineTransformation.appendTranslation(clickPosition.x-this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x , clickPosition.y -this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y);
-			affineTransformation.appendScale(1/this.myParent.getGameWorld().getViewportScaleFactor(), 1/this.myParent.getGameWorld().getViewportScaleFactor());
-			affineTransformation.appendTranslation(this.myParent.getGameWorld().getPanelGameViewPort().x , this.myParent.getGameWorld().getPanelGameViewPort().y);
-			
 			
 			Vec2d elemetSize = sprite.getSize();
 			Vec2d elemetPosition = transform.getPosition();
-			Vec2d transFormClickPos = new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
+			Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
 		  	//System.out.println("clickPos: " + elemetPosition.x + " " + elemetPosition.y + " ");
 		  	
 			
@@ -127,33 +114,20 @@ public class MouseEventComponent extends Component {
 		
 	}
 	
-	public void onMouseDragged(Vec2d position, int button)
+	public void onMouseDragged(Vec2d currentMousePosition, int button)
 	{
 		if(mouseButtons[0] && button == 0)
 		{
 			//is dragging this entity
+		
 			TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
-			Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponetContants.graphics)).getSprite();
+			Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
+			Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);
 			
-			Affine affineTransformation = this.myParent.getGameWorld().getAffineTransform().clone();
-			affineTransformation.appendTranslation(position.x-this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x , position.y -this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y);
-			affineTransformation.appendScale(1/this.myParent.getGameWorld().getViewportScaleFactor(), 1/this.myParent.getGameWorld().getViewportScaleFactor());
-			affineTransformation.appendTranslation(this.myParent.getGameWorld().getPanelGameViewPort().x , this.myParent.getGameWorld().getPanelGameViewPort().y);
-			
-			Vec2d transFormMousePos = new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
-			
-			Affine naffineTransformation = this.myParent.getGameWorld().getAffineTransform().clone();
-			naffineTransformation.appendTranslation(myLastPosition.x-this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x , myLastPosition.y -this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y);
-			naffineTransformation.appendScale(1/this.myParent.getGameWorld().getViewportScaleFactor(), 1/this.myParent.getGameWorld().getViewportScaleFactor());
-			naffineTransformation.appendTranslation(this.myParent.getGameWorld().getPanelGameViewPort().x , this.myParent.getGameWorld().getPanelGameViewPort().y);
-			
-			//Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponetContants.graphics)).getSprite();
-			Vec2d transFormMyMousePos = new Vec2d(naffineTransformation.getTx(),naffineTransformation.getTy());
-			
-			Vec2d delta = transFormMousePos.minus(transFormMyMousePos);
+			Vec2d delta = currentMousePosGameSpace.minus(lastMousePositionGameSpace);
 			transform.setPosition(transform.getPosition().plus(delta));
-			myLastPosition = position;
-			//System.out.println("onMouseDragged " + transform.getPosition().x + " " + transform.getPosition().y);
+			myLastPosition = currentMousePosition;
+			
 		}
 	}
 

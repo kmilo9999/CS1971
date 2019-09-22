@@ -48,7 +48,9 @@ public class GraphicsComponent extends Component{
 	@Override
 	public void draw(GraphicsContext graphicsCx)
 	{
-        if(mySprite != null)
+		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
+		
+        if(mySprite != null && transformComponent != null)
         {
         	if(this.myParent.isSelected())
         	{
@@ -58,8 +60,18 @@ public class GraphicsComponent extends Component{
         	{
         		mySprite.setColor(UIConstants.TRANSPARENT);
         	}
-        	this.clip();
-        	mySprite.onDraw(graphicsCx);	
+        	
+        	
+        	//paints in screen space			
+			//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
+			//mySprite.setPosition(screenPosition);
+			this.clip();
+				
+			mySprite.onDraw(graphicsCx);
+        	
+
+        	
+        		
         }
 		
 	}
@@ -72,7 +84,29 @@ public class GraphicsComponent extends Component{
 			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
 			if(transformComponent != null)
 			{
-				mySprite.setPosition(transformComponent.getPosition());	
+				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
+				//mySprite.setPosition(screenPosition);
+				//this is world position
+				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
+				//mySprite.setPosition(screenPosition);	
+				
+				
+				//is this world space??
+				/*double xPos =  0;
+				double yPos =  0;
+				
+				Vec2d currentPositionInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
+				if(currentPositionInScreenSpace.x < myPanelScreenViewPortUpperLeft.x)
+				{
+					
+				}
+				if (currentPositionInScreenSpace.y < myPanelScreenViewPortUpperLeft.y)
+				{
+					
+				}*/
+				
+				//mySprite.setPosition(transformComponent.getPosition());	
+				
 			}
 			 
 		}	
@@ -110,35 +144,97 @@ public class GraphicsComponent extends Component{
 			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
 			if(transformComponent != null)
 			{
-				Vec2d p1 = transformComponent.getPosition();
+				/*Vec2d p1 = transformComponent.getPosition();
+				//check outside left-top
+				
+				
+				//check outside right-bottom
+				
+				Vec2d currentWidth = new Vec2d( transformComponent.getPosition().x+ mySprite.getSize().x,p1.y);
+				Vec2d currentHeigth =  new Vec2d(p1.x, transformComponent.getPosition().y+ mySprite.getSize().y);
+				
+				double vCurretWidth = Math.max(p1.dist(currentWidth), mySprite.getWidth());
+				double vCurretHeight =  Math.max(p1.dist(currentHeigth),mySprite.getHeight());
+				
+				mySprite.setSize(new Vec2d(vCurretWidth,vCurretHeight));
+				
+				
+				// actual clip 
 				Vec2d p2x = new Vec2d(transformComponent.getPosition().x+ mySprite.getSize().x,p1.y);
 				Vec2d p2y = new Vec2d(p1.x,transformComponent.getPosition().y+ mySprite.getSize().y);
 				
 				
-				/*if(p1.dist(p2x) < mySprite.getWidth()) {
-					p2x = new Vec2d(p1.x,mySprite.getWidth());
-				}
-				
-				if(p1.dist(p2y) < mySprite.getHeight())
-				{
-					p2x = new Vec2d(p1.y,mySprite.getHeight());
-				}*/
+				Vec2d xclipCoords[] = cohenSutherlandClip(p1,p2x);
+				Vec2d yclipCoords[] = cohenSutherlandClip(p1,p2y);
 				
 				
+				
+				transformComponent.setPosition(new Vec2d(xclipCoords[0].x,yclipCoords[0].y));
+				mySprite.setSize(new Vec2d(p1.dist(xclipCoords[1]),p1.dist(yclipCoords[1])));*/
+				
+					
+				Vec2d spriteSizeGameSpace = this.myParent.getGameWorld().screenToGameTransform(new Vec2d(mySprite.getWidth(),mySprite.getHeight()));
+				Vec2d currentPositionInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
+				Vec2d currentSizeInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition().plus(spriteSizeGameSpace));
+				
+				Vec2d p1 = currentPositionInScreenSpace;
+				
+				double startPosX =  Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
+				double startPosY =  Math.min(currentPositionInScreenSpace.y, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.y);
+				
+				
+				Vec2d currentWidth = new Vec2d( currentSizeInScreenSpace.x,p1.y);
+				Vec2d currentHeigth =  new Vec2d(p1.x, currentSizeInScreenSpace.y);
+				
+				double vCurretWidth = Math.max(p1.dist(currentWidth), mySprite.getWidth());
+				double vCurretHeight =  Math.max(p1.dist(currentHeigth),mySprite.getHeight());
+				
+				mySprite.setSize(new Vec2d(vCurretWidth,vCurretHeight));
+				
+				// actual clip
+				
+				Vec2d p2x = new Vec2d(p1.x+ mySprite.getSize().x,p1.y);
+				Vec2d p2y = new Vec2d(p1.x,p1.y+ mySprite.getSize().y);
 				
 				
 				Vec2d xclipCoords[] = cohenSutherlandClip(p1,p2x);
-					
-					
+				
+				/*if(xclipCoords[0] == null  && xclipCoords[1] == null)
+				{
+					//p1.x is either above or below clipping plane
+					if(p1.y < myPanelScreenViewPortUpperLeft.y)
+					{
+						xclipCoords[0] = new Vec2d(p1.x,myPanelScreenViewPortUpperLeft.y);
+						xclipCoords[1] = new Vec2d(p2x.x ,myPanelScreenViewPortUpperLeft.y);
+					}
+					else if(p1.y >  myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y)
+					{
+						xclipCoords[0] = new Vec2d(p1.x, myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y);
+						xclipCoords[1] = new Vec2d(p2x.x,myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y);
+					}
+				}*/
+				
 				Vec2d yclipCoords[] = cohenSutherlandClip(p1,p2y);
-					
+				
+				
+				/*if(yclipCoords[0] == null  && yclipCoords[1] == null)
+				{
+					//p1.x is either above or below clipping plane
+					if(p1.x < myPanelScreenViewPortUpperLeft.x)
+					{
+						xclipCoords[0] = new Vec2d(myPanelScreenViewPortUpperLeft.x,p1.y);
+						xclipCoords[1] = new Vec2d(myPanelScreenViewPortUpperLeft.x,p2y.y);
+					}
+					else if(p1.y >  myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y)
+					{
+						xclipCoords[0] = new Vec2d(myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y, p1.y);
+						xclipCoords[1] = new Vec2d(myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y, p2y.y);
+					}
+				}*/
+				
+				
+				mySprite.setPosition(new Vec2d(xclipCoords[0].x,yclipCoords[0].y));
 				mySprite.setSize(new Vec2d(p1.dist(xclipCoords[1]),p1.dist(yclipCoords[1])));
-				
-					
-				
-				
-				
-				
 			}
 			 
 		}	

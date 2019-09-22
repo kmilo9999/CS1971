@@ -2,6 +2,7 @@ package fxengine.components;
 
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
+import fxengine.math.Vec2d;
 import fxengine.system.KeyboardEventSystem;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -41,6 +42,9 @@ public class KeyEventComponent extends Component{
 		
 	}
 
+	/**
+	 * @param value
+	 */
 	public void onKeyTyped(String value) {
 		// TODO Auto-generated method stub
 		//System.out.println("onKeyTyped " + value);
@@ -52,6 +56,12 @@ public class KeyEventComponent extends Component{
 				
 				this.myParent.clone();
 			}
+			
+			if((int)value.charAt(0) - 97 == 22)
+			{
+				TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
+				transform.setPosition(new Vec2d(transform.getPosition().x,transform.getPosition().y - 1));
+			}
 		}
 	}
 	
@@ -59,7 +69,8 @@ public class KeyEventComponent extends Component{
 		// TODO Auto-generated method stub
 		if(value.length() == 1)
 		{
-			if((int)value.charAt(0) - 97 < 256)
+			int keyCode = (int)value.charAt(0) - 97;
+			if(keyCode >= 0 && keyCode < 256)
             {
             	keys[(int)value.charAt(0) - 97] = false;	
             }
