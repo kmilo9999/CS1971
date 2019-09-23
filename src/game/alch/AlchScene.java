@@ -34,22 +34,30 @@ public class AlchScene extends GameWorldScene{
 		
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.graphics);
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.transform);
-		Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
-		Component keyEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.keyEvents);
-		Component controllerBehaviorComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.controlled);
+		//Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
+		//Component keyEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.keyEvents);
+		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.controllerMouseEvents);
+		Component keyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.controllerKeyEvents);
 		((TransformComponent)tranformComponent).setPosition(new Vec2d(0,-2));
 		
 		gameObject.addComponent(graphicsComponent);
 		gameObject.addComponent(tranformComponent);
-		gameObject.addComponent(mouseEventsComponent);
-		gameObject.addComponent(controllerBehaviorComponent);
-		gameObject.addComponent(keyEventsComponent);
+		//gameObject.addComponent(mouseEventsComponent);
+		//gameObject.addComponent(keyEventsComponent);
+		gameObject.addComponent(mouseControllerComponent);
+		gameObject.addComponent(keyControllerComponent);
 		
 		
-		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);
+		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
 		
 		
+		GameObject camera = new GameObject("Camera");
+		Component cameraMouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.cameraControllerMouseEvents);
+		Component cameraKeyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.cameraControllerKeyEvents);
+		camera.addComponent(cameraMouseControllerComponent);
+		camera.addComponent(cameraKeyControllerComponent);
 		
+		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);	
 	}
 	
 	

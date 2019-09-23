@@ -8,6 +8,9 @@ import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 
 
 public class Sprite extends Layout{
@@ -47,7 +50,9 @@ public class Sprite extends Layout{
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
 			super.onDraw(graphicsCx);
-			//graphicsCx.drawImage();
+			
+			
+			graphicsCx.drawImage(mySourceImage,0,0,mySize.x,mySize.y,myPosition.x,myPosition.y,mySize.x,mySize.y);
 		}
 
 	}

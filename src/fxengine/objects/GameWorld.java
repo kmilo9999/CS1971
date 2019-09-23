@@ -150,7 +150,8 @@ public class GameWorld {
 			List<GameObject> gameObjects = myGameObjects.get(layer); 
 			gameObject.setLayerOrder(layer);
 			gameObjects.add(gameObject);	
-			for(Map.Entry<String,BaseGameSystem>  systemEntry : mySystems.entrySet())
+			
+			for(Map.Entry<String,BaseGameSystem> systemEntry : mySystems.entrySet())
 			{
 				systemEntry.getValue().addGameObject(gameObject);
 			}
@@ -254,6 +255,16 @@ public class GameWorld {
 			return graphicsSystem.getPanelGameViewPort();	
 		}
 		return null ;
+	}
+	
+	
+	public void setPanelGameViewPort(Vec2d pos) {
+		if(mySystems.containsKey(ComponetContants.graphics))
+		{
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			 graphicsSystem.setPanelGameViewPort(pos);	
+		}
+		
 	}
 	
 	public double getViewportScaleFactor() {

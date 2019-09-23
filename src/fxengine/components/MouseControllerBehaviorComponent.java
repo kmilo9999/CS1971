@@ -92,6 +92,10 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 				//mouseButtons[pressedButton] = true;
 				this.myParent.setSelected(true);
 			}
+			else
+			{
+				this.myParent.setSelected(false);
+			}
 			
 		//}
 		
@@ -114,7 +118,7 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 	public void mouseDragged(Vec2d currentMousePosition, int button)
 	{
 		
-		if(mouseButtons[0] && button == 0)
+		if(mouseButtons[0] && button == 0 && this.myParent.isSelected())
 		{
 			//is dragging this entity
 		

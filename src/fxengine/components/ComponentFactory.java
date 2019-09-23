@@ -28,14 +28,34 @@ public class ComponentFactory {
 			return new GraphicsComponent(ComponetContants.graphics);
 		}
 		
+		if(componentName.equals(ComponetContants.controllerMouseEvents))
+		{
+			return new MouseControllerBehaviorComponent(ComponetContants.controllerMouseEvents);
+		}
+		
+		if(componentName.equals(ComponetContants.controllerKeyEvents))
+		{
+			return new KeyControllerBehaviorComponent(ComponetContants.controllerKeyEvents);
+		}
+		
+		if(componentName.equals(ComponetContants.cameraControllerKeyEvents))
+		{
+			return new CameraKeyControllerBehavior(ComponetContants.cameraControllerKeyEvents);
+		}
+		
+		if(componentName.equals(ComponetContants.cameraControllerMouseEvents))
+		{
+			return new CameraMouseControllerBehavior(ComponetContants.cameraControllerMouseEvents);
+		}
+		
 		if(componentName.equals(ComponetContants.mouseEvents))
 		{
-			return new MouseControllerBehaviorComponent(ComponetContants.mouseEvents);
+			return new MouseEventComponent(ComponetContants.mouseEvents);
 		}
 		
 		if(componentName.equals(ComponetContants.keyEvents))
 		{
-			return new KeyControllerBehaviorComponent(ComponetContants.keyEvents);
+			return new KeyEventComponent(ComponetContants.keyEvents);
 		}
 		
 		if(componentName.equals(ComponetContants.transform))

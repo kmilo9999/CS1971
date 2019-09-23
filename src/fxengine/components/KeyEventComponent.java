@@ -103,5 +103,8 @@ public class KeyEventComponent extends ObservableComponent{
 		
 	}
 
-	
+	public boolean getSpecialKeyState(int keycode)
+	{
+		return specialKeys[keycode];
+	}
 }

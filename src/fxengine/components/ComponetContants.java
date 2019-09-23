@@ -3,6 +3,10 @@ package fxengine.components;
 public class ComponetContants {
  
 	public static final String graphics = "GRAPHICS";
+	public static final String controllerMouseEvents = "CONTROLLER_MOUSE_EVENTS";
+	public static final String controllerKeyEvents = "CONTROLLER_KEY_EVENTS";
+	public static final String cameraControllerMouseEvents = "CAMERA_CONTROLLER_MOUSE_EVENTS";
+	public static final String cameraControllerKeyEvents = "CAMERA_CONTROLLER_KEY_EVENTS";
 	public static final String mouseEvents = "MOUSE_EVENTS";
 	public static final String keyEvents = "KEY_EVENTS";
 	public static final String transform = "TRANSFORM";

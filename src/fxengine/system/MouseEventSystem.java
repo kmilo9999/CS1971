@@ -1,7 +1,10 @@
 package fxengine.system;
 
+import fxengine.components.CameraKeyControllerBehavior;
+import fxengine.components.CameraMouseControllerBehavior;
 import fxengine.components.ComponetContants;
 import fxengine.components.MouseControllerBehaviorComponent;
+import fxengine.components.MouseEventComponent;
 import fxengine.event.Event;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -12,35 +15,6 @@ import javafx.scene.input.ScrollEvent;
 
 public class MouseEventSystem extends EventSystem{
 	
-	private int mapMouseButtonToInt(MouseButton mb)
-	{		
-		if( mb == MouseButton.PRIMARY)
-		{
-			return 0;
-		}
-		else if(mb== MouseButton.SECONDARY)
-		{
-			return 1;
-		}
-		else if(mb == MouseButton.MIDDLE)
-		{
-			return 1;
-		}
-		
-		return -1;
-	}
-	
-	protected void onMouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		for(GameObject gameObject:myGameObjects)
-		{
-			if(gameObject.hasComponent(ComponetContants.mouseEvents)) {
-				// check if the click was within the sprite area
-				MouseControllerBehaviorComponent mouseEventComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.mouseEvents);
-				mouseEventComponent.mouseClicked( new Vec2d(e.getX(),e.getY()), mapMouseButtonToInt(e.getButton()));
-			}
-		}
-	}
 
 	
 	protected void onMousePressed(MouseEvent e) {
@@ -85,8 +59,18 @@ public class MouseEventSystem extends EventSystem{
 		for(GameObject gameObject:myGameObjects)
 		{
 			if(gameObject.hasComponent(ComponetContants.mouseEvents)) {
-				MouseControllerBehaviorComponent mouseEventComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.mouseEvents);
+				MouseEventComponent mouseEventComponent = (MouseEventComponent)gameObject.getComponent(ComponetContants.mouseEvents);
 				mouseEventComponent.processEvent(evt);
+			}
+			
+			if(gameObject.hasComponent(ComponetContants.controllerMouseEvents)) {
+				MouseControllerBehaviorComponent mouseControllerBehaviorComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.controllerMouseEvents);
+				mouseControllerBehaviorComponent.processEvent(evt);
+			}
+			
+			if(gameObject.hasComponent(ComponetContants.cameraControllerMouseEvents)) {
+				CameraMouseControllerBehavior cameraMouseControllerBehavior = (CameraMouseControllerBehavior)gameObject.getComponent(ComponetContants.cameraControllerMouseEvents);
+				cameraMouseControllerBehavior.processEvent(evt);
 			}
 		}
 	}
@@ -95,7 +79,8 @@ public class MouseEventSystem extends EventSystem{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		
+		myComponentsOfInterest.add(ComponetContants.mouseEvents);
+		myComponentsOfInterest.add(ComponetContants.controllerMouseEvents);
 	}
 
 

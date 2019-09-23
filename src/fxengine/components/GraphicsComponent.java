@@ -178,9 +178,9 @@ public class GraphicsComponent extends Component{
 				mySprite.setSize(new Vec2d(p1.dist(xclipCoords[1]),p1.dist(yclipCoords[1])));*/
 				
 					
-				Vec2d spriteSizeGameSpace = this.myParent.getGameWorld().screenToGameTransform(new Vec2d(mySprite.getWidth(),mySprite.getHeight()));
+				//Vec2d spriteSizeGameSpace = this.myParent.getGameWorld().screenToGameTransform(new Vec2d(mySprite.getWidth(),mySprite.getHeight()));
 				Vec2d currentPositionInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				Vec2d currentSizeInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition().plus(spriteSizeGameSpace));
+				Vec2d currentSizeInScreenSpace =  this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition().plus(new Vec2d(mySprite.getWidth(),mySprite.getHeight())));
 				
 				double startPosX =  Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
 				startPosX =  Math.min(startPosX, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.y);
