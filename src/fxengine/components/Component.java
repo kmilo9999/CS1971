@@ -26,6 +26,7 @@ public abstract class Component {
 	
 	public abstract void draw(GraphicsContext graphicsCx);
 	
+	
 
 	public GameObject getParent() {
 		return myParent;

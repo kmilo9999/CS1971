@@ -7,7 +7,7 @@ import java.util.Map;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
-import fxengine.components.ComponetContants;
+import fxengine.components.ComponentContants;
 import fxengine.math.Vec2d;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.GraphicsSystem;
@@ -92,10 +92,10 @@ public class GameWorld {
 	{
 		//Store the clip and transform (g.save())
 		
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
 			
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			myAffineTransform = graphicsCx.getTransform();
 			graphicsCx.save();
 			
@@ -230,18 +230,18 @@ public class GameWorld {
 	}
 	
 	public Vec2d getPanelScreenViewPortUpperLeft() {
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			return graphicsSystem.getPanelScreenViewPortUpperLeft();
 		}
 		return null;
 	}
 
 	public Vec2d getPanelScreenViewPortSize() {
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			return graphicsSystem.getPanelScreenViewPortSize();	
 		}
 		return null;
@@ -249,9 +249,9 @@ public class GameWorld {
 
 
 	public Vec2d getPanelGameViewPort() {
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			return graphicsSystem.getPanelGameViewPort();	
 		}
 		return null ;
@@ -259,18 +259,18 @@ public class GameWorld {
 	
 	
 	public void setPanelGameViewPort(Vec2d pos) {
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			 graphicsSystem.setPanelGameViewPort(pos);	
 		}
 		
 	}
 	
 	public double getViewportScaleFactor() {
-		if(mySystems.containsKey(ComponetContants.graphics))
+		if(mySystems.containsKey(ComponentContants.graphics))
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			return graphicsSystem.getViewportScaleFactor();	
 		}
 		return -1;
@@ -308,9 +308,9 @@ public class GameWorld {
 	
 	public Vec2d screenToGameTransform(Vec2d screenCoordinates)
 	{
-		if(mySystems.containsKey(ComponetContants.graphics) && myAffineTransform!=null)
+		if(mySystems.containsKey(ComponentContants.graphics) && myAffineTransform!=null)
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			Affine affineTransformation = myAffineTransform.clone();
 			affineTransformation.appendTranslation(screenCoordinates.x-graphicsSystem.getPanelScreenViewPortUpperLeft().x , screenCoordinates.y -graphicsSystem.getPanelScreenViewPortUpperLeft().y);
 			affineTransformation.appendScale(1/graphicsSystem.getViewportScaleFactor(), 1/graphicsSystem.getViewportScaleFactor());
@@ -326,9 +326,9 @@ public class GameWorld {
 	
 	public Vec2d gameToScreenTransform(Vec2d gameCoordinates)
 	{
-		if(mySystems.containsKey(ComponetContants.graphics) && myAffineTransform!=null)
+		if(mySystems.containsKey(ComponentContants.graphics) && myAffineTransform!=null)
 		{
-			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponetContants.graphics);
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
 			Affine affineTransformation = myAffineTransform.clone();
 			
 			affineTransformation.appendTranslation(gameCoordinates.x-graphicsSystem.getPanelGameViewPort().x , gameCoordinates.y -graphicsSystem.getPanelGameViewPort().y);

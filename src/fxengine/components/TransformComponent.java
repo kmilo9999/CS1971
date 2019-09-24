@@ -1,6 +1,7 @@
 package fxengine.components;
 
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public class TransformComponent extends Component{
@@ -69,6 +70,8 @@ public class TransformComponent extends Component{
 		clone.myParent =this.myParent;
 		return clone;
 	}
+
+	
 
 
 }

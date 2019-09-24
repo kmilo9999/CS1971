@@ -2,6 +2,7 @@ package fxengine.components;
 
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
+import fxengine.objects.GameObject;
 import fxengine.system.KeyboardEventSystem;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -107,4 +108,5 @@ public class KeyEventComponent extends ObservableComponent{
 	{
 		return specialKeys[keycode];
 	}
+
 }

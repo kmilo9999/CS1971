@@ -2,7 +2,7 @@ package fxengine.system;
 
 import java.util.List;
 
-import fxengine.components.ComponetContants;
+import fxengine.components.ComponentContants;
 import fxengine.components.GraphicsComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -25,7 +25,7 @@ public class GraphicsSystem extends BaseGameSystem{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		myComponentsOfInterest.add(ComponetContants.graphics);
+		myComponentsOfInterest.add(ComponentContants.graphics);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class GraphicsSystem extends BaseGameSystem{
 		// TODO Auto-generated method stub
 		for(GameObject gameObject:myGameObjects)
 		{
-			GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponetContants.graphics);
+			GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponentContants.graphics);
 			if(gComponent != null)
 			{
 				gComponent.update(nanosSincePreviousTick);	
@@ -55,7 +55,7 @@ public class GraphicsSystem extends BaseGameSystem{
 		{
 			for(GameObject gameObject:gameObjects) 
 			{
-				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponetContants.graphics);
+				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponentContants.graphics);
 				
 				if(gComponent != null)
 				{

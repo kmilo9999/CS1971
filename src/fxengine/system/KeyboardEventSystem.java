@@ -1,14 +1,12 @@
 package fxengine.system;
 
 import fxengine.components.CameraKeyControllerBehavior;
-import fxengine.components.ComponetContants;
+import fxengine.components.ComponentContants;
 import fxengine.components.KeyControllerBehaviorComponent;
 import fxengine.components.KeyEventComponent;
-import fxengine.components.MouseControllerBehaviorComponent;
 import fxengine.event.Event;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 
 public class KeyboardEventSystem extends EventSystem{
 
@@ -25,17 +23,17 @@ public class KeyboardEventSystem extends EventSystem{
 		// TODO Auto-generated method stub
 		for(GameObject gameObject:myGameObjects)
 		{
-			if(gameObject.hasComponent(ComponetContants.keyEvents)) {
-				KeyEventComponent keyEventComponent = (KeyEventComponent)gameObject.getComponent(ComponetContants.keyEvents);
+			if(gameObject.hasComponent(ComponentContants.keyEvents)) {
+				KeyEventComponent keyEventComponent = (KeyEventComponent)gameObject.getComponent(ComponentContants.keyEvents);
 				keyEventComponent.processEvent(evt);
 			}
-			if(gameObject.hasComponent(ComponetContants.controllerKeyEvents)) {
-				KeyControllerBehaviorComponent keyControllerBehaviorComponent = (KeyControllerBehaviorComponent)gameObject.getComponent(ComponetContants.controllerKeyEvents);
+			if(gameObject.hasComponent(ComponentContants.controllerKeyEvents)) {
+				KeyControllerBehaviorComponent keyControllerBehaviorComponent = (KeyControllerBehaviorComponent)gameObject.getComponent(ComponentContants.controllerKeyEvents);
 				keyControllerBehaviorComponent.processEvent(evt);
 			}
 			
-			if(gameObject.hasComponent(ComponetContants.cameraControllerKeyEvents)) {
-				CameraKeyControllerBehavior cameraKeyControllerBehavior = (CameraKeyControllerBehavior)gameObject.getComponent(ComponetContants.cameraControllerKeyEvents);
+			if(gameObject.hasComponent(ComponentContants.cameraControllerKeyEvents)) {
+				CameraKeyControllerBehavior cameraKeyControllerBehavior = (CameraKeyControllerBehavior)gameObject.getComponent(ComponentContants.cameraControllerKeyEvents);
 				cameraKeyControllerBehavior.processEvent(evt);
 			}
 		}
@@ -44,8 +42,8 @@ public class KeyboardEventSystem extends EventSystem{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		myComponentsOfInterest.add(ComponetContants.keyEvents);
-		myComponentsOfInterest.add(ComponetContants.controllerKeyEvents);
+		myComponentsOfInterest.add(ComponentContants.keyEvents);
+		myComponentsOfInterest.add(ComponentContants.controllerKeyEvents);
 	}
 
 	@Override

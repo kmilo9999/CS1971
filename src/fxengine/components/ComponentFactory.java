@@ -23,49 +23,54 @@ public class ComponentFactory {
 	
 	public Component createComponent(String componentName)
 	{
-		if(componentName.equals(ComponetContants.graphics))
+		if(componentName.equals(ComponentContants.graphics))
 		{
-			return new GraphicsComponent(ComponetContants.graphics);
+			return new GraphicsComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.controllerMouseEvents))
+		if(componentName.equals(ComponentContants.controllerMouseEvents))
 		{
-			return new MouseControllerBehaviorComponent(ComponetContants.controllerMouseEvents);
+			return new MouseControllerBehaviorComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.controllerKeyEvents))
+		if(componentName.equals(ComponentContants.controllerKeyEvents))
 		{
-			return new KeyControllerBehaviorComponent(ComponetContants.controllerKeyEvents);
+			return new KeyControllerBehaviorComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.cameraControllerKeyEvents))
+		if(componentName.equals(ComponentContants.cameraControllerKeyEvents))
 		{
-			return new CameraKeyControllerBehavior(ComponetContants.cameraControllerKeyEvents);
+			return new CameraKeyControllerBehavior(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.cameraControllerMouseEvents))
+		if(componentName.equals(ComponentContants.cameraControllerMouseEvents))
 		{
-			return new CameraMouseControllerBehavior(ComponetContants.cameraControllerMouseEvents);
+			return new CameraMouseControllerBehavior(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.mouseEvents))
+		if(componentName.equals(ComponentContants.mouseEvents))
 		{
-			return new MouseEventComponent(ComponetContants.mouseEvents);
+			return new MouseEventComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.keyEvents))
+		if(componentName.equals(ComponentContants.keyEvents))
 		{
-			return new KeyEventComponent(ComponetContants.keyEvents);
+			return new KeyEventComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.transform))
+		if(componentName.equals(ComponentContants.transform))
 		{
-			return new TransformComponent(ComponetContants.transform);
+			return new TransformComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponetContants.controlled))
+		if(componentName.equals(ComponentContants.controlled))
 		{
-			return new ControllerBehaviourComponent(ComponetContants.controlled);
+			return new ControllerBehaviourComponent(componentName);
+		}
+		
+		if(componentName.equals(ComponentContants.collision))
+		{
+			return new CollisionComponent(componentName);
 		}
 		
 		return null;

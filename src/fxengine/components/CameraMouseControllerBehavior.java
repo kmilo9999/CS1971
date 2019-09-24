@@ -76,7 +76,7 @@ public class CameraMouseControllerBehavior extends MouseEventComponent {
 
 	private void mouseDragged(Vec2d currentMousePosition, int intValue) {
 		// TODO Auto-generated method stub
-		CameraKeyControllerBehavior keyController = (CameraKeyControllerBehavior)this.myParent.getComponent(ComponetContants.cameraControllerKeyEvents);
+		CameraKeyControllerBehavior keyController = (CameraKeyControllerBehavior)this.myParent.getComponent(ComponentContants.cameraControllerKeyEvents);
 		if(keyController != null)
 		{
 			if(keyController.getSpecialKeyState(KeyboardEventSystem.CONTROL_KEYCODE))

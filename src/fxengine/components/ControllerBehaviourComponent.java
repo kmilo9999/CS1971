@@ -1,13 +1,13 @@
 package fxengine.components;
 
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;
 
 public class ControllerBehaviourComponent extends Component{
 
-	
-	
+
 	public ControllerBehaviourComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -67,5 +67,6 @@ public class ControllerBehaviourComponent extends Component{
 		// TODO Auto-generated method stub
 		return new ControllerBehaviourComponent(this.myName);
 	}
+
 
 }

@@ -1,16 +1,10 @@
 package fxengine.objects;
 
 import fxengine.UISystem.Layout;
-import fxengine.UISystem.UIConstants;
-import fxengine.graphics.Shape;
-import fxengine.graphics.ShapeFactory;
 import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 
 
 public class Sprite extends Layout{

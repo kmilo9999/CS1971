@@ -2,7 +2,7 @@ package fxengine.system;
 
 import fxengine.components.CameraKeyControllerBehavior;
 import fxengine.components.CameraMouseControllerBehavior;
-import fxengine.components.ComponetContants;
+import fxengine.components.ComponentContants;
 import fxengine.components.MouseControllerBehaviorComponent;
 import fxengine.components.MouseEventComponent;
 import fxengine.event.Event;
@@ -58,18 +58,18 @@ public class MouseEventSystem extends EventSystem{
 		// TODO Auto-generated method stub
 		for(GameObject gameObject:myGameObjects)
 		{
-			if(gameObject.hasComponent(ComponetContants.mouseEvents)) {
-				MouseEventComponent mouseEventComponent = (MouseEventComponent)gameObject.getComponent(ComponetContants.mouseEvents);
+			if(gameObject.hasComponent(ComponentContants.mouseEvents)) {
+				MouseEventComponent mouseEventComponent = (MouseEventComponent)gameObject.getComponent(ComponentContants.mouseEvents);
 				mouseEventComponent.processEvent(evt);
 			}
 			
-			if(gameObject.hasComponent(ComponetContants.controllerMouseEvents)) {
-				MouseControllerBehaviorComponent mouseControllerBehaviorComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponetContants.controllerMouseEvents);
+			if(gameObject.hasComponent(ComponentContants.controllerMouseEvents)) {
+				MouseControllerBehaviorComponent mouseControllerBehaviorComponent = (MouseControllerBehaviorComponent)gameObject.getComponent(ComponentContants.controllerMouseEvents);
 				mouseControllerBehaviorComponent.processEvent(evt);
 			}
 			
-			if(gameObject.hasComponent(ComponetContants.cameraControllerMouseEvents)) {
-				CameraMouseControllerBehavior cameraMouseControllerBehavior = (CameraMouseControllerBehavior)gameObject.getComponent(ComponetContants.cameraControllerMouseEvents);
+			if(gameObject.hasComponent(ComponentContants.cameraControllerMouseEvents)) {
+				CameraMouseControllerBehavior cameraMouseControllerBehavior = (CameraMouseControllerBehavior)gameObject.getComponent(ComponentContants.cameraControllerMouseEvents);
 				cameraMouseControllerBehavior.processEvent(evt);
 			}
 		}
@@ -79,8 +79,8 @@ public class MouseEventSystem extends EventSystem{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		myComponentsOfInterest.add(ComponetContants.mouseEvents);
-		myComponentsOfInterest.add(ComponetContants.controllerMouseEvents);
+		myComponentsOfInterest.add(ComponentContants.mouseEvents);
+		myComponentsOfInterest.add(ComponentContants.controllerMouseEvents);
 	}
 
 

@@ -77,7 +77,7 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 		//{
 			
 			
-			Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponetContants.graphics)).getSprite();
+			Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponentContants.graphics)).getSprite();
 			
 			Vec2d elemetSize = sprite.getSize();
 			Vec2d elemetPosition = sprite.getPosition();
@@ -122,7 +122,7 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 		{
 			//is dragging this entity
 		
-			TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
+			TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponentContants.transform);
 			Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
 			Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);
 			

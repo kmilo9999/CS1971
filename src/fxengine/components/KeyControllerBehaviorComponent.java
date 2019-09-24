@@ -58,7 +58,7 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 			
 			if((int)value.charAt(0) - 97 == 22)
 			{
-				TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponetContants.transform);
+				TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponentContants.transform);
 				transform.setPosition(new Vec2d(transform.getPosition().x,transform.getPosition().y - 1));
 			}
 		}

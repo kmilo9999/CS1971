@@ -3,6 +3,7 @@ package fxengine.components;
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public class MouseEventComponent extends ObservableComponent {
@@ -114,5 +115,8 @@ public class MouseEventComponent extends ObservableComponent {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	
 
 }

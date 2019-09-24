@@ -3,6 +3,7 @@ package fxengine.components;
 import fxengine.UISystem.UIConstants;
 import fxengine.graphics.ShapeConstants;
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import fxengine.objects.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -31,13 +32,13 @@ public class GraphicsComponent extends Component{
 		super(name);
 		// TODO Auto-generated constructor stub
 		
-		
+		 mySprite = new Sprite(ShapeConstants.Circle);
 	}
 
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-       mySprite = new Sprite(ShapeConstants.Circle);
+      
 		
 		myPanelScreenViewPortUpperLeft = this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft();
 		myPanelScreenViewPortSize = this.myParent.getGameWorld().getPanelScreenViewPortSize();
@@ -51,7 +52,7 @@ public class GraphicsComponent extends Component{
 	@Override
 	public void draw(GraphicsContext graphicsCx)
 	{
-		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
+		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 		
         if(mySprite != null && transformComponent != null)
         {
@@ -84,9 +85,9 @@ public class GraphicsComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		if(this.myParent.hasComponent(ComponetContants.transform))
+		if(this.myParent.hasComponent(ComponentContants.transform))
 		{
-			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
+			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			if(transformComponent != null)
 			{
 				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
@@ -143,10 +144,10 @@ public class GraphicsComponent extends Component{
 
 	public void clip() {
 		// TODO Auto-generated method stub
-		if(this.myParent.hasComponent(ComponetContants.transform))
+		if(this.myParent.hasComponent(ComponentContants.transform))
 		{
 			
-			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponetContants.transform);
+			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			if(transformComponent != null)
 			{
 				/*Vec2d p1 = transformComponent.getPosition();
@@ -415,4 +416,6 @@ public class GraphicsComponent extends Component{
 	    return acceptedValues;
 	         
    }
+
+	
 }
