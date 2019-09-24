@@ -13,6 +13,8 @@ public class UISprite extends Layout{
 	protected double myWidth;
 	protected double myHeight;
 	
+
+	
 	public UISprite(String filePath,double x, double y) {
 		super( x,  y, 0,  0);
 		// TODO Auto-generated constructor stub
@@ -40,23 +42,31 @@ public class UISprite extends Layout{
 
 	};
 	
+	public void onMouseMoved(MouseEvent e) {
+		myMouseLastPosition = myMousePosition;
+		myMousePosition = new Vec2d(e.getX(), e.getY());	
+	}
+	
 	public void onMouseClicked(MouseEvent e)
 	{
-		System.out.println("UISprite CLICKED");
+		//System.out.println("UISprite CLICKED");
 		super.onMouseClicked(e);
 	};
    
+	@Override
 	public void onMousePressed(MouseEvent e)
 	{
-		
+		System.out.println("UISprite onMousePressed");
 	}
 	
+	@Override
 	public void onMouseReleased(MouseEvent e) {
-		
+		System.out.println("UISprite onMouseReleased");
 	}
 	
 	public void onMouseDragged(MouseEvent e) {
-		
+
 	}
+
 
 }

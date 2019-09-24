@@ -173,8 +173,18 @@ public abstract class BaseScene {
 	public void onMousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		for (UIElement element : this.props) {
-
-			element.onMousePressed(e);
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			
+			boolean hovered = false;
+			element.setIsHovered(hovered);
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+				element.onMousePressed(e);
+			}
+			
 
 		}
 	}
@@ -184,7 +194,16 @@ public abstract class BaseScene {
 		// TODO Auto-generated method stub
 		for(UIElement element: this.props)
 		{
-			element.onMousePressed(e);
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			boolean hovered = false;
+			element.setIsHovered(hovered);
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+			 element.onMouseReleased(e);
+			}
 		}
 	}
 
@@ -193,7 +212,17 @@ public abstract class BaseScene {
 		// TODO Auto-generated method stub
 		for(UIElement element: this.props)
 		{
-			element.onMouseDragged(e);
+
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			boolean hovered = false;
+			element.setIsHovered(hovered);
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+			 element.onMouseDragged(e);
+			}
 		}
 	}
 	

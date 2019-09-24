@@ -238,15 +238,51 @@ public abstract class UIElement {
 	
 	public void onMousePressed(MouseEvent e)
 	{
-		
+		for(UIElement element:this.myChildren)
+		{
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+				element.onMousePressed(e);
+			}
+			
+		}
 	}
 	
 	public void onMouseReleased(MouseEvent e) {
-		
+		for(UIElement element:this.myChildren)
+		{
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+				element.onMouseReleased(e);
+			}
+			
+		}
 	}
 	
 	public void onMouseDragged(MouseEvent e) {
-		
+		for(UIElement element:this.myChildren)
+		{
+			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
+			Vec2d elemetSize = element.getSize();
+			Vec2d elemetPosition = element.getPosition();
+			
+			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
+			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
+			{
+				element.onMouseDragged(e);
+			}
+			
+		}
 	}
 	
 	

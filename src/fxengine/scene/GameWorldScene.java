@@ -102,6 +102,7 @@ public class GameWorldScene extends BaseScene{
 		
 		Event event = new Event(EventsConstants.MouseButtonPressed,new Vec2d(e.getX(),e.getY()) ,button);
 		myMouseSystem.onNotify(event);
+		super.onMousePressed(e);
 	}
 
 	@Override
@@ -111,6 +112,7 @@ public class GameWorldScene extends BaseScene{
 		// TODO Auto-generated method stub
 		Event event = new Event(EventsConstants.MouseButtonReleased,new Vec2d(e.getX(),e.getY()) ,button);
 		myMouseSystem.onNotify(event);
+		super.onMouseReleased(e);
 	}
 
 	@Override
@@ -119,6 +121,7 @@ public class GameWorldScene extends BaseScene{
 		int button = mapMouseButtonToInt(e.getButton());
 		Event event = new Event(EventsConstants.MouseDragged,new Vec2d(e.getX(),e.getY()),button);
 		myMouseSystem.onNotify(event);
+		super.onMouseDragged(e);
 	}
 	
 	@Override
