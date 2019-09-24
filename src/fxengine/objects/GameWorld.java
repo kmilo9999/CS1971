@@ -36,6 +36,8 @@ public class GameWorld {
 
 	private boolean initClip = false;
 	
+	private int numGameObjects = 0;
+	
 	public GameWorld()
 	{
 		myGameObjects = new ArrayList<List<GameObject>>();
@@ -149,7 +151,8 @@ public class GameWorld {
 			gameObject.initialize();
 			List<GameObject> gameObjects = myGameObjects.get(layer); 
 			gameObject.setLayerOrder(layer);
-			gameObjects.add(gameObject);	
+			gameObjects.add(gameObject);
+			numGameObjects++;
 			
 			for(Map.Entry<String,BaseGameSystem> systemEntry : mySystems.entrySet())
 			{
@@ -157,6 +160,7 @@ public class GameWorld {
 			}
 			
 		}
+		
 		
 	}
 	
@@ -339,5 +343,11 @@ public class GameWorld {
 		
 		return null;
 		
+	}
+	
+	
+	public int getNumGameObjects()
+	{
+		return numGameObjects;
 	}
 }

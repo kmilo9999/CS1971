@@ -10,6 +10,7 @@ public class UISprite extends Layout{
 
 	protected Image mySourceImage;
 	protected String myFilePath;
+
 	protected double myWidth;
 	protected double myHeight;
 	
@@ -42,31 +43,53 @@ public class UISprite extends Layout{
 
 	};
 	
+	@Override
 	public void onMouseMoved(MouseEvent e) {
+		//System.out.println("UISprite onMouseMoved");
 		myMouseLastPosition = myMousePosition;
-		myMousePosition = new Vec2d(e.getX(), e.getY());	
+		myMousePosition = new Vec2d(e.getX(), e.getY());
+		super.onMouseMoved(e);
 	}
 	
 	public void onMouseClicked(MouseEvent e)
 	{
-		//System.out.println("UISprite CLICKED");
+		System.out.println("UISprite CLICKED " + this.myScene.getSceneName());
 		super.onMouseClicked(e);
+		
+		
 	};
    
 	@Override
-	public void onMousePressed(MouseEvent e)
-	{
-		System.out.println("UISprite onMousePressed");
-	}
-	
-	@Override
-	public void onMouseReleased(MouseEvent e) {
-		System.out.println("UISprite onMouseReleased");
-	}
-	
 	public void onMouseDragged(MouseEvent e) {
+		//System.out.println("UISprite onMouseDragged");
+		
+		int mouseButton = mapMouseButtonToInt(e.getButton());
+		if (mouseButtons[0] && mouseButton == 0) {
+			// is dragging this entity
+		//	System.out.println("UISprite onMouseDragged");
+			Vec2d currentMousePos = new Vec2d(e.getX(), e.getY());
 
+			Vec2d delta = currentMousePos.minus(myMouseLastPosition);
+			myPosition = myPosition.plus(delta);
+			
+			myMouseLastPosition = currentMousePos;
+
+		}
+	}
+	
+	public String getFilePath() {
+		return myFilePath;
 	}
 
+	public void setFilePath(String filePath) {
+		this.myFilePath = filePath;
+	}
 
+	public Image getSourceImage() {
+		return mySourceImage;
+	}
+
+	public void setSourceImage(Image sourceImage) {
+		this.mySourceImage = sourceImage;
+	}
 }

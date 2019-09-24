@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fxengine.math.Vec2d;
+import fxengine.scene.BaseScene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -15,6 +16,12 @@ import javafx.scene.paint.Color;
  */
 
 public abstract class UIElement {
+	
+	
+	protected BaseScene myScene;
+	
+
+
 	/**
 	 * Called at a regular interval set by {@link #setTickFrequency(long)}. Use to update any state
 	 * that changes over time.
@@ -168,6 +175,7 @@ public abstract class UIElement {
     public  void addChildElement(UIElement element) {
 		
     	element.myParent = this;
+    	
     	Vec2d position = element.getPosition();
 		position = position.plus(myPosition);
 		element.setPosition(position);
@@ -228,10 +236,10 @@ public abstract class UIElement {
 			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
 			{
 				element.setIsHovered(!hovered);
-				element.onMouseMoved(e);
+				
 			}
 			
-		
+			element.onMouseMoved(e);
 		}
 		
 	}
@@ -272,15 +280,10 @@ public abstract class UIElement {
 	public void onMouseDragged(MouseEvent e) {
 		for(UIElement element:this.myChildren)
 		{
-			Vec2d clickPos = new Vec2d(e.getX(), e.getY());
-			Vec2d elemetSize = element.getSize();
-			Vec2d elemetPosition = element.getPosition();
 			
-			if((clickPos.x > elemetPosition.x && clickPos.x < elemetPosition.x + elemetSize.x)
-			    &&( clickPos.y > elemetPosition.y && clickPos.y < elemetPosition.y + elemetSize.y) )
-			{
+		
 				element.onMouseDragged(e);
-			}
+			
 			
 		}
 	}
@@ -341,6 +344,7 @@ public abstract class UIElement {
 	
 	protected List<UIElement> myChildren  = new ArrayList<UIElement>();
 	
+
 	protected UIElement myParent = null;
 	
 	protected Vec2d myPosition = new Vec2d(0);
@@ -355,6 +359,10 @@ public abstract class UIElement {
 	protected boolean isInitialized = false;
 
 	protected boolean myIsHoverd = false;
+	
+	public List<UIElement> getChildren() {
+		return myChildren;
+	}
 
 	public void setIsHovered(boolean ishHover) {
 		// TODO Auto-generated method stub
@@ -362,6 +370,12 @@ public abstract class UIElement {
 	}
 	
 	
-	
+	public BaseScene getScene() {
+		return myScene;
+	}
+
+	public void setScene(BaseScene myScene) {
+		this.myScene = myScene;
+	}
 	
 }

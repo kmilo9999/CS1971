@@ -35,6 +35,18 @@ public abstract class BaseScene {
 	}
 	
 	
+    public void addProp(UIElement prop)
+    {
+    	prop.setScene(this);
+    	
+    	for(UIElement child: prop.getChildren())
+    	{
+    		child.setScene(this);
+    	}
+    	this.props.add(prop);	
+    }
+    
+    
 	/**
 	 * Called at a regular interval set by {@link #setTickFrequency(long)}. Use to update any state
 	 * that changes over time.

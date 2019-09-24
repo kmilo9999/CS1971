@@ -1,6 +1,7 @@
 package fxengine.UISystem;
 
 import fxengine.math.Vec2d;
+import fxengine.scene.BaseScene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,8 @@ public class Layout extends UIElement{
 	protected Vec2d myMousePosition = new Vec2d(0);
 
 	protected boolean[] mouseButtons = new boolean[3];
+	
+	
 	
 	public Layout(double x, double y, double w, double h) {
 		// TODO Auto-generated constructor stub
@@ -81,6 +84,8 @@ public class Layout extends UIElement{
 		
 	}
 
+	
+	
 	@Override
 	public void onMouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -111,22 +116,11 @@ public class Layout extends UIElement{
 	@Override
 	public void onMouseDragged(MouseEvent e) {
 
-		int mouseButton = mapMouseButtonToInt(e.getButton());
-		if (mouseButtons[0] && mouseButton == 0) {
-			// is dragging this entity
-
-			Vec2d currentMousePos = new Vec2d(e.getX(), e.getY());
-
-			Vec2d delta = currentMousePos.minus(myMouseLastPosition);
-			this.getPosition().plus(delta);
-			
-			myMouseLastPosition = currentMousePos;
-
-		}
+		super.onMouseDragged(e);
 	}
 
 	
-	private int mapMouseButtonToInt(MouseButton mb)
+	protected int mapMouseButtonToInt(MouseButton mb)
 	{		
 		if( mb == MouseButton.PRIMARY)
 		{

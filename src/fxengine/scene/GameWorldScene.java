@@ -83,6 +83,7 @@ public class GameWorldScene extends BaseScene{
 	public void onMouseMoved(MouseEvent e) {
 		Event event = new Event(EventsConstants.MouseMoved,new Vec2d(e.getX(),e.getY()));
 		myMouseSystem.onNotify(event);
+		super.onMouseMoved(e);
 	}
 	
 	@Override

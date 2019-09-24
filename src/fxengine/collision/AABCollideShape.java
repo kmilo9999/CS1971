@@ -51,14 +51,8 @@ public class AABCollideShape extends CollisionShape {
 			return false; 
 		}
 		  
-		// If one rectangle is above other 
 		if (topLeft.y > bBottomRigth.y || other.getTopLeft().y > aBottomRigth.y)
 		{
-			//System.out.println("this topLeft: " +topLeft);
-			//System.out.println("this bottom right: " +new Vec2d(topLeft).plus(size));
-			//System.out.println("other topLeft: " +other.getTopLeft());
-			//System.out.println("other bottom right: " +new Vec2d(other.getTopLeft()).plus(other.getSize()));
-			
 		    return false;
 		} 
 		  

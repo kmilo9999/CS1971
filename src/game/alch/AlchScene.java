@@ -1,36 +1,27 @@
 package game.alch;
 
-import fxengine.UISystem.Label;
-import fxengine.UISystem.Layout;
-import fxengine.UISystem.UIConstants;
-import fxengine.UISystem.UIElement;
-import fxengine.UISystem.UISprite;
 import fxengine.application.FXFrontEnd;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
+import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
 import fxengine.components.GraphicsComponent;
 import fxengine.components.SpriteComponent;
-import fxengine.components.ComponentContants;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.text.Font;
 
 
 public class AlchScene extends GameWorldScene{
 
-	private UIElement myMenuLayout = new Layout(450, 50, 70, 300, UIConstants.TRANSPARENT,2.5);
-	private UIElement myMenuLabel = new Label("Elements",450, 40, UIConstants.BLACK,Font.font ("Verdana", 20) );
-	private UIElement mySqueareMenu = new UISprite("resources/img/square.png",5, 20);
-	private UIElement myCircleMenu = new UISprite("resources/img/circle.png",5, 110);
-	
+
+	AlchMenu myMenu;
 	
 	public AlchScene(String name, FXFrontEnd application) {
 		super(name, application);
@@ -40,11 +31,9 @@ public class AlchScene extends GameWorldScene{
 	@Override
 	public void initScene() 
 	{
-		myMenuLayout.addChildElement(mySqueareMenu);
-		myMenuLayout.addChildElement(myCircleMenu);
-		this.props.add(myMenuLayout);
-		this.props.add(myMenuLabel);
+
 		
+		myMenu = new AlchMenu(this);
         // Initialize game world
 		super.initScene();
 		
@@ -117,11 +106,47 @@ public class AlchScene extends GameWorldScene{
 	@Override
 	public void onDraw(GraphicsContext graphicsContext)
 	{
-		//myMenuLayout.onDraw(graphicsContext);
-		//myMenuLabel.onDraw(graphicsContext);
+		
 		super.onDraw(graphicsContext);
 	}
 
 	
+	public GameObject createAlchGameObject(String id, Vec2d position, AlchElementMenu element )
+	{
+		
+		String newId = id + (this.myGameWorld.getNumGameObjects() + 1);
+		GameObject alchGameObject = new GameObject(newId);
+		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
+		SpriteComponent sprite = new SpriteComponent(element.getFilePath());
+		((GraphicsComponent)graphicsComponent).setSprite(sprite);
+		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
+		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
+		Component keyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
+		((TransformComponent)tranformComponent).setPosition(position);
+		Component collisionCompoment =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
+		((CollisionComponent)collisionCompoment).getHitList().add("Sprite1");
+		if(element.getElementType().equals("CIRCLE"))
+		{
+			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.CIRCLEShape);
+			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);	
+		}
+		else if(element.getElementType().equals("SQUARE"))
+		{
+			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
+			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
+		}
+			
+		alchGameObject.addComponent(graphicsComponent);
+		alchGameObject.addComponent(tranformComponent);
+		//gameObject.addComponent(mouseEventsComponent);
+		//gameObject.addComponent(keyEventsComponent);
+		alchGameObject.addComponent(mouseControllerComponent);
+		alchGameObject.addComponent(keyControllerComponent);
+		alchGameObject.addComponent(collisionCompoment);
+		
+		this.myGameWorld.addGameObject(alchGameObject, GameWorld.FrontLayer);
+		
+		return alchGameObject;
+	}
 
 }

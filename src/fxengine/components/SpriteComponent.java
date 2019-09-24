@@ -26,6 +26,16 @@ public class SpriteComponent extends Layout{
 		this.mySize = new Vec2d(this.myWidth,this.myHeight);
 	}
 	
+	public SpriteComponent(Image image,String imagePath)
+	{
+		super(0, 0, 0, 0);
+		this.myFilePath = imagePath;
+		this.mySourceImage = image;
+		this.myWidth = this.mySourceImage.getWidth();
+		this.myHeight = this.mySourceImage.getHeight();
+		
+		this.mySize = new Vec2d(this.myWidth,this.myHeight);
+	}
 	
 	public SpriteComponent clone()
 	{
