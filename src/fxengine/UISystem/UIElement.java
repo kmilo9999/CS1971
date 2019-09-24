@@ -236,6 +236,20 @@ public abstract class UIElement {
 		
 	}
 	
+	public void onMousePressed(MouseEvent e)
+	{
+		
+	}
+	
+	public void onMouseReleased(MouseEvent e) {
+		
+	}
+	
+	public void onMouseDragged(MouseEvent e) {
+		
+	}
+	
+	
 	public Vec2d getPosition() {
 		return myPosition;
 	};

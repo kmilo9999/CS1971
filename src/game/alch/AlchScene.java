@@ -1,5 +1,10 @@
 package game.alch;
 
+import fxengine.UISystem.Label;
+import fxengine.UISystem.Layout;
+import fxengine.UISystem.UIConstants;
+import fxengine.UISystem.UIElement;
+import fxengine.UISystem.UISprite;
 import fxengine.application.FXFrontEnd;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
@@ -8,17 +13,23 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentFactory;
 import fxengine.components.GraphicsComponent;
+import fxengine.components.SpriteComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
-import fxengine.objects.Sprite;
 import fxengine.scene.GameWorldScene;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.text.Font;
 
 
 public class AlchScene extends GameWorldScene{
 
+	private UIElement myMenuLayout = new Layout(450, 50, 70, 300, UIConstants.TRANSPARENT,2.5);
+	private UIElement myMenuLabel = new Label("Elements",450, 40, UIConstants.BLACK,Font.font ("Verdana", 20) );
+	private UIElement mySqueareMenu = new UISprite("resources/img/square.png",5, 20);
+	private UIElement myCircleMenu = new UISprite("resources/img/circle.png",5, 110);
 	
 	
 	public AlchScene(String name, FXFrontEnd application) {
@@ -29,6 +40,10 @@ public class AlchScene extends GameWorldScene{
 	@Override
 	public void initScene() 
 	{
+		myMenuLayout.addChildElement(mySqueareMenu);
+		myMenuLayout.addChildElement(myCircleMenu);
+		this.props.add(myMenuLayout);
+		this.props.add(myMenuLabel);
 		
         // Initialize game world
 		super.initScene();
@@ -36,7 +51,7 @@ public class AlchScene extends GameWorldScene{
 		
 		GameObject gameObject = new GameObject("Sprite1");
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		Sprite mySprite1 = new Sprite("resources/img/square.png");
+		SpriteComponent mySprite1 = new SpriteComponent("resources/img/square.png");
 		((GraphicsComponent)graphicsComponent).setSprite(mySprite1);
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
@@ -72,7 +87,7 @@ public class AlchScene extends GameWorldScene{
 		
 		GameObject gameObject2 = new GameObject("Sprite2");
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		Sprite mySprite2 = new Sprite("resources/img/circle.png");
+		SpriteComponent mySprite2 = new SpriteComponent("resources/img/circle.png");
 		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		//Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
@@ -99,6 +114,13 @@ public class AlchScene extends GameWorldScene{
 	}
 	
 	
+	@Override
+	public void onDraw(GraphicsContext graphicsContext)
+	{
+		//myMenuLayout.onDraw(graphicsContext);
+		//myMenuLabel.onDraw(graphicsContext);
+		super.onDraw(graphicsContext);
+	}
 
 	
 

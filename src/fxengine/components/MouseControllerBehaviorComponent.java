@@ -3,7 +3,6 @@ package fxengine.components;
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
-import fxengine.objects.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 
 
@@ -77,7 +76,7 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 		//{
 			
 			
-			Sprite sprite = ((GraphicsComponent) this.myParent.getComponent(ComponentContants.graphics)).getSprite();
+			SpriteComponent sprite = ((GraphicsComponent) this.myParent.getComponent(ComponentContants.graphics)).getSprite();
 			
 			Vec2d elemetSize = sprite.getSize();
 			Vec2d elemetPosition = sprite.getPosition();

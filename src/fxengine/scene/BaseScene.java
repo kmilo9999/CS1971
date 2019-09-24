@@ -172,19 +172,29 @@ public abstract class BaseScene {
 	
 	public void onMousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		for (UIElement element : this.props) {
+
+			element.onMousePressed(e);
+
+		}
 	}
 
 	
 	public void onMouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		for(UIElement element: this.props)
+		{
+			element.onMousePressed(e);
+		}
 	}
 
 	
 	public void onMouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		for(UIElement element: this.props)
+		{
+			element.onMouseDragged(e);
+		}
 	}
 	
 	public void onMouseWheelMoved(ScrollEvent e) {

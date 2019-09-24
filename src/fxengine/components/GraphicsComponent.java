@@ -4,12 +4,11 @@ import fxengine.UISystem.UIConstants;
 import fxengine.graphics.ShapeConstants;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
-import fxengine.objects.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 
 public class GraphicsComponent extends Component{
 
-	protected Sprite mySprite; 
+	protected SpriteComponent mySprite; 
 	
 	private final int INSIDE = 0; // 0000 
 	private final int LEFT = 1;   // 0001 
@@ -123,11 +122,11 @@ public class GraphicsComponent extends Component{
 		
 	}
 
-	public Sprite getSprite() {
+	public SpriteComponent getSprite() {
 		return mySprite;
 	}
 
-	public void setSprite(Sprite mySprite) {
+	public void setSprite(SpriteComponent mySprite) {
 		this.mySprite = mySprite;
 	}
 
@@ -135,7 +134,7 @@ public class GraphicsComponent extends Component{
 	public Component clone() {
 		// TODO Auto-generated method stub
 		Component clone = ComponentFactory.getInstance().createComponent(this.myName);
-		Sprite sprite = this.mySprite.clone();
+		SpriteComponent sprite = this.mySprite.clone();
 		((GraphicsComponent)clone).mySprite = sprite;
 		clone.myParent =this.myParent;
 		return clone;

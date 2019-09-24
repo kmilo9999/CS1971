@@ -1,4 +1,4 @@
-package fxengine.objects;
+package fxengine.components;
 
 import fxengine.UISystem.Layout;
 import fxengine.manager.ResourceManager;
@@ -7,7 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 
-public class Sprite extends Layout{
+public class SpriteComponent extends Layout{
 
 	protected Image mySourceImage;
 	protected String myFilePath;
@@ -15,7 +15,7 @@ public class Sprite extends Layout{
 	protected double myHeight;
 	
 	
-	public Sprite(String imagePath)
+	public SpriteComponent(String imagePath)
 	{
 		super(0, 0, 0, 0);
 		this.myFilePath = imagePath;
@@ -27,9 +27,9 @@ public class Sprite extends Layout{
 	}
 	
 	
-	public Sprite clone()
+	public SpriteComponent clone()
 	{
-		Sprite clone = new Sprite(this.myFilePath );
+		SpriteComponent clone = new SpriteComponent(this.myFilePath );
 		clone.myWidth = this.mySourceImage.getWidth();
 		clone.myHeight = this.mySourceImage.getHeight();
 		return clone;
@@ -44,8 +44,6 @@ public class Sprite extends Layout{
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
 			super.onDraw(graphicsCx);
-			
-			
 			graphicsCx.drawImage(mySourceImage,0,0,mySize.x,mySize.y,myPosition.x,myPosition.y,mySize.x,mySize.y);
 		}
 

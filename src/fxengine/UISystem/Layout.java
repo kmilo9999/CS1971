@@ -76,6 +76,7 @@ public class Layout extends UIElement{
 	@Override
 	public void onMouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("Layout CLICKED!");
 		super.onMouseClicked(e);
 	}
 

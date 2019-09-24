@@ -92,6 +92,7 @@ public class GameWorldScene extends BaseScene{
 			
 		Event event = new Event(EventsConstants.MouseButtonClick,new Vec2d(e.getX(),e.getY()) ,button);
 		myMouseSystem.onNotify(event);
+		super.onMouseClicked(e);
 	}
 	
 	@Override

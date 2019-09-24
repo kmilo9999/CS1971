@@ -38,7 +38,8 @@ public class CollisionSystem extends BaseGameSystem{
 								// check collision
 								if(collisionComponent.getCollisionShape().collides(collisionComponent2.getCollisionShape()))
 								{
-									System.out.println("COLLISION!");
+									//System.out.println("COLLISION!");
+									
 								}
 							}
 						}
