@@ -31,40 +31,44 @@ public class AABCollideShape extends CollisionShape {
 	@Override
 	public boolean collidesCircle(CircleCollisionShape c) {
 		// TODO Auto-generated method stub
-		double clampedValueX = Math.max(topLeft.x, Math.min(c.getCenter().x, topLeft.x));
-		double clampedValueY = Math.max(topLeft.y, Math.min(c.getCenter().y, topLeft.y));
+		double clampedValueX = Math.max(topLeft.x, Math.min(c.getCenter().x, topLeft.x + size.x));
+		double clampedValueY = Math.max(topLeft.y, Math.min(c.getCenter().y, topLeft.y + size.y));
 		
 		return c.collidesPoint(new Vec2d(clampedValueX,clampedValueY));
 		
 	}
 
 	@Override
-	public boolean collidesAABShape(AABCollideShape aab) {
+	public boolean collidesAABShape(AABCollideShape other) {
 		// TODO Auto-generated method stub
 		
-		if (topLeft.x > aab.getTopLeft().x + aab.getSize().x || aab.getTopLeft().x > topLeft.x + size.x) 
+		
+		Vec2d aBottomRigth = new Vec2d(topLeft.x + size.x,topLeft.y + size.y );
+		Vec2d bBottomRigth = new Vec2d(other.getTopLeft().x + other.getSize().x ,other.getTopLeft().y + other.getSize().y );
+		
+		if (topLeft.x > bBottomRigth.x   || other.getTopLeft().x > aBottomRigth.x) 
 		{
 			return false; 
 		}
 		  
 		// If one rectangle is above other 
-		if (topLeft.y < aab.getTopLeft().y + aab.getSize().y || aab.getTopLeft().y < topLeft.y + size.y)
+		if (topLeft.y > bBottomRigth.y || other.getTopLeft().y > aBottomRigth.y)
 		{
-			System.out.println(topLeft);
-			System.out.println(new Vec2d(topLeft).plus(size));
-			System.out.println(aab.getTopLeft());
-			System.out.println(new Vec2d(aab.getTopLeft()).plus(aab.getSize()));
+			//System.out.println("this topLeft: " +topLeft);
+			//System.out.println("this bottom right: " +new Vec2d(topLeft).plus(size));
+			//System.out.println("other topLeft: " +other.getTopLeft());
+			//System.out.println("other bottom right: " +new Vec2d(other.getTopLeft()).plus(other.getSize()));
 			
 		    return false;
 		} 
 		  
 	
 		Interval intervalx1 = getInterval(new Vec2d(1,0) ,topLeft ,size);
-		Interval intervalx2 = getInterval(new Vec2d(1,0) ,aab.getTopLeft() ,aab.getSize());
+		Interval intervalx2 = getInterval(new Vec2d(1,0) ,other.getTopLeft() ,other.getSize());
 		
 		
 		Interval intervaly1 = getInterval(new Vec2d(0, 1) ,topLeft ,size);
-		Interval intervaly2 = getInterval(new Vec2d(0, 1) ,aab.getTopLeft() ,aab.getSize());
+		Interval intervaly2 = getInterval(new Vec2d(0, 1) ,other.getTopLeft() ,other.getSize());
 		
 		return intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2);
 		

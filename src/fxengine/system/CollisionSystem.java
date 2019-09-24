@@ -17,11 +17,15 @@ public class CollisionSystem extends BaseGameSystem{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
+		
+		
 		for(int i = 0 ; i < myGameObjects.size() ; i++)
 		{
 			CollisionComponent collisionComponent = (CollisionComponent)myGameObjects.get(i).getComponent(ComponentContants.collision);
+			
 			if(collisionComponent != null)
 			{
+				collisionComponent.update(nanosSincePreviousTick);
 				for(int j = 0 ; j < myGameObjects.size() ; j++)
 				{
 					if(!myGameObjects.get(i).getId().equals(myGameObjects.get(j).getId()))

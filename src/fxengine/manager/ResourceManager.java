@@ -18,7 +18,7 @@ public class ResourceManager {
 		  
 		 Image img =null;
 		try {
-			img = new Image(new FileInputStream("resources/img/dragonballsuper.png"));
+			img = new Image(new FileInputStream(path));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

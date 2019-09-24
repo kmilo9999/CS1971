@@ -1,14 +1,19 @@
 package game.alch;
 
 import fxengine.application.FXFrontEnd;
+import fxengine.collision.CollisionConstants;
+import fxengine.collision.CollisionShape;
+import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentFactory;
+import fxengine.components.GraphicsComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
+import fxengine.objects.Sprite;
 import fxengine.scene.GameWorldScene;
 
 
@@ -31,6 +36,9 @@ public class AlchScene extends GameWorldScene{
 		
 		GameObject gameObject = new GameObject("Sprite1");
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
+		Sprite mySprite1 = new Sprite("resources/img/square.png");
+		((GraphicsComponent)graphicsComponent).setSprite(mySprite1);
+		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		//Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
 		//Component keyEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.keyEvents);
@@ -38,6 +46,8 @@ public class AlchScene extends GameWorldScene{
 		Component keyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
 		((TransformComponent)tranformComponent).setPosition(new Vec2d(3,10));
 		Component collisionCompomemt =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
+		CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
+		((CollisionComponent)collisionCompomemt).setCollisionShape(myCollisionShape);
 		
 		gameObject.addComponent(graphicsComponent);
 		gameObject.addComponent(tranformComponent);
@@ -62,6 +72,8 @@ public class AlchScene extends GameWorldScene{
 		
 		GameObject gameObject2 = new GameObject("Sprite2");
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
+		Sprite mySprite2 = new Sprite("resources/img/circle.png");
+		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		//Component mouseEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.mouseEvents);
 		//Component keyEventsComponent =  ComponentFactory.getInstance().createComponent(ComponetContants.keyEvents);
@@ -70,6 +82,9 @@ public class AlchScene extends GameWorldScene{
 		((TransformComponent)tranformComponent2).setPosition(new Vec2d(50));
 		Component collisionCompomemt2 =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		((CollisionComponent)collisionCompomemt2).getHitList().add("Sprite1");
+		CollisionShape myCollisionShape2 = CollisionShapeFactory.getInstance().createShape(CollisionConstants.CIRCLEShape);
+		((CollisionComponent)collisionCompomemt2).setCollisionShape(myCollisionShape2);
+		
 		
 		gameObject2.addComponent(graphicsComponent2);
 		gameObject2.addComponent(tranformComponent2);

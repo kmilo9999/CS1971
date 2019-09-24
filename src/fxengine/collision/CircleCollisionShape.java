@@ -44,8 +44,8 @@ public  class CircleCollisionShape extends CollisionShape {
 	@Override
 	public boolean collidesAABShape(AABCollideShape aab) {
 		// TODO Auto-generated method stub
-		aab.collidesCircle(this);
-		return false;
+		return aab.collidesCircle(this);
+		
 	}
 	
 	@Override

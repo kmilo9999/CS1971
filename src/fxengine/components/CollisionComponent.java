@@ -45,7 +45,13 @@ public class CollisionComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
+		TransformComponent tranform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+        GraphicsComponent graphics = (GraphicsComponent)this.myParent.getComponent(ComponentContants.graphics);
 		
+		if(tranform != null && graphics != null)
+		{
+			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getSize());
+		}
 	}
 
 	@Override

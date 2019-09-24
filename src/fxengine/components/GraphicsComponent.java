@@ -31,8 +31,7 @@ public class GraphicsComponent extends Component{
 	public GraphicsComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
-		
-		 mySprite = new Sprite(ShapeConstants.Circle);
+		 //mySprite = new Sprite(ShapeConstants.Circle);
 	}
 
 	@Override
