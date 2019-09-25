@@ -1,4 +1,5 @@
 It doesnt resize the game elements on the screen. I did not know how to implement this funcitonality
-It does zoom or pan
-clipping has causing me low fps
-Sometimes the copied objects have a strange color when selected
+It does pan, but no zoom
+panning the camera causes wrong clipping at the edges of the game viewport
+the movement of the elements from the menu to the game viewport is not smooth
+destroying tow elements crearte two new elemets instead of one.

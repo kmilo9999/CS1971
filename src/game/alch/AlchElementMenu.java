@@ -46,7 +46,7 @@ public class AlchElementMenu extends UISprite{
 		
 		Vec2d myPosinGameCoordinates = ((GameWorldScene)this.getScene()).getGameWorld().screenToGameTransform(myPosition);
 		
-	    ((AlchScene)this.myScene).createAlchGameObject("ID", myPosinGameCoordinates, this);
+	    ((AlchScene)this.myScene).createAlchGameObject("ALCHE", myPosinGameCoordinates, this);
 	    
 		this.myPosition = this.myOriginalPos;
 		super.onMouseReleased(e);

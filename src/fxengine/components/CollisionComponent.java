@@ -7,6 +7,7 @@ import java.util.Set;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
+import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public class CollisionComponent extends Component{
@@ -15,7 +16,14 @@ public class CollisionComponent extends Component{
 	private CollisionShape myCollisionShape;
 
 	private Set<String> myHitList;
+	
+	private boolean isCollided = false;
+	
+	private String myColliderId;
+	
+	private GameObject myOtherCollider;
 
+	
 	public CollisionComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -81,4 +89,29 @@ public class CollisionComponent extends Component{
 	public void setCollisionShape(CollisionShape myCollisionShape) {
 		this.myCollisionShape = myCollisionShape;
 	}
+	
+	public boolean isCollided() {
+		return isCollided;
+	}
+
+	public void setCollided(boolean isCollided) {
+		this.isCollided = isCollided;
+	}
+	
+	public String getColliderId() {
+		return myColliderId;
+	}
+
+	public void setColliderId(String colliderId) {
+		this.myColliderId = colliderId;
+	}
+
+	public GameObject getOtherCollider() {
+		return myOtherCollider;
+	}
+
+	public void setOtherCollider(GameObject myOtherCollider) {
+		this.myOtherCollider = myOtherCollider;
+	}
+
 }

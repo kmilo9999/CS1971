@@ -11,6 +11,9 @@ public class GameObject {
 	
 	private String myId;
 	
+	private String myTag;
+	
+
 	private Map<String,Component> myComponents = new HashMap<String, Component>();
 	
 	private boolean isSelected = false;
@@ -19,8 +22,10 @@ public class GameObject {
 	
 	private boolean isInitialized = false;
 	
-	
+	private boolean markForDestoryed = false;
 
+
+	
 
 	public void initialize()
 	{
@@ -128,4 +133,19 @@ public class GameObject {
 		this.isInitialized = isInitialized;
 	}
 
+	public String getTag() {
+		return myTag;
+	}
+
+	public void setTag(String tag) {
+		this.myTag = tag;
+	}
+	
+	public boolean isMarkForDestoryed() {
+		return markForDestoryed;
+	}
+
+	public void setMarkForDestoryed(boolean markForDestoryed) {
+		this.markForDestoryed = markForDestoryed;
+	}
 }

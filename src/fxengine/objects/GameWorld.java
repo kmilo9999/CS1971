@@ -2,8 +2,11 @@ package fxengine.objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
@@ -24,6 +27,9 @@ public class GameWorld {
 	private List<List<GameObject>> myGameObjects;
 	
 	private List<List<GameObject>> myDirtyObjects;
+	
+	private List<String> toRemoveList;
+	
 	//private Map<String,Integer> myCountGameobjects;
 	private Map<String,BaseGameSystem> mySystems;
 
@@ -34,7 +40,6 @@ public class GameWorld {
 	
 	private Layout myClipLayout; 
 
-	private boolean initClip = false;
 	
 	private int numGameObjects = 0;
 	
@@ -42,6 +47,8 @@ public class GameWorld {
 	{
 		myGameObjects = new ArrayList<List<GameObject>>();
 		myDirtyObjects = new ArrayList<List<GameObject>>();
+		toRemoveList = new ArrayList<String>();
+		
 		for(int i = 0 ; i < numLayers ;i++)
 		{
 			myGameObjects.add(new ArrayList<GameObject>());
@@ -63,6 +70,46 @@ public class GameWorld {
 
 		if(myNeedsUpdate)
 		{
+			
+			//remove objects
+			for(String gameObjectId: toRemoveList)
+			{
+				
+				int indexFound = -1;
+				for(int i = 0 ; i< myGameObjects.size();i++)
+				{
+				   Queue<GameObject> q = new LinkedList<GameObject>();
+				   List<GameObject> currentLayer = myGameObjects.get(i);
+				   for(int j = 0; j < currentLayer.size(); j++) 
+				   {
+					  if(currentLayer.get(j).getId().equals(gameObjectId))
+					  {
+						   for(Map.Entry<String,BaseGameSystem>  systemEntry : mySystems.entrySet())
+						   {
+					        	 systemEntry.getValue().removeGameObject(gameObjectId);		
+						   }
+						   indexFound = i;
+						  
+					  }
+					  else
+					  {
+						  q.add(currentLayer.get(j));
+					  }
+				   }
+				   
+				   if(indexFound >=0 )
+				   {
+					   numGameObjects--;
+					   currentLayer.clear();
+					   while (!q.isEmpty())
+						   currentLayer.add(q.remove());
+				   }
+				}
+				
+			}
+			
+			
+			
 			//	add new objects
 			for(List<GameObject> newObjects:myDirtyObjects)
 			{
@@ -73,6 +120,8 @@ public class GameWorld {
 				 {
 		        	 systemEntry.getValue().addGameObject(newObject);		
 				 }
+		         
+		         newObject.initialize();
 			   }
 				   
 				 
@@ -80,6 +129,7 @@ public class GameWorld {
 		 
 		   //myDirtyObjects.clear();
 			myDirtyObjects.get(0).clear();
+			toRemoveList.clear();
 			//myDirtyObjects.get(1).clear();
 		   myNeedsUpdate = false;
 		}
@@ -162,6 +212,12 @@ public class GameWorld {
 		}
 		
 		
+	}
+	
+	
+	public List<GameObject> getGameObjectsByLayer( int layer)
+	{
+		return myGameObjects.get(layer);
 	}
 	
 	public void registerIntoSystem(String gameObjectId, String componentName )
@@ -293,6 +349,25 @@ public class GameWorld {
 		
 		myNeedsUpdate = true;
 	}
+	
+	
+	public void addDirtyGameObject(GameObject gameObject, int layer) {
+		
+		// a new game object
+		gameObject.setGameWorld(this);
+		//myGameObjects.add(clone);
+		List<GameObject> dirtyObjects = myDirtyObjects.get(layer);
+		dirtyObjects.add(gameObject);
+		
+		myNeedsUpdate = true;
+	}
+	
+	public void toRemoveGameObject(String gameObjectId) {
+	
+		toRemoveList.add(gameObjectId);
+		myNeedsUpdate = true;
+	}
+	
 	
 	public boolean isNeedsUpdate() {
 		return myNeedsUpdate;

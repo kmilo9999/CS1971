@@ -6,12 +6,14 @@ import java.util.List;
 
 
 import fxengine.objects.GameObject;
+import fxengine.objects.GameWorld;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class BaseGameSystem {
 	
 	
 	// Filtered list of game objects of interest
+	
 	protected List<GameObject> myGameObjects = new ArrayList<GameObject>();
 	
 	protected List<String> myComponentsOfInterest = new ArrayList<String>();
@@ -29,5 +31,14 @@ public abstract class BaseGameSystem {
 		myGameObjects.add(gameObject);
 	}
 	
+	public void removeGameObject(String gameObjectId)
+	{
+		for(GameObject gameObject:myGameObjects)
+		{
+			myGameObjects.remove(gameObject);	
+			break;
+		}
+		
+	}
 
 }
