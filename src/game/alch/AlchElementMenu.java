@@ -32,7 +32,7 @@ public class AlchElementMenu extends UISprite{
 		{
 			//place in original position
 			this.myPosition = this.myOriginalPos;
-			System.out.println("NO X");
+			
 			return;
 		}
 		  
@@ -40,13 +40,13 @@ public class AlchElementMenu extends UISprite{
 		{
 			//place in original position
 			this.myPosition = this.myOriginalPos;
-			System.out.println("NO Y");
+			
 		    return;
 		}
 		
 		Vec2d myPosinGameCoordinates = ((GameWorldScene)this.getScene()).getGameWorld().screenToGameTransform(myPosition);
 		
-	    ((AlchScene)this.myScene).createAlchGameObject("ALCHE", myPosinGameCoordinates, this);
+	    ((AlchScene)this.myScene).createAlchGameObjectFromMenu("alch_elem", myPosinGameCoordinates, this);
 	    
 		this.myPosition = this.myOriginalPos;
 		super.onMouseReleased(e);

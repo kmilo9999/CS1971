@@ -72,31 +72,20 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 	public void mousePressed(Vec2d clickPosition, int pressedButton)
 	{
 		
-		//if(!mouseButtons[pressedButton] )
-		//{
-			
-			
-			SpriteComponent sprite = ((GraphicsComponent) this.myParent.getComponent(ComponentContants.graphics)).getSprite();
-			
-			Vec2d elemetSize = sprite.getSize();
-			Vec2d elemetPosition = sprite.getPosition();
-			Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
-		  	//System.out.println("clickPos: " + elemetPosition.x + " " + elemetPosition.y + " ");
-		  	
-			
-			if((transFormClickPos.x > elemetPosition.x && transFormClickPos.x < elemetPosition.x + elemetSize.x)
-			    &&( transFormClickPos.y > elemetPosition.y && transFormClickPos.y < elemetPosition.y + elemetSize.y) )
-			{
-			  	//System.out.println("onMousePressed " + this.myParent.getId());
-				//mouseButtons[pressedButton] = true;
-				this.myParent.setSelected(true);
-			}
-			else
-			{
-				this.myParent.setSelected(false);
-			}
-			
-		//}
+		SpriteComponent sprite = ((GraphicsComponent) this.myParent.getComponent(ComponentContants.graphics))
+				.getSprite();
+
+		Vec2d elemetSize = sprite.getSize();
+		Vec2d elemetPosition = sprite.getPosition();
+		Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
+
+		if ((transFormClickPos.x > elemetPosition.x && transFormClickPos.x < elemetPosition.x + elemetSize.x)
+				&& (transFormClickPos.y > elemetPosition.y && transFormClickPos.y < elemetPosition.y + elemetSize.y)) {
+			// System.out.println("onMousePressed " + this.myParent.getId());
+			this.myParent.setSelected(true);
+		} else {
+			this.myParent.setSelected(false);
+		}
 		
 		
 	}
@@ -116,11 +105,12 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 	
 	public void mouseDragged(Vec2d currentMousePosition, int button)
 	{
+	
 		
 		if(mouseButtons[0] && button == 0 && this.myParent.isSelected())
 		{
 			//is dragging this entity
-		
+		   
 			TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponentContants.transform);
 			Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
 			Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);

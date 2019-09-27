@@ -105,16 +105,10 @@ public class GameObject {
 
 
 	public void setSelected(boolean isSelected) {
-		if(myGameWorld.getSelected() == null)
-		{			
+
 			myGameWorld.setSelected(this);
-		}
-		else if(!myGameWorld.getSelected().getId().equals(myId))
-		{
-			myGameWorld.getSelected().setSelected(false);
-			myGameWorld.setSelected(this);
-		}
-		this.isSelected = isSelected;
+			this.isSelected = isSelected;
+		
 	}
 	
 	public int getLayerOrder() {

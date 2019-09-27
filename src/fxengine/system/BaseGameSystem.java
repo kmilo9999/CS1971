@@ -35,8 +35,13 @@ public abstract class BaseGameSystem {
 	{
 		for(GameObject gameObject:myGameObjects)
 		{
-			myGameObjects.remove(gameObject);	
-			break;
+			if(gameObject.getId().equals(gameObjectId))
+			{
+				myGameObjects.remove(gameObject);	
+				break;	
+			}
+				
+			
 		}
 		
 	}

@@ -374,6 +374,7 @@ public class GameWorld {
 	}
 
 	public void setNeedsUpdate(boolean myNeedsUpdate) {
+		
 		this.myNeedsUpdate = myNeedsUpdate;
 	}
 
@@ -382,7 +383,10 @@ public class GameWorld {
 	}
 
 	public void setSelected(GameObject selected) {
-		this.mySelected = selected;
+		if(this.mySelected == null || this.mySelected.getId().equals(selected.getId()))
+		{			
+			this.mySelected = selected;
+		}
 	}
 	
 	public Vec2d screenToGameTransform(Vec2d screenCoordinates)

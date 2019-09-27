@@ -38,11 +38,11 @@ public class CollisionSystem extends BaseGameSystem{
 											.collides(collisionComponent2.getCollisionShape())) {
 										System.out.println("COLLISION!");
 										collisionComponent.setCollided(true);
-										collisionComponent.setColliderId(((GameObject)myGameObjects.get(j)).getTag());
+										collisionComponent.setColliderId(((GameObject)myGameObjects.get(j)).getId());
 										collisionComponent.setOtherCollider((GameObject)myGameObjects.get(j));
 										
 										collisionComponent2.setCollided(true);
-										collisionComponent2.setColliderId(((GameObject)myGameObjects.get(i)).getTag());
+										collisionComponent2.setColliderId(((GameObject)myGameObjects.get(i)).getId());
 										collisionComponent2.setOtherCollider((GameObject)myGameObjects.get(i));
 										
 									
