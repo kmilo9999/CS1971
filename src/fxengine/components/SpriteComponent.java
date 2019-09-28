@@ -54,7 +54,21 @@ public class SpriteComponent extends Layout{
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
 			super.onDraw(graphicsCx);
-			graphicsCx.drawImage(mySourceImage,0,0,mySize.x,mySize.y,myPosition.x,myPosition.y,mySize.x,mySize.y);
+			
+			double x_off = 0;
+			double y_off = 0;
+			
+		    if(myPosition.x <=0)
+			{
+				x_off =  this.myWidth - mySize.x ;
+			}
+			
+			if(myPosition.y <= 0)
+			{
+				y_off =  this.myHeight - mySize.y ;
+			}
+			
+			graphicsCx.drawImage(mySourceImage,x_off,y_off,mySize.x,mySize.y,myPosition.x,myPosition.y,mySize.x,mySize.y);
 		}
 
 	}

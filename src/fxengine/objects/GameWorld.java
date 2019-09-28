@@ -193,9 +193,9 @@ public class GameWorld {
 	
 	public void addGameObject(GameObject gameObject, int layer)
 	{
-		GameObject tempGO = lookupGameObject(gameObject.getId());  
-		if(tempGO == null)
-		{
+		//GameObject tempGO = lookupGameObject(gameObject.getId());  
+		//if(tempGO == null)
+		//{
 			// a new game object
 			gameObject.setGameWorld(this);
 			gameObject.initialize();
@@ -209,7 +209,7 @@ public class GameWorld {
 				systemEntry.getValue().addGameObject(gameObject);
 			}
 			
-		}
+		//}
 		
 		
 	}
