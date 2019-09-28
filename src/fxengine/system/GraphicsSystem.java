@@ -17,7 +17,7 @@ public class GraphicsSystem extends BaseGameSystem{
 	private Vec2d panelScreenViewPortSize = new Vec2d(400);
 
 
-	private Vec2d panelGameViewPort = new Vec2d(0,0);
+	private Vec2d panelGameViewPortUpperLeft = new Vec2d(0,0);
 	private double viewportScaleFactor = 1.0;
 	
     
@@ -84,11 +84,11 @@ public class GraphicsSystem extends BaseGameSystem{
 	
 
 	public Vec2d getPanelGameViewPort() {
-		return panelGameViewPort;
+		return panelGameViewPortUpperLeft;
 	}
 
 	public void setPanelGameViewPort(Vec2d panelGameViewPort) {
-		this.panelGameViewPort = panelGameViewPort;
+		this.panelGameViewPortUpperLeft = panelGameViewPort;
 	}
   
 	public List<List<GameObject>> getLayerGameObjects() {

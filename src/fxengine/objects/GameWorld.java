@@ -38,10 +38,14 @@ public class GameWorld {
 
 	private Affine myAffineTransform;
 	
-	private Layout myClipLayout; 
+	private Layout myGameViewPort; 
 
 	
 	private int numGameObjects = 0;
+	
+	private Vec2d myScreenViewPortPos = new Vec2d(0);
+
+	private Vec2d myScreenViewPortSize = new Vec2d(400);
 	
 	public GameWorld()
 	{
@@ -56,7 +60,7 @@ public class GameWorld {
 		}
 		
 		this.mySystems = new HashMap<String, BaseGameSystem>();
-		myClipLayout = new Layout(0, 0, 400, 400, UIConstants.TRANSPARENT,2.5);
+		myGameViewPort = new Layout(myScreenViewPortPos.x, myScreenViewPortPos.y, myScreenViewPortSize.x, myScreenViewPortSize.y, UIConstants.TRANSPARENT,2.5);
 	}
 	
 	public void initialize() 
@@ -158,7 +162,7 @@ public class GameWorld {
 			//graphicsCx.setStroke(UIConstants.BLACK);
 			//graphicsCx.stroke();
 			//graphicsCx.clip();	
-			myClipLayout.onDraw(graphicsCx);
+			myGameViewPort.onDraw(graphicsCx);
 		
 			
 			//Set the transform
@@ -327,6 +331,15 @@ public class GameWorld {
 		
 	}
 	
+	public void setPanelScreenViewPortUpperLeft(Vec2d pos) {
+		if(mySystems.containsKey(ComponentContants.graphics))
+		{
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
+			graphicsSystem.setPanelScreenViewPortUpperLeft(pos);	
+		}
+		
+	}
+	
 	public double getViewportScaleFactor() {
 		if(mySystems.containsKey(ComponentContants.graphics))
 		{
@@ -429,4 +442,21 @@ public class GameWorld {
 	{
 		return numGameObjects;
 	}
+	
+	public Vec2d getMyScreenViewPortPos() {
+		return myScreenViewPortPos;
+	}
+
+	public void setMyScreenViewPortPos(Vec2d myScreenViewPortPos) {
+		this.myScreenViewPortPos = myScreenViewPortPos;
+	}
+
+	public Vec2d getMyScreenViewPortSize() {
+		return myScreenViewPortSize;
+	}
+
+	public void setMyScreenViewPortSize(Vec2d myScreenViewPortSize) {
+		this.myScreenViewPortSize = myScreenViewPortSize;
+	}
+
 }
