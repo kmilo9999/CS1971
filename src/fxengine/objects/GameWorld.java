@@ -38,14 +38,20 @@ public class GameWorld {
 
 	private Affine myAffineTransform;
 	
-	private Layout myGameViewPort; 
+	private Layout myGameViewPort;
+	private Layout myWorldViewPort; 
+	private Layout myScrenViewPort;
 
+	private static int debug_mode = 0;
 	
 	private int numGameObjects = 0;
 	
 	private Vec2d myScreenViewPortPos = new Vec2d(0);
 
 	private Vec2d myScreenViewPortSize = new Vec2d(400);
+	
+	public double deltax =0;
+	public double deltay =0;
 	
 	public GameWorld()
 	{
@@ -61,6 +67,9 @@ public class GameWorld {
 		
 		this.mySystems = new HashMap<String, BaseGameSystem>();
 		myGameViewPort = new Layout(myScreenViewPortPos.x, myScreenViewPortPos.y, myScreenViewPortSize.x, myScreenViewPortSize.y, UIConstants.TRANSPARENT,2.5);
+		
+		myWorldViewPort = new Layout(0,0, 400,400, UIConstants.TRANSPARENT,2.5,UIConstants.RED);
+		myScrenViewPort = new Layout(0,0, 400,400, UIConstants.TRANSPARENT,2.5,UIConstants.GREEN);
 	}
 	
 	public void initialize() 
@@ -168,12 +177,22 @@ public class GameWorld {
 			//Set the transform
 			//graphicsSystem.setPanelGameViewPort(panelGameViewPort);
 			//graphicsSystem.setPanelScreenViewPort(panelScreenViewPort);
+			if(debug_mode == 1)
+			{
+				myWorldViewPort.setPosition(graphicsSystem.getPanelGameViewPort());
+				myScrenViewPort.setPosition(graphicsSystem.getPanelScreenViewPortUpperLeft());
+				myWorldViewPort.onDraw(graphicsCx);
+				myScrenViewPort.onDraw(graphicsCx);	
+			}
 			
 			
 			Affine transform = graphicsCx.getTransform();
+			
 			transform.appendTranslation(-graphicsSystem.getPanelGameViewPort().x, -graphicsSystem.getPanelGameViewPort().y);
 			transform.appendScale(graphicsSystem.getViewportScaleFactor(), graphicsSystem.getViewportScaleFactor());
 			transform.appendTranslation(graphicsSystem.getPanelScreenViewPortUpperLeft().x, graphicsSystem.getPanelScreenViewPortUpperLeft().y);
+			
+			transform.appendTranslation(deltax, deltay);
 			graphicsCx.setTransform(transform);
 			
 			//Draw the game-space in its own coordinates

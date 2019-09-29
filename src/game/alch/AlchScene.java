@@ -72,7 +72,7 @@ public class AlchScene extends GameWorldScene{
 		
 		
 		
-		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
+		//this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
 		
 		///----------- Camera
 		GameObject camera = new GameObject("Camera");

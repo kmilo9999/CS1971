@@ -82,19 +82,14 @@ public class CameraMouseControllerBehavior extends MouseEventComponent {
 			if(keyController.getSpecialKeyState(KeyboardEventSystem.CONTROL_KEYCODE))
 			{
 				Vec2d gameUpLeft = this.myParent.getGameWorld().getPanelGameViewPort();
-				Vec2d screenUpLeft = this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft();
 				
 				Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
 				Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);
 				Vec2d delta = currentMousePosGameSpace.minus(lastMousePositionGameSpace);
 				this.myParent.getGameWorld().setPanelGameViewPort(gameUpLeft.plus(delta));
 				
-				Vec2d mouseDeltaScreenSpace = new Vec2d(currentMousePosition);
-				Vec2d screenDelta  = mouseDeltaScreenSpace.minus(this.myLastPosition);
-				
-				//this.myParent.getGameWorld().setPanelScreenViewPortUpperLeft(screenUpLeft.plus(screenDelta));
-				
-				
+				this.myParent.getGameWorld().deltax = gameUpLeft.x;
+				this.myParent.getGameWorld().deltay = gameUpLeft.y;
 				System.out.println(this.myParent.getGameWorld().getPanelGameViewPort());
 				
 				myLastPosition = currentMousePosition;

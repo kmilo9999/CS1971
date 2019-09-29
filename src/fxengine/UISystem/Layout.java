@@ -27,7 +27,7 @@ public class Layout extends UIElement{
 
 	protected boolean[] mouseButtons = new boolean[3];
 	
-	
+	protected Color myBorderColor = UIConstants.BLACK;
 	
 	public Layout(double x, double y, double w, double h) {
 		// TODO Auto-generated constructor stub
@@ -48,6 +48,13 @@ public class Layout extends UIElement{
 		myBorderWidth = borderWidth;
 	}
 	
+	public Layout(double x, double y, double w, double h, Color background, double borderWidth,Color borderColor) {
+		initPositions( x,  y,  w,  h);
+		myColor = background;
+		myBorderWidth = borderWidth;
+		myBorderColor = borderColor;
+	}
+	
 	@Override
 	public void onTick(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
@@ -57,10 +64,10 @@ public class Layout extends UIElement{
 	@Override
 	public void onDraw(GraphicsContext graphicsCx) {
 		// TODO Auto-generated method stub
-		if(myBorderWidth != 0)
+		if(myBorderWidth != 0 )
 		{
 			graphicsCx.setLineWidth(myBorderWidth);
-			graphicsCx.setStroke(UIConstants.BLACK);
+			graphicsCx.setStroke(myBorderColor);
 			graphicsCx.strokeRect(this.myPosition.x ,this.myPosition.y,this.mySize.x + 5.5,this.mySize.y + 5.5);	
 		}		
 		graphicsCx.setFill(myColor);
