@@ -61,7 +61,7 @@ public class MouseEventComponent extends ObservableComponent {
 		myPosition = new Vec2d(0);
 	}
 	
-	public final void onMouseMoved(Vec2d position)
+	public void onMouseMoved(Vec2d position)
 	{
 		myLastPosition = myPosition;
 		myPosition = position;	

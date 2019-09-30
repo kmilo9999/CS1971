@@ -92,7 +92,7 @@ public class AlchScene extends GameWorldScene{
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
-		((TransformComponent)tranformComponent2).setPosition(new Vec2d(200));
+		((TransformComponent)tranformComponent2).setPosition(new Vec2d(0));
 		Component collisionCompomemt2 =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		((CollisionComponent)collisionCompomemt2).getHitList().add(alch_square);
 		CollisionShape myCollisionShape2 = CollisionShapeFactory.getInstance().createShape(CollisionConstants.CIRCLEShape);

@@ -150,7 +150,7 @@ public class GameApplication extends FXFrontEnd{
 					this.currentScene = scene;
 					this.currentScene.setCurrentWindowSize(this.currentStageSize);
 					this.currentScene.initScene();
-					//this.currentScene.onResize(this.currentStageSize);			
+					this.currentScene.onResize(this.currentStageSize);			
 					return;
 				}
 			}

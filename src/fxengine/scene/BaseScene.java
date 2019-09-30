@@ -92,9 +92,12 @@ public abstract class BaseScene {
 		double newratio = newScreenSize.x /newScreenSize.y;
 		//System.out.println("oldratio: "+ oldratio+ " , newratio:"+ newratio + ", oldratio/newratio: "+oldratio/newratio);
 		this.myWindowSize = newScreenSize;
+		
+		double deltaRadio = newratio - oldratio;
+		
 	    for(UIElement element: this.props)
 		{
-			element.onResize(newScreenSize,oldratio/newratio);
+			element.onResize(newScreenSize,deltaRadio);
 		}
 	    
 	    
@@ -240,6 +243,8 @@ public abstract class BaseScene {
 	
 	public void onMouseWheelMoved(ScrollEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("HERE onMouseWheelMoved");
+		
 		
 	}
 	

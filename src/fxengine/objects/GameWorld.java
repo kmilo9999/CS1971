@@ -10,6 +10,7 @@ import java.util.Queue;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
+import fxengine.UISystem.UIElement;
 import fxengine.components.ComponentContants;
 import fxengine.math.Vec2d;
 import fxengine.system.BaseGameSystem;
@@ -38,11 +39,11 @@ public class GameWorld {
 
 	private Affine myAffineTransform;
 	
-	private Layout myGameViewPort;
-	private Layout myWorldViewPort; 
-	private Layout myScrenViewPort;
+	private UIElement myGameViewPort;
+	private UIElement myWorldViewPort; 
+	private UIElement myScrenViewPort;
 
-	private static int debug_mode = 0;
+	private static int debug_mode = 1;
 	
 	private int numGameObjects = 0;
 	
@@ -189,7 +190,9 @@ public class GameWorld {
 			Affine transform = graphicsCx.getTransform();
 			
 			transform.appendTranslation(-graphicsSystem.getPanelGameViewPort().x, -graphicsSystem.getPanelGameViewPort().y);
+			transform.appendTranslation(-graphicsSystem.getPanelScreenViewPortSize().x/2, -graphicsSystem.getPanelScreenViewPortSize().y/2);
 			transform.appendScale(graphicsSystem.getViewportScaleFactor(), graphicsSystem.getViewportScaleFactor());
+			transform.appendTranslation(graphicsSystem.getPanelScreenViewPortSize().x/2, graphicsSystem.getPanelScreenViewPortSize().y/2);
 			transform.appendTranslation(graphicsSystem.getPanelScreenViewPortUpperLeft().x, graphicsSystem.getPanelScreenViewPortUpperLeft().y);
 			
 			transform.appendTranslation(deltax, deltay);
@@ -368,6 +371,14 @@ public class GameWorld {
 		return -1;
 	}
 
+	public void setViewportScaleFactor(double scale) {
+		if(mySystems.containsKey(ComponentContants.graphics) && scale >= 1)
+		{
+			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
+			graphicsSystem.setViewportScaleFactor(scale);	
+		}
+		
+	}
 
 	public void addClonedGameObject(GameObject clone) {
 		// TODO Auto-generated method stub

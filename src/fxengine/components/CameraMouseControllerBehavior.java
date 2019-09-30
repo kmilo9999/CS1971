@@ -9,6 +9,10 @@ import javafx.scene.canvas.GraphicsContext;
 public class CameraMouseControllerBehavior extends MouseEventComponent {
 
 	
+	private boolean myMouseInViewPort = false; 
+	private double myZoomFactor = 1.25;
+	
+	
 	public CameraMouseControllerBehavior(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -76,33 +80,50 @@ public class CameraMouseControllerBehavior extends MouseEventComponent {
 
 	private void mouseDragged(Vec2d currentMousePosition, int intValue) {
 		// TODO Auto-generated method stub
-		CameraKeyControllerBehavior keyController = (CameraKeyControllerBehavior)this.myParent.getComponent(ComponentContants.cameraControllerKeyEvents);
-		if(keyController != null)
+		
+		if(myMouseInViewPort)
 		{
-			if(keyController.getSpecialKeyState(KeyboardEventSystem.CONTROL_KEYCODE))
+			
+			CameraKeyControllerBehavior keyController = (CameraKeyControllerBehavior)this.myParent.getComponent(ComponentContants.cameraControllerKeyEvents);
+			if(keyController != null)
 			{
-				Vec2d gameUpLeft = this.myParent.getGameWorld().getPanelGameViewPort();
-				
-				Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
-				Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);
-				Vec2d delta = currentMousePosGameSpace.minus(lastMousePositionGameSpace);
-				this.myParent.getGameWorld().setPanelGameViewPort(gameUpLeft.plus(delta));
-				
-				this.myParent.getGameWorld().deltax = gameUpLeft.x;
-				this.myParent.getGameWorld().deltay = gameUpLeft.y;
-				System.out.println(this.myParent.getGameWorld().getPanelGameViewPort());
-				
-				myLastPosition = currentMousePosition;
-				
+				if(keyController.getSpecialKeyState(KeyboardEventSystem.CONTROL_KEYCODE))
+				{
+					Vec2d gameUpLeft = this.myParent.getGameWorld().getPanelGameViewPort();
+					
+					Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
+					Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);
+					Vec2d delta = currentMousePosGameSpace.minus(lastMousePositionGameSpace);
+					this.myParent.getGameWorld().setPanelGameViewPort(gameUpLeft.plus(delta));
+					
+					this.myParent.getGameWorld().deltax = gameUpLeft.x;
+					this.myParent.getGameWorld().deltay = gameUpLeft.y;
+					//System.out.println(this.myParent.getGameWorld().getPanelGameViewPort());
+					
+					myLastPosition = currentMousePosition;
+					
+				}
 			}
 		}
+	
 		
 		
 	}
 
 	private void mouseWheelMoved(Vec2d vec2dValue) {
 		// TODO Auto-generated method stub
+		//System.out.println();
 		
+		if(myMouseInViewPort )
+		{
+			//myZoomFactor = vec2dValue.y>0 ? myZoomFactor++:myZoomFactor--;
+			double currentGameZoom = this.myParent.getGameWorld().getViewportScaleFactor();	
+			double newGameWorldZoom = vec2dValue.y > 0 ? currentGameZoom * myZoomFactor
+					: currentGameZoom / myZoomFactor;
+
+			this.myParent.getGameWorld().setViewportScaleFactor(newGameWorldZoom);
+
+		}
 	}
 
 	private void mouseReleased(Vec2d vec2dValue, int intValue) {
@@ -119,7 +140,30 @@ public class CameraMouseControllerBehavior extends MouseEventComponent {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public final void onMouseMoved(Vec2d position)
+	{
+		Vec2d viewPortPos = this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft();
+		Vec2d viewPortSize = this.myParent.getGameWorld().getPanelScreenViewPortSize();
+		if ((position.x > viewPortPos.x && position.x < viewPortPos.x + viewPortSize.x)
+				&& (position.y > viewPortPos.y && position.y < viewPortPos.y + viewPortSize.y)) {
+			myMouseInViewPort = true;
+		} else {
+			myMouseInViewPort = false;
+		}
 
+		super.onMouseMoved(position);
+
+	}
+
+	public boolean isMouseInViewPort() {
+		return myMouseInViewPort;
+	}
+
+	public void setMouseInViewPort(boolean mouseInViewPort) {
+		this.myMouseInViewPort = mouseInViewPort;
+	}
    
   
 	

@@ -100,10 +100,6 @@ public abstract class UIElement {
 		}
 		
 
-	
-	    
-		
-		
 	  
 		//if(	containerSize.y > containerSize.x)
 		/*if(	containerRatio > myRatio)
@@ -149,27 +145,45 @@ public abstract class UIElement {
     {
     	//double widthRatio = containerSize.x / this.mySize.x;
 		//double heightRatio =  containerSize.y / this.mySize.y;
-		//double ratio =  Math.min(widthRatio, heightRatio);
+    	double scaleHeight = containerSize.y / this.mySize.x;
+    	double scaleWidth = containerSize.x / this.mySize.y;
+    	//double scale = Math.max(this.mySize.x, this.mySize.y);
+    	//double scale = Math.min(this.mySize.x, this.mySize.y);
+    	double scale = Math.min(scaleHeight, scaleWidth);
+		double ratio =  containerSize.x/ scale;
     	
-		Vec2d newScaled ;
-		if(containerSize.x > containerSize.y)
+		/*Vec2d newScaled ;
+		if(ratio > newAspectRatio)
 		{
-			 newScaled = new Vec2d((this.mySize.x * newAspectRatio ),(this.mySize.y * newAspectRatio ));
+			 newScaled = new Vec2d(this.mySize.x  ,containerSize.x/ this.mySize.x* this.mySize.y );
 			 //System.out.println("HERE1");
 		}else
 		{
-			 newScaled = new Vec2d((this.mySize.x * newAspectRatio ),(this.mySize.y * newAspectRatio));
+			 newScaled = new Vec2d(( containerSize.y / this.mySize.x* this.mySize.y ),(this.mySize.y ));
+			 //System.out.println("HERE2");
+		}
+		*/
+		Vec2d newScaled ;
+		if(this.mySize.x> this.mySize.y)
+		{
+			 newScaled = new Vec2d(this.mySize.x  ,this.mySize.y * ratio );
+			 System.out.println("HERE1");
+		}else
+		{
+			 newScaled = new Vec2d(this.mySize.x * ratio,(this.mySize.y ));
 			 //System.out.println("HERE2");
 		}
 		
-		this.mySize = newScaled;
+		//this.mySize = newScaled;
+		
+		//this.mySize = new Vec2d(this.mySize.x * scale, this.mySize.y * scale);
 		for(UIElement child:this.myChildren)
 		{
-			child.onResize(this.mySize,newAspectRatio);
+			child.onResize(this.mySize,this.mySize.x / this.mySize.y);
 		}
 		
 		
-		System.out.println("this.mySize" + this.mySize);
+		//System.out.println("this.mySize" + this.mySize);
     }
 	
     public  void addChildElement(UIElement element) {
