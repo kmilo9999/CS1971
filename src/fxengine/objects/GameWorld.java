@@ -202,9 +202,13 @@ public class GameWorld {
 			
 			transform.appendTranslation(deltax, deltay);
 			
-			/*transform.appendTranslation(
-					graphicsSystem.getPanelScreenViewPortSize().x * graphicsSystem.getViewportScaleFactor() 
-					, graphicsSystem.getPanelScreenViewPortSize().y * graphicsSystem.getViewportScaleFactor());*/
+			Vec2d scalesSize = graphicsSystem.getPanelScreenViewPortSize().smult(graphicsSystem.getViewportScaleFactor());
+			Vec2d diff = scalesSize.minus(graphicsSystem.getPanelScreenViewPortSize());
+			//System.out.println(diff);
+			
+			//graphicsSystem.getPanelScreenViewPortSize() * graphicsSystem.getViewportScaleFactor() - graphicsSystem.getPanelScreenViewPortSize(); 
+			
+			transform.appendTranslation(-diff.x,-diff.y) ;
 			
 			
 			graphicsCx.setTransform(transform);
