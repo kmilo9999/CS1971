@@ -76,7 +76,7 @@ public class MouseControllerBehaviorComponent extends MouseEventComponent {
 				.getSprite();
 
 		TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-		Vec2d elemetSize = sprite.getSize();
+		Vec2d elemetSize = sprite.getLayout().getSize();
 		Vec2d elemetPosition = transform.getPosition();
 		Vec2d transFormClickPos = this.myParent.getGameWorld().screenToGameTransform(clickPosition);
 

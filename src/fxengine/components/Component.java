@@ -26,7 +26,7 @@ public abstract class Component {
 	
 	public abstract void draw(GraphicsContext graphicsCx);
 	
-	
+	protected boolean isInitialized = false;
 
 	public GameObject getParent() {
 		return myParent;
@@ -42,6 +42,14 @@ public abstract class Component {
 
 	public void setName(String name) {
 		this.myName = name;
+	}
+
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+
+	public void setInitialized(boolean isInitialized) {
+		this.isInitialized = isInitialized;
 	}
 	
 }

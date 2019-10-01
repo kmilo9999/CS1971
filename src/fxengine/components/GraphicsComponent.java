@@ -8,6 +8,9 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class GraphicsComponent extends Component{
 
+	
+	
+	
 	protected SpriteComponent mySprite; 
 	
 	private final int INSIDE = 0; // 0000 
@@ -27,6 +30,8 @@ public class GraphicsComponent extends Component{
 	private boolean myInViewportX = false;
 	private boolean myInViewportY = false;
 	
+	private int myClipCode = 0;
+	
 	public GraphicsComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -37,14 +42,25 @@ public class GraphicsComponent extends Component{
 	public void initialize() {
 		// TODO Auto-generated method stub
       
-		
-		myPanelScreenViewPortUpperLeft = this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft();
-		myPanelScreenViewPortSize = this.myParent.getGameWorld().getPanelScreenViewPortSize();
-		
-		myXMax = myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.x;
-        myYMax = myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y;
-		myXMin = myPanelScreenViewPortUpperLeft.x;
-		myYMin = myPanelScreenViewPortUpperLeft.y;
+		if(!isInitialized)
+		{
+			myPanelScreenViewPortUpperLeft = this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft();
+			myPanelScreenViewPortSize = this.myParent.getGameWorld().getPanelScreenViewPortSize();
+			
+			myXMax = myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.x;
+	        myYMax = myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y;
+			myXMin = myPanelScreenViewPortUpperLeft.x;
+			myYMin = myPanelScreenViewPortUpperLeft.y;
+			
+			if(this.myParent.hasComponent(ComponentContants.sprite))
+			{
+				((SpriteComponent) this.myParent.getComponent(ComponentContants.sprite)).initialize();;
+				
+				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
+			}
+			isInitialized= true;
+		}
+	
 	}
 	
 	@Override
@@ -52,15 +68,15 @@ public class GraphicsComponent extends Component{
 	{
 		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 		
-        if(mySprite != null && transformComponent != null)
+        if(this.mySprite != null && transformComponent != null)
         {
         	if(this.myParent.isSelected())
         	{
-        		mySprite.setColor(UIConstants.SELECTED);
+        		this.mySprite.getLayout().setColor(UIConstants.SELECTED);
         	}
         	else
         	{
-        		mySprite.setColor(UIConstants.LIGTHGRAY);
+        		this.mySprite.getLayout().setColor(UIConstants.LIGTHGRAY);
         	}
         	
         	
@@ -78,7 +94,7 @@ public class GraphicsComponent extends Component{
         	if(this.myInViewportX || this.myInViewportY)
         	{
         						
-    			mySprite.onDraw(graphicsCx);
+    			this.mySprite.draw(graphicsCx);
         	}
 
         		
@@ -168,7 +184,7 @@ public class GraphicsComponent extends Component{
 			double startPosY = Math.max(currentPositionInScreenSpace.y, myPanelScreenViewPortUpperLeft.y);
 			startPosY = Math.min(startPosY, myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y);
 
-			mySprite.setPosition(new Vec2d(startPosX, startPosY));
+			this.mySprite.getLayout().setPosition(new Vec2d(startPosX, startPosY));
 
 			Vec2d p1 = currentPositionInScreenSpace;
 
@@ -178,14 +194,17 @@ public class GraphicsComponent extends Component{
 			double vCurretWidth = Math.max(p1.dist(currentWidth), mySprite.getWidth());
 			double vCurretHeight = Math.max(p1.dist(currentHeigth), mySprite.getHeight());
 
-			mySprite.setSize(new Vec2d(vCurretWidth, vCurretHeight));
+			this.mySprite.getLayout().setSize(new Vec2d(vCurretWidth, vCurretHeight));
 
 			// actual clip
 			// at this point the sprite size is in screen space coordinates
-			Vec2d p2x = new Vec2d(p1.x + mySprite.getSize().x, p1.y);
-			Vec2d p2y = new Vec2d(p1.x, p1.y + mySprite.getSize().y);
-			Vec2d p2xy = new Vec2d(p1.x + mySprite.getSize().x, p1.y + mySprite.getSize().y);
+			Vec2d p2x = new Vec2d(p1.x + this.mySprite.getLayout().getSize().x, p1.y);
+			Vec2d p2y = new Vec2d(p1.x, p1.y + this.mySprite.getLayout().getSize().y);
+			Vec2d p2xy = new Vec2d(p1.x + this.mySprite.getLayout().getSize().x, p1.y + this.mySprite.getLayout().getSize().y);
 
+			//double dx = 0;
+			//double dy = 0;
+			
 			Vec2d xclipCoords[] = cohenSutherlandClip(p1, p2x);
 			double xDistance = 0;
 
@@ -202,7 +221,15 @@ public class GraphicsComponent extends Component{
 				}
 
 			} else {
-				xDistance = xclipCoords[1].x;
+				//if((this.myClipCode & RIGHT) != 0)
+				//{
+				//	xDistance = xclipCoords[1].x;
+				//}
+				//else if((this.myClipCode & LEFT) != 0)
+				//{
+					xDistance =  xclipCoords[1].x ;
+				//}
+				
 				this.myInViewportX = true;
 			}
 
@@ -226,10 +253,11 @@ public class GraphicsComponent extends Component{
 				this.myInViewportY = true;
 			}
 
-			// mySprite.setPosition(new Vec2d(xclipCoords[0].x,yclipCoords[0].y));
-			double dx = Math.abs(mySprite.getPosition().x - xDistance);
-			double dy = Math.abs(mySprite.getPosition().y - yDistance);
-			mySprite.setSize(new Vec2d(dx, dy));
+			
+			double dx = Math.abs(this.mySprite.getLayout().getPosition().x - xDistance);
+			double dy = Math.abs(this.mySprite.getLayout().getPosition().y - yDistance);
+			
+			this.mySprite.getLayout().setSize(new Vec2d(dx, dy));
 		}
 
 	}
@@ -256,7 +284,7 @@ public class GraphicsComponent extends Component{
    {
 		
 		Vec2d[] acceptedValues =  new Vec2d[2];
-		
+		this.myClipCode = 0;
 		// Compute region codes for P1, P2 
 	    int code1 = computeCode(p1); 
 	    int code2 = computeCode(p2); 
@@ -326,12 +354,14 @@ public class GraphicsComponent extends Component{
 	            // by intersection point 
 	            if (code_out == code1) 
 	            { 
+	            	this.myClipCode = code_out;
 	            	p1 = new Vec2d(x,y); 
 	            	 
 	                code1 = computeCode(p1); 
 	            } 
 	            else
 	            { 
+	            	this.myClipCode = code_out;
 	            	p2 = new Vec2d(x,y); 
 	                code2 = computeCode(p2); 
 	            } 

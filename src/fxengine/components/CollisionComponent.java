@@ -41,13 +41,31 @@ public class CollisionComponent extends Component{
 	public void initialize() {
 		// TODO Auto-generated method stub
 		
-		TransformComponent tranform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-		GraphicsComponent graphics = (GraphicsComponent)this.myParent.getComponent(ComponentContants.graphics);
-		
-		if(tranform != null && graphics != null)
+		if(!isInitialized)
 		{
-			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getSize());
+			TransformComponent tranform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+			GraphicsComponent graphics = (GraphicsComponent)this.myParent.getComponent(ComponentContants.graphics);
+			
+			if(tranform != null && graphics != null) {
+				
+				if(!tranform.isInitialized())
+				{
+					tranform.initialize();
+				}
+				
+				
+				if(!graphics.isInitialized())
+				{
+					graphics.initialize();
+				}
+				
+				myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
+			}
+			
+			isInitialized = true;
 		}
+	
+		
 	}
 
 	@Override
@@ -58,7 +76,7 @@ public class CollisionComponent extends Component{
 		
 		if(tranform != null && graphics != null)
 		{
-			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getSize());
+			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
 		}
 	}
 

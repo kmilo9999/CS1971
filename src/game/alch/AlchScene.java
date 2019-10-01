@@ -52,7 +52,8 @@ public class AlchScene extends GameWorldScene{
 		GameObject gameObject = new GameObject("alch_elem");
 		gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		SpriteComponent mySprite1 = new SpriteComponent("resources/img/square.png");
+		SpriteComponent mySprite1 = new SpriteComponent(ComponentContants.sprite);
+		mySprite1.setFilePath("resources/img/square.png");
 		((GraphicsComponent)graphicsComponent).setSprite(mySprite1);
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
@@ -87,12 +88,13 @@ public class AlchScene extends GameWorldScene{
 		GameObject gameObject2 = new GameObject("alch_elem2");
 		gameObject2.setTag(alch_circle);
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		SpriteComponent mySprite2 = new SpriteComponent("resources/img/circle.png");
-		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
+		SpriteComponent mySprite2 = new SpriteComponent(ComponentContants.sprite);
+		mySprite2.setFilePath("resources/img/circle.png");
+		//((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
-		((TransformComponent)tranformComponent2).setPosition(new Vec2d(0));
+		((TransformComponent)tranformComponent2).setPosition(new Vec2d(50));
 		Component collisionCompomemt2 =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		((CollisionComponent)collisionCompomemt2).getHitList().add(alch_square);
 		CollisionShape myCollisionShape2 = CollisionShapeFactory.getInstance().createShape(CollisionConstants.CIRCLEShape);
@@ -104,7 +106,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.addComponent(mouseControllerComponent2);
 		gameObject2.addComponent(keyControllerComponent2);
 		gameObject2.addComponent(collisionCompomemt2);
-		
+		gameObject2.addComponent(mySprite2);
 		
 		this.myGameWorld.addGameObject(gameObject2, GameWorld.FrontLayer);
 	}

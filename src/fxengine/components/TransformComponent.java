@@ -19,7 +19,7 @@ public class TransformComponent extends Component{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		
+		isInitialized = true;
 	}
 
 	@Override

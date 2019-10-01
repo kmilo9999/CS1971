@@ -47,7 +47,7 @@ public class GameWorld {
 	
 	private int numGameObjects = 0;
 	
-	private Vec2d myScreenViewPortPos = new Vec2d(0);
+	private Vec2d myScreenViewPortPos = new Vec2d(100,50);
 
 	private Vec2d myScreenViewPortSize = new Vec2d(400);
 	
@@ -204,11 +204,15 @@ public class GameWorld {
 			
 			Vec2d scalesSize = graphicsSystem.getPanelScreenViewPortSize().smult(graphicsSystem.getViewportScaleFactor());
 			Vec2d diff = scalesSize.minus(graphicsSystem.getPanelScreenViewPortSize());
+			
+			//double deltaZoomFactor = 
+			
 			//System.out.println(diff);
 			
 			//graphicsSystem.getPanelScreenViewPortSize() * graphicsSystem.getViewportScaleFactor() - graphicsSystem.getPanelScreenViewPortSize(); 
 			
-			transform.appendTranslation(-diff.x,-diff.y) ;
+			//transform.appendTranslation(-diff.x + 25,-diff.y + 25) ;
+			transform.appendTranslation(-diff.x,-diff.y ) ;
 			
 			
 			graphicsCx.setTransform(transform);

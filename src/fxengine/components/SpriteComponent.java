@@ -1,93 +1,149 @@
 package fxengine.components;
 
 import fxengine.UISystem.Layout;
+import fxengine.UISystem.UIConstants;
 import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 
-public class SpriteComponent extends Layout{
+public class SpriteComponent extends Component {
 
-	protected Image mySourceImage;
+	private Layout myLayout;
+	private Image mySourceImage;
 	protected String myFilePath;
-	protected double myWidth;
-	protected double myHeight;
+	protected double myImageWidth;
+	protected double myImageHeight;
 	
 	
-	public SpriteComponent(String imagePath)
+	public SpriteComponent(String name)
 	{
-		super(0, 0, 0, 0);
-		this.myFilePath = imagePath;
-		this.mySourceImage = ResourceManager.loadRasterImage(imagePath);
-		this.myWidth = this.mySourceImage.getWidth();
-		this.myHeight = this.mySourceImage.getHeight();
-		
-		this.mySize = new Vec2d(this.myWidth,this.myHeight);
-	}
+		super(name);
 	
-	public SpriteComponent(Image image,String imagePath)
-	{
-		super(0, 0, 0, 0);
-		this.myFilePath = imagePath;
-		this.mySourceImage = image;
-		this.myWidth = this.mySourceImage.getWidth();
-		this.myHeight = this.mySourceImage.getHeight();
 		
-		this.mySize = new Vec2d(this.myWidth,this.myHeight);
 	}
 	
 	public SpriteComponent clone()
 	{
 		SpriteComponent clone = new SpriteComponent(this.myFilePath );
-		clone.myWidth = this.mySourceImage.getWidth();
-		clone.myHeight = this.mySourceImage.getHeight();
+		clone.myImageWidth = this.mySourceImage.getWidth();
+		clone.myImageHeight = this.mySourceImage.getHeight();
 		return clone;
 	}
 	
-	public void onDraw(GraphicsContext graphicsCx)
-	{
+	public double getWidth() {
+		return myImageWidth;
+	}
+
+	public void setWidth(double width) {
+		this.myImageWidth = width;
+	}
+
+	public double getHeight() {
+		return myImageHeight;
+	}
+
+	public void setHeight(double height) {
+		this.myImageHeight = height;
+	}
+
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		if(!isInitialized)
+		{
+			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				if(!transform.isInitialized)
+				{
+					transform.initialize();
+				}
+				
+				if(!this.myFilePath.isEmpty())
+				{
+					this.mySourceImage = ResourceManager.loadRasterImage(myFilePath);
+					this.myImageWidth = this.mySourceImage.getWidth();
+					this.myImageHeight = this.mySourceImage.getHeight();
+					myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.TRANSPARENT);
+				}
+			}
+			
+			
+			
+			isInitialized = true;
+		}
+	
+		
+	}
+
+	@Override
+	public void update(long nanosSincePreviousTick) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(GraphicsContext graphicsCx) {
+		// TODO Auto-generated method stub
 		if(this.mySourceImage != null)
 		{
 			//this.myColor = this.myIsHoverd? UIConstants.LIGTHGRAY:UIConstants.TRANSPARENT;
 			//this.myColor = UIConstants.LIGTHGRAY;
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
-			super.onDraw(graphicsCx);
 			
-			double x_off = 0;
-			double y_off = 0;
 			
-		    if(myPosition.x <=0)
+			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+			if(transform != null)
 			{
-				x_off =  this.myWidth - mySize.x ;
+				myLayout.setPosition(transform.getPosition());
+				myLayout.onDraw(graphicsCx);
+				
+				double x_off = 0;
+				double y_off = 0;
+				
+				
+				Vec2d positionScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(transform.getPosition());
+				
+			    if(positionScreenSpace.x <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x)
+				{
+					x_off =  this.myImageWidth - this.myLayout.getSize().x ;
+				}
+				
+				if(positionScreenSpace.y <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y)
+				{
+					y_off =  this.myImageHeight - this.myLayout.getSize().y ;
+				}
+				
+				graphicsCx.drawImage(mySourceImage,x_off,y_off,this.myLayout.getSize().x,this.myLayout.getSize().y,transform.getPosition().x,transform.getPosition().y,this.myLayout.getSize().x,this.myLayout.getSize().y);
 			}
 			
-			if(myPosition.y <= 0)
-			{
-				y_off =  this.myHeight - mySize.y ;
-			}
 			
-			graphicsCx.drawImage(mySourceImage,x_off,y_off,mySize.x,mySize.y,myPosition.x,myPosition.y,mySize.x,mySize.y);
 		}
-
-	}
-	
-	
-	public double getWidth() {
-		return myWidth;
 	}
 
-	public void setWidth(double width) {
-		this.myWidth = width;
+	public String getMyFilePath() {
+		return myFilePath;
 	}
 
-	public double getHeight() {
-		return myHeight;
+	public void setFilePath(String myFilePath) {
+		this.myFilePath = myFilePath;
 	}
 
-	public void setHeight(double height) {
-		this.myHeight = height;
+	public Layout getLayout() {
+		return myLayout;
+	}
+
+	public void setLayout(Layout myLayout) {
+		this.myLayout = myLayout;
 	}
 
 }
