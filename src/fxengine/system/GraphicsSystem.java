@@ -14,7 +14,7 @@ public class GraphicsSystem extends BaseGameSystem{
 	private List<List<GameObject>> myLayerGameObjects;
 	
 	private Vec2d panelScreenViewPortUpperLeft = new Vec2d(100,50);
-	private Vec2d panelScreenViewPortSize = new Vec2d(400);
+	private Vec2d panelScreenViewPortSize = new Vec2d(650,400);
 
 
 	private Vec2d panelGameViewPortUpperLeft = new Vec2d(0);

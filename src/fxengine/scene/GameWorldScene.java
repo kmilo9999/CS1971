@@ -48,7 +48,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
-		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
+		//this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
 		this.myGameWorld.initialize();
 		
 		
