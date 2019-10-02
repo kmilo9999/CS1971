@@ -22,10 +22,10 @@ public class AlchMenu {
 	{
 		myMenuLayout = new Layout(800, 50, 70, 350, UIConstants.TRANSPARENT,2.5);
 		myMenuLabel = new Label("Elements",800, 40, UIConstants.BLACK,Font.font ("Verdana", 20) );
-		mySqueareMenu = new AlchElementMenu("resources/img/square.png","SQUARE",800, 70);
-		myCircleMenu = new AlchElementMenu("resources/img/circle.png","CIRCLE",800, 160);
-		myTriangleMenu = new AlchElementMenu("resources/img/triangle.png","TRIANGLE",800, 250);
-		myStarMenu = new AlchElementMenu("resources/img/star.png","STAR",800, 330);
+		mySqueareMenu = new AlchElementMenu("img/square.png","SQUARE",800, 70);
+		myCircleMenu = new AlchElementMenu("img/circle.png","CIRCLE",800, 160);
+		myTriangleMenu = new AlchElementMenu("img/triangle.png","TRIANGLE",800, 250);
+		myStarMenu = new AlchElementMenu("img/star.png","STAR",800, 330);
 		myScene = scene;
 		
 		//myMenuLayout.addChildElement(mySqueareMenu);

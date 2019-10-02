@@ -53,7 +53,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite1 = new SpriteComponent(ComponentContants.sprite);
-		mySprite1.setFilePath("resources/img/square.png");
+		mySprite1.setFilePath("img/square.png");
 		((GraphicsComponent)graphicsComponent).setSprite(mySprite1);
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
@@ -89,7 +89,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.setTag(alch_circle);
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite2 = new SpriteComponent(ComponentContants.sprite);
-		mySprite2.setFilePath("resources/img/circle.png");
+		mySprite2.setFilePath("img/circle.png");
 		//((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
@@ -240,7 +240,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			((CollisionComponent)collisionCompoment).getHitList().add(alch_circle);
-			mySprite2 = new SpriteComponent("resources/img/diamon.png");
+			mySprite2 = new SpriteComponent("img/diamon.png");
 		}
 		else if(type.equals(alch_check)) {
 			
@@ -248,7 +248,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			((CollisionComponent)collisionCompoment).getHitList().add(alch_diamon);
-			mySprite2 = new SpriteComponent("resources/img/check.png");
+			mySprite2 = new SpriteComponent("img/check.png");
 		}
 		else if(type.equals(alch_arrow))
 		{	
@@ -256,7 +256,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			//((CollisionComponent)collisionCompoment).getHitList().add(alch_triangle);
-			mySprite2 = new SpriteComponent("resources/img/arrow.png");
+			mySprite2 = new SpriteComponent("img/arrow.png");
 		}
 		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		

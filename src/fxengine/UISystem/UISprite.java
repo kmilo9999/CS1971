@@ -21,7 +21,7 @@ public class UISprite extends Layout{
 		// TODO Auto-generated constructor stub
 		
 		this.myFilePath = filePath;
-		this.mySourceImage = ResourceManager.loadRasterImage(filePath);
+		this.mySourceImage = ResourceManager.getIntance().loadRasterImage(filePath);
 		this.myWidth = this.mySourceImage.getWidth();
 		this.myHeight = this.mySourceImage.getHeight();
 		

@@ -63,7 +63,7 @@ public class SpriteComponent extends Component {
 				
 				if(!this.myFilePath.isEmpty())
 				{
-					this.mySourceImage = ResourceManager.loadRasterImage(myFilePath);
+					this.mySourceImage = ResourceManager.getIntance().loadRasterImage(myFilePath);
 					this.myImageWidth = this.mySourceImage.getWidth();
 					this.myImageHeight = this.mySourceImage.getHeight();
 					myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
