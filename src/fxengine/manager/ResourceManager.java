@@ -2,14 +2,22 @@ package fxengine.manager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
+import fxengine.manager.Resource.ResourceType;
 import javafx.scene.image.Image;
 
 public class ResourceManager {
 
 	private static ResourceManager instance = null;
 	
-	private ResourceManager() {};
+	private Map<String,Resource> myResources; 
+	
+	private ResourceManager() {
+		myResources = new HashMap<String, Resource>();
+		
+	};
 	
 	public static ResourceManager getIntance()
 	{
@@ -21,12 +29,19 @@ public class ResourceManager {
 		return instance;
 	}
 	
-	public Image loadRasterImage(String path)
+	
+	public Resource createOrGetResource(String filePath, ResourceType type)
 	{
-		 Image img =null;
-		//img = new Image(new FileInputStream(path));
-		img = new Image(getClass().getClassLoader().getResource(path).toString(),false);
-		 return img;
+		if(myResources.containsKey(filePath))
+		{
+			return myResources.get(filePath);
+		}
+		
+		Resource resource = new Resource(filePath, type);
+		resource.load();
+		myResources.put(filePath,resource);
+		
+		return resource;
 	}
 	
 }

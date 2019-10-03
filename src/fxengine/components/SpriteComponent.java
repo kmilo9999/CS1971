@@ -2,6 +2,8 @@ package fxengine.components;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
+import fxengine.manager.Resource;
+import fxengine.manager.Resource.ResourceType;
 import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
@@ -63,10 +65,22 @@ public class SpriteComponent extends Component {
 				
 				if(!this.myFilePath.isEmpty())
 				{
-					this.mySourceImage = ResourceManager.getIntance().loadRasterImage(myFilePath);
-					this.myImageWidth = this.mySourceImage.getWidth();
-					this.myImageHeight = this.mySourceImage.getHeight();
-					myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
+					
+					
+					Resource imageResource = ResourceManager.getIntance().createOrGetResource(myFilePath, ResourceType.Image);
+					if(imageResource.isLoaded())
+					{
+						this.mySourceImage = imageResource.getImage();
+						this.myImageWidth = this.mySourceImage.getWidth();
+						this.myImageHeight = this.mySourceImage.getHeight();
+						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
+					}
+					else
+					{
+						isInitialized = false;
+						return;
+					}
+					
 				}
 			}
 			
