@@ -17,7 +17,7 @@ import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
-import javafx.scene.canvas.GraphicsContext;
+
 
 
 public class AlchScene extends GameWorldScene{
@@ -53,7 +53,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite1 = new SpriteComponent(ComponentContants.sprite);
-		mySprite1.setFilePath("resources/img/square.png");
+		mySprite1.setFilePath("img/square.png");
 		((GraphicsComponent)graphicsComponent).setSprite(mySprite1);
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
@@ -69,7 +69,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject.addComponent(tranformComponent);
 		gameObject.addComponent(mouseControllerComponent);
 		gameObject.addComponent(keyControllerComponent);
-		gameObject.addComponent(collisionCompomemt);
+		//gameObject.addComponent(collisionCompomemt);
 		
 		
 		
@@ -89,23 +89,23 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.setTag(alch_circle);
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite2 = new SpriteComponent(ComponentContants.sprite);
-		mySprite2.setFilePath("resources/img/circle.png");
+		mySprite2.setFilePath("img/circle.png");
 		//((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
 		((TransformComponent)tranformComponent2).setPosition(new Vec2d(50));
-		Component collisionCompomemt2 =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
-		((CollisionComponent)collisionCompomemt2).getHitList().add(alch_square);
+		Component collisionComponemt2 =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
+		((CollisionComponent)collisionComponemt2).getHitList().add(alch_square);
 		CollisionShape myCollisionShape2 = CollisionShapeFactory.getInstance().createShape(CollisionConstants.CIRCLEShape);
-		((CollisionComponent)collisionCompomemt2).setCollisionShape(myCollisionShape2);
+		((CollisionComponent)collisionComponemt2).setCollisionShape(myCollisionShape2);
 		
 		
 		gameObject2.addComponent(graphicsComponent2);
 		gameObject2.addComponent(tranformComponent2);
 		gameObject2.addComponent(mouseControllerComponent2);
 		gameObject2.addComponent(keyControllerComponent2);
-		gameObject2.addComponent(collisionCompomemt2);
+		//gameObject2.addComponent(collisionComponemt2);
 		gameObject2.addComponent(mySprite2);
 		
 		this.myGameWorld.addGameObject(gameObject2, GameWorld.FrontLayer);
@@ -116,7 +116,7 @@ public class AlchScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.FrontLayer);
+		/*List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.FrontLayer);
 	    for(GameObject gameObject:gameObjects)
 	    {
 	       //if(!gameObject.isMarkForDestoryed())
@@ -154,18 +154,12 @@ public class AlchScene extends GameWorldScene{
 		    			      
 		    		   }
 		    		    
-		    		   
-		    			/*
-						((GameObject) myGameObjects.get(i)).getGameWorld()
-								.toRemoveGameObject(((GameObject) myGameObjects.get(i)).getId());
-						
-						((GameObject) myGameObjects.get(i)).getGameWorld()
-						.toRemoveGameObject(((GameObject) myGameObjects.get(j)).getId());*/
+		    		
 		    	   }
 		       //}
 	       }
 	      
-	    }
+	    }*/
 	    
 	    super.onTick(nanosSincePreviousTick);
 	}
@@ -176,8 +170,8 @@ public class AlchScene extends GameWorldScene{
 		String newId = id + (this.myGameWorld.getNumGameObjects() + 1);
 		GameObject alchGameObject = new GameObject(newId);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		SpriteComponent sprite = new SpriteComponent(element.getFilePath());
-		((GraphicsComponent)graphicsComponent).setSprite(sprite);
+		SpriteComponent sprite = new SpriteComponent(ComponentContants.sprite);
+		sprite.setFilePath(element.getFilePath());
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
@@ -196,7 +190,7 @@ public class AlchScene extends GameWorldScene{
 			alchGameObject.setTag(alch_square);
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
-			//((CollisionComponent)collisionCompoment).getHitList().add(alch_circle);
+			((CollisionComponent)collisionCompoment).getHitList().add(alch_circle);
 		}
 		if(element.getElementType().equals("TRIANGLE")) {
 			
@@ -217,7 +211,8 @@ public class AlchScene extends GameWorldScene{
 		alchGameObject.addComponent(tranformComponent);
 		alchGameObject.addComponent(mouseControllerComponent);
 		alchGameObject.addComponent(keyControllerComponent);
-		alchGameObject.addComponent(collisionCompoment);
+		//alchGameObject.addComponent(collisionCompoment);
+		alchGameObject.addComponent(sprite);
 		
 		this.myGameWorld.addGameObject(alchGameObject, GameWorld.FrontLayer);
 		
@@ -245,7 +240,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			((CollisionComponent)collisionCompoment).getHitList().add(alch_circle);
-			mySprite2 = new SpriteComponent("resources/img/diamon.png");
+			mySprite2 = new SpriteComponent("img/diamon.png");
 		}
 		else if(type.equals(alch_check)) {
 			
@@ -253,7 +248,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			((CollisionComponent)collisionCompoment).getHitList().add(alch_diamon);
-			mySprite2 = new SpriteComponent("resources/img/check.png");
+			mySprite2 = new SpriteComponent("img/check.png");
 		}
 		else if(type.equals(alch_arrow))
 		{	
@@ -261,7 +256,7 @@ public class AlchScene extends GameWorldScene{
 			CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 			((CollisionComponent)collisionCompoment).setCollisionShape(myCollisionShape);
 			//((CollisionComponent)collisionCompoment).getHitList().add(alch_triangle);
-			mySprite2 = new SpriteComponent("resources/img/arrow.png");
+			mySprite2 = new SpriteComponent("img/arrow.png");
 		}
 		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
 		

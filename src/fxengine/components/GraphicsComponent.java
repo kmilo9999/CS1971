@@ -179,7 +179,7 @@ public class GraphicsComponent extends Component{
 					transformComponent.getPosition().plus(new Vec2d(mySprite.getWidth(), mySprite.getHeight())));
 
 			double startPosX = Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
-			startPosX = Math.min(startPosX, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.y);
+			startPosX = Math.min(startPosX, myPanelScreenViewPortUpperLeft.x + myPanelScreenViewPortSize.x);
 
 			double startPosY = Math.max(currentPositionInScreenSpace.y, myPanelScreenViewPortUpperLeft.y);
 			startPosY = Math.min(startPosY, myPanelScreenViewPortUpperLeft.y + myPanelScreenViewPortSize.y);

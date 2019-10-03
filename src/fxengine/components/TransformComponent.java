@@ -4,18 +4,17 @@ import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
-public class TransformComponent extends Component{
+public class TransformComponent extends Component {
 
 	private Vec2d myPosition = new Vec2d(0);
 	private Vec2d myRotation;
-	private Vec2d myScale  = new Vec2d(1);
-	
-	
+	private Vec2d myScale = new Vec2d(1);
+
 	public TransformComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
@@ -25,15 +24,15 @@ public class TransformComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public Vec2d getPosition() {
 		return myPosition;
 	}
@@ -61,17 +60,14 @@ public class TransformComponent extends Component{
 	@Override
 	public void draw(GraphicsContext graphicsCx) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Component clone() {
 		Component clone = ComponentFactory.getInstance().createComponent(this.myName);
-		clone.myParent =this.myParent;
+		clone.myParent = this.myParent;
 		return clone;
 	}
-
-	
-
 
 }

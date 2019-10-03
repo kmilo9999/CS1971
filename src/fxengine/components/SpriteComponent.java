@@ -2,6 +2,8 @@ package fxengine.components;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
+import fxengine.manager.Resource;
+import fxengine.manager.Resource.ResourceType;
 import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
@@ -63,10 +65,22 @@ public class SpriteComponent extends Component {
 				
 				if(!this.myFilePath.isEmpty())
 				{
-					this.mySourceImage = ResourceManager.loadRasterImage(myFilePath);
-					this.myImageWidth = this.mySourceImage.getWidth();
-					this.myImageHeight = this.mySourceImage.getHeight();
-					myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.TRANSPARENT);
+					
+					
+					Resource imageResource = ResourceManager.getIntance().createOrGetResource(myFilePath, ResourceType.Image);
+					if(imageResource.isLoaded())
+					{
+						this.mySourceImage = imageResource.getImage();
+						this.myImageWidth = this.mySourceImage.getWidth();
+						this.myImageHeight = this.mySourceImage.getHeight();
+						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
+					}
+					else
+					{
+						isInitialized = false;
+						return;
+					}
+					
 				}
 			}
 			
@@ -104,26 +118,27 @@ public class SpriteComponent extends Component {
 			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			if(transform != null)
 			{
-				myLayout.setPosition(transform.getPosition());
+				Vec2d layoutScreenPos = new Vec2d(myLayout.getPosition()).minus(this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft());
+				myLayout.setPosition(layoutScreenPos);
 				myLayout.onDraw(graphicsCx);
 				
 				double x_off = 0;
 				double y_off = 0;
 				
 				
-				Vec2d positionScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(transform.getPosition());
-				
-			    if(positionScreenSpace.x <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x)
+			    if(layoutScreenPos.x <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x)
 				{
 					x_off =  this.myImageWidth - this.myLayout.getSize().x ;
 				}
 				
-				if(positionScreenSpace.y <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y)
+				if(layoutScreenPos.y <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y)
 				{
 					y_off =  this.myImageHeight - this.myLayout.getSize().y ;
 				}
 				
-				graphicsCx.drawImage(mySourceImage,x_off,y_off,this.myLayout.getSize().x,this.myLayout.getSize().y,transform.getPosition().x,transform.getPosition().y,this.myLayout.getSize().x,this.myLayout.getSize().y);
+				graphicsCx.drawImage(mySourceImage,x_off,y_off,this.myLayout.getSize().x,
+						this.myLayout.getSize().y,layoutScreenPos.x,layoutScreenPos.y,
+						this.myLayout.getSize().x,this.myLayout.getSize().y);
 			}
 			
 			

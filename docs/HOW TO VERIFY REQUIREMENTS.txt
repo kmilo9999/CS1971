@@ -2,36 +2,24 @@
 
 
 Primary Engine Requirements
-
-- Engine supports collisions between points, circles, and AABs: Check the classes in the package fxengine.collision. All the colliding shapes are in that folder
-- This is done using a collision system and collision behavior: chekc the classes fxengine.system.CollisionSystem and fxengine.components.CollisionComponent
-- Collision checking is done using double dispatch (or with similarly clean implementation):  Check the code in classes fxengine.collision.CircleCollisionShape:collidesAABShape and
-  fxengine.collision.AABCollideShape:collidesCircle
+- Your engine must have a System class that contains a List or Set of GameObjects: Check the class fxengine.system.BaseGameSystem
+- Your engine must have a class representing the game world. That class must hold at least one system: Check the class fxengine.objects.GameWorld. it has an attribute call this.mySystems which is a list of game systems
 
 Primary Game Requirements:
-- You have the TA debugger: I added the folder debugger to the project
-- The debugger has been completed to quickly and accurately show collisions between any pair of:	
-  - points  : yes
-  - circles  :yes 
-  - AABs : yes 
-  - compound shapes : no
- 
-- You have:
-	
-  - two base elements in the menu
- : yes	
-  - which can be copied and dragged into the workspace
-	: yes
-  - without destroying or moving the original, and
-	: yes
-  - which can combine to make a new element: yes 
+- There must be a unit visible in the viewport: start the application and you will see a circle representing a gameobject
+- The unit must respond to being clicked (only when the unit itself is clicked)
+- The unit must be able to be dragged freely: right click on the gameobject and dragged it
+- The unit should be drawn and moved using separate components: I have a component fxengine.componentsTransformComponent to move elements in game space, and the component fxengine.components.MouseControllerBehaviorComponent to move gameobjects in screen space
+
+
+
 
 Secondary Engine Requirements
-=======================================
+- The viewport must support zooming (scaling of the currently viewable GameState): scroll the mosue wheel
 
-- Engine supports a sprite behavior: check the class fxengine.component.SpriteComponent
-- Spritesheets/sprites are only loaded once: technically, it only loads an image once. However, when anothe game object wants to use the sam spritesheet. It creates it again
-- All elements have unique sprites & use sprite behavior: check the classes fxengine.component.SpriteComponent and fxengine.UISystem.UISprite
+Secondary Game Requirements 
+- There must be a menu from which the player can make a copy of a unity by clicking anddragging it, without the original being destroyed or moved: there is a menu at the right side of the application
+
 
 
 

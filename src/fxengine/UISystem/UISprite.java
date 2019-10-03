@@ -1,6 +1,7 @@
 package fxengine.UISystem;
 
 import fxengine.manager.ResourceManager;
+import fxengine.manager.Resource.ResourceType;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -21,7 +22,7 @@ public class UISprite extends Layout{
 		// TODO Auto-generated constructor stub
 		
 		this.myFilePath = filePath;
-		this.mySourceImage = ResourceManager.loadRasterImage(filePath);
+		this.mySourceImage = ResourceManager.getIntance().createOrGetResource(filePath, ResourceType.Image).getImage();
 		this.myWidth = this.mySourceImage.getWidth();
 		this.myHeight = this.mySourceImage.getHeight();
 		

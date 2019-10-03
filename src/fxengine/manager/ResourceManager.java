@@ -2,28 +2,46 @@ package fxengine.manager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
+import fxengine.manager.Resource.ResourceType;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 
 public class ResourceManager {
 
+	private static ResourceManager instance = null;
 	
-	public static Image loadRasterImage(String path)
+	private Map<String,Resource> myResources; 
+	
+	private ResourceManager() {
+		myResources = new HashMap<String, Resource>();
+		
+	};
+	
+	public static ResourceManager getIntance()
 	{
-		  System.out.println(new java.io.File("").getAbsolutePath());
-		  
-		 Image img =null;
-		try {
-			img = new Image(new FileInputStream(path));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(instance == null)
+		{
+			instance = new ResourceManager();
 		}
-		 return img;
+		
+		return instance;
+	}
+	
+	
+	public Resource createOrGetResource(String filePath, ResourceType type)
+	{
+		if(myResources.containsKey(filePath))
+		{
+			return myResources.get(filePath);
+		}
+		
+		Resource resource = new Resource(filePath, type);
+		resource.load();
+		myResources.put(filePath,resource);
+		
+		return resource;
 	}
 	
 }

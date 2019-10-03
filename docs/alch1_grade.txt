@@ -3,65 +3,65 @@
 [ ] - Secondary
 Total: -/4
 
-Retries used: NONE STANDARD EXTRA (2 extra retries remaining)
+Retries used: 1 STANDARD EXTRA (1 extra retries remaining)
 
-[ ] - Attended a design check
-[ ] - Completed playtesting
+[] - Attended a design check
+[] - Completed playtesting
 
 ========================================
 
 Playtesting Requirements
 ========================================
 [ ] - Handin meets all global requirements
-[ ] - Handin only crashes on edge cases
-[ ] - Viewport is visible
-[ ] - Viewport allows panning
+[X] - Handin only crashes on edge cases
+[X] - Viewport is visible
+[X] - Viewport allows panning
 
 Primary Engine Requirements
 ========================================
-[ ] - System class containing a List or Set of GameObjects
-[ ] - GameWorld class
+[X] - System class containing a List or Set of GameObjects
+[X] - GameWorld class
 
 Primary Game Requirements
 ========================================
 [ ] - Handin meets all playtesting requirements
-[ ] - No game logic is handled outside of the game world
-[ ] - Most game logic is contained within behaviors
-[ ] - GameObjects do not gain any functionality from inheritance
-[ ] - Behaviors are extensible- no hardcoding required to add new behaviors
-[ ] - Systems are extensible- minimal hardcoding required to add new systems
-[ ] - Unit visible in the viewport
-[ ] - Unit responds to being clicked
-[ ] - Unit is freely movable
-[ ] - Unit is drawn and moved with separate behaviors
+[X] - No game logic is handled outside of the game world
+[X] - Most game logic is contained within behaviors
+[X] - GameObjects do not gain any functionality from inheritance
+[X] - Behaviors are extensible- no hardcoding required to add new behaviors
+[X] - Systems are extensible- minimal hardcoding required to add new systems
+[X] - Unit visible in the viewport
+[X] - Unit responds to being clicked
+[X] - Unit is freely movable
+[X] - Unit is drawn and moved with separate behaviors
 
 Secondary Engine Requirements
 =======================================
 [ ] - Handin meets all primary engine requirements
-[ ] - Viewport allows zooming
+[X] - Viewport allows zooming
 
 Secondary Game Requirements
 ======================================
 [ ] - Handin meets all primary game requirements
-[ ] - Player can zoom the viewport
+[X] - Player can zoom the viewport
 [ ] - Clicking isn't broken when zooming
-[ ] - Player can make copies of the unit by clicking and dragging it from a menu
-[ ] - Original is not destroyed or moved when making copies
+[X] - Player can make copies of the unit by clicking and dragging it from a menu
+[X] - Original is not destroyed or moved when making copies
 
 Global Requirements (you don't need to show how to verify these)
 ======================================
-[ ] - Eclipse project or ant build file
-[ ] - README
-    [ ] - has a copy of the rubric
-    [ ] - shows how to verify non-global requirements
-    [ ] - documents known bugs
-    [ ] - approximate hours to complete checkpoint
-[ ] - INSTRUCTIONS file included
-[ ] - No external dependencies
-[ ] - Engine and game in separate packages
-[ ] - Engine and game logically separated
-[ ] - Engine code isn't horribly designed
-[ ] - Game code isn't horribly designed
-[ ] - Handin runs on department machines
-[ ] - Handin isn't permanent fixed size
-[ ] - Handin runs 20+ UPS
+[X] - Eclipse project or ant build file
+[X] - README
+    [X] - has a copy of the rubric
+    [X] - shows how to verify non-global requirements
+    [X] - documents known bugs
+    [X] - approximate hours to complete checkpoint
+[X] - INSTRUCTIONS file included
+[X] - No external dependencies
+[X] - Engine and game in separate packages
+[X] - Engine and game logically separated
+[X] - Engine code isn't horribly designed
+[X] - Game code isn't horribly designed
+[] - Handin runs on department machines
+[] - Handin isn't permanent fixed size
+[X] - Handin runs 20+ UPS

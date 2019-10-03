@@ -8,9 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class MouseControllerBehaviorComponent extends MouseEventComponent {
 
-	
 
-	
 	public MouseControllerBehaviorComponent(String name) {
 		super(name);
 	}
