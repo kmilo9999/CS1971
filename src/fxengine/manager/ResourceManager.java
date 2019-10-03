@@ -1,12 +1,9 @@
 package fxengine.manager;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 import fxengine.manager.Resource.ResourceType;
-import javafx.scene.image.Image;
 
 public class ResourceManager {
 
