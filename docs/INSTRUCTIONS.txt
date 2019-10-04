@@ -4,6 +4,13 @@
 4. to pan the game world press ctr + left click and move the mouse
 5. to zoom in scroll the mouse wheel up. to zoom out scroll the mouse wheel down
 6. Drag elements from the left menu to the game viewport.
+7. Try the different combinations
+
+   Square + Circle
+   Diamon + tirangle
+   Triangle + Star
+   Check + Diamon
+   Cloud + Diamon
 
 
 ENJOY

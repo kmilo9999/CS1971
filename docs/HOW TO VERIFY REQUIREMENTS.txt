@@ -1,25 +1,33 @@
 ﻿
 
 
-Primary Engine Requirements
-- Your engine must have a System class that contains a List or Set of GameObjects: Check the class fxengine.system.BaseGameSystem
-- Your engine must have a class representing the game world. That class must hold at least one system: Check the class fxengine.objects.GameWorld. it has an attribute call this.mySystems which is a list of game systems
+Playtesting Requirements
+- Element is displayed in viewport: open the application
+- Element can be moved around the workspace: move the elements in the viewport
+- Element is rendered using a sprite: all the images on the game objects are being draw using the component fxengine.components.SpriteComponent
+
+Primary Engine Requirements:
+- Engine supports collisions between points, circles, and AABs: Check the component fxengine.components.CollisionComponent and CollisionShape
+- This is done using a collision system and collision behavior:
+- Collision checking is done using double dispatch (or with similarly clean implementation): check out classes CircleCollisionShape and AABCollideShape
 
 Primary Game Requirements:
-- There must be a unit visible in the viewport: start the application and you will see a circle representing a gameobject
-- The unit must respond to being clicked (only when the unit itself is clicked)
-- The unit must be able to be dragged freely: right click on the gameobject and dragged it
-- The unit should be drawn and moved using separate components: I have a component fxengine.componentsTransformComponent to move elements in game space, and the component fxengine.components.MouseControllerBehaviorComponent to move gameobjects in screen space
-
+- two base elements in the menu : I have 4
+- which can be copied and dragged into the workspace: you can drag elements form the menu to the viewport
+- without destroying or moving the original
+- which can combine to make a new element : 
 
 
 
 Secondary Engine Requirements
-- The viewport must support zooming (scaling of the currently viewable GameState): scroll the mosue wheel
+- Engine supports a sprite behavior: check fxengine.components.SpriteComponent
+- Spritesheets/sprites are only loaded once: check fxengine.manager.ResourceManager. I have a map of resources with the file path, object pair.
 
 Secondary Game Requirements 
-- There must be a menu from which the player can make a copy of a unity by clicking anddragging it, without the original being destroyed or moved: there is a menu at the right side of the application
-
+- All elements have unique sprites & use sprite behavior
+- four base elements: Circle, square, triangle, star
+ - three non-base elements: check, diamon, cloud
+ - one final element: BDZ image
 
 
 

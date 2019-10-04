@@ -124,11 +124,17 @@ public class GameWorld {
 			
 			
 			//	add new objects
-			for(List<GameObject> newObjects:myDirtyObjects)
+			
+		    for(int i = 0; i< myDirtyObjects.size();i++)
 			{
+		      List<GameObject> newObjects = myDirtyObjects.get(i);
+		      List<GameObject> gameObjectLayer= myGameObjects.get(i);
+		      
 			  for(GameObject newObject:newObjects)
 			   {
-				 myGameObjects.add(newObjects);
+				  
+				 gameObjectLayer.add(newObject);
+				 newObject.setLayerOrder(i);
 		         for(Map.Entry<String,BaseGameSystem>  systemEntry : mySystems.entrySet())
 				 {
 		        	 systemEntry.getValue().addGameObject(newObject);		
@@ -140,10 +146,14 @@ public class GameWorld {
 				 
 			}
 		 
-		   //myDirtyObjects.clear();
-			myDirtyObjects.get(0).clear();
-			toRemoveList.clear();
-			//myDirtyObjects.get(1).clear();
+		   for(List<GameObject> dirtyLayer:myDirtyObjects)
+		   {
+			   dirtyLayer.clear();
+		   }
+		    
+		   //myDirtyObjects.get(0).clear();
+		   toRemoveList.clear();
+		   //myDirtyObjects.get(1).clear();
 		   myNeedsUpdate = false;
 		}
 		

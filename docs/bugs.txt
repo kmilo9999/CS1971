@@ -1,2 +1,3 @@
-It doesnt resize the game elements on the screen. I did not know how to implement this funcitonality
+It doesnt resize the game elements on the screen. 
 It zooms but it doesnt clip elements in the scaled viewport
+sometimes the elements dragged form the menu get stuck in between the game viewport and the menu
