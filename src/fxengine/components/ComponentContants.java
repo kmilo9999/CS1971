@@ -13,6 +13,7 @@ public class ComponentContants {
 	public static final String controlled = "CONTROLLED";
 	public static final String collision = "COLLISION";
 	public static final String sprite = "SPRITE";
+	public static final String sprite_animation = "ANIMATION";
 	
 	
 	

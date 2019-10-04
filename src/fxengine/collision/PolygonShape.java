@@ -43,7 +43,7 @@ public  class PolygonShape extends CollisionShape {
 	}
 
 	@Override
-	public void initialize(Vec2d position, Vec2d size) {
+	public void update(Vec2d position, Vec2d size) {
 		// TODO Auto-generated method stub
 		
 	}

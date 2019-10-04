@@ -12,11 +12,16 @@ import javafx.scene.image.Image;
 
 public class SpriteComponent extends Component {
 
-	private Layout myLayout;
-	private Image mySourceImage;
+	protected Layout myLayout;
+	protected Image mySourceImage;
 	protected String myFilePath;
 	protected double myImageWidth;
 	protected double myImageHeight;
+	protected double myXClipOffSet = 0;
+	protected double myYClipOffSet = 0;
+	protected double mySpriteXCoordinates = 0;
+	protected double mySpriteYCoordinates = 0;
+	
 	
 	
 	public SpriteComponent(String name)
@@ -66,13 +71,8 @@ public class SpriteComponent extends Component {
 				if(!this.myFilePath.isEmpty())
 				{
 					
-					
-					Resource imageResource = ResourceManager.getIntance().createOrGetResource(myFilePath, ResourceType.Image);
-					if(imageResource.isLoaded())
+					if(loadImageSprite())
 					{
-						this.mySourceImage = imageResource.getImage();
-						this.myImageWidth = this.mySourceImage.getWidth();
-						this.myImageHeight = this.mySourceImage.getHeight();
 						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
 					}
 					else
@@ -95,7 +95,22 @@ public class SpriteComponent extends Component {
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		
+		TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+		if(transform != null)
+		{
+			Vec2d layoutScreenPos = new Vec2d(myLayout.getPosition()).minus(this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft());
+			
+			
+		    if(layoutScreenPos.x <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x)
+			{
+				myXClipOffSet =  this.myImageWidth - this.myLayout.getSize().x ;
+			}
+			
+			if(layoutScreenPos.y <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y)
+			{
+				myYClipOffSet =  this.myImageHeight - this.myLayout.getSize().y ;
+			}
+		}
 	}
 
 	@Override
@@ -114,32 +129,15 @@ public class SpriteComponent extends Component {
 			//this.myShape.setPosition(myPosition);
 			//this.myShape.onDraw(graphicsCx);
 			
+			Vec2d layoutScreenPos = new Vec2d(myLayout.getPosition()).minus(this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft());
+			myLayout.setPosition(layoutScreenPos);
+			myLayout.onDraw(graphicsCx);
 			
-			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-			if(transform != null)
-			{
-				Vec2d layoutScreenPos = new Vec2d(myLayout.getPosition()).minus(this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft());
-				myLayout.setPosition(layoutScreenPos);
-				myLayout.onDraw(graphicsCx);
 				
-				double x_off = 0;
-				double y_off = 0;
-				
-				
-			    if(layoutScreenPos.x <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().x)
-				{
-					x_off =  this.myImageWidth - this.myLayout.getSize().x ;
-				}
-				
-				if(layoutScreenPos.y <= this.myParent.getGameWorld().getPanelScreenViewPortUpperLeft().y)
-				{
-					y_off =  this.myImageHeight - this.myLayout.getSize().y ;
-				}
-				
-				graphicsCx.drawImage(mySourceImage,x_off,y_off,this.myLayout.getSize().x,
+			graphicsCx.drawImage(mySourceImage, mySpriteXCoordinates + myXClipOffSet,mySpriteYCoordinates +myYClipOffSet,this.myLayout.getSize().x,
 						this.myLayout.getSize().y,layoutScreenPos.x,layoutScreenPos.y,
 						this.myLayout.getSize().x,this.myLayout.getSize().y);
-			}
+			
 			
 			
 		}
@@ -159,6 +157,40 @@ public class SpriteComponent extends Component {
 
 	public void setLayout(Layout myLayout) {
 		this.myLayout = myLayout;
+	}
+	
+	protected boolean loadImageSprite()
+	{
+		if(!this.myFilePath.isEmpty())
+		{
+				
+			Resource imageResource = ResourceManager.getIntance().createOrGetResource(myFilePath, ResourceType.Image);
+			if(imageResource.isLoaded())
+			{
+				this.mySourceImage = imageResource.getImage();
+				this.myImageWidth = this.mySourceImage.getWidth();
+				this.myImageHeight = this.mySourceImage.getHeight();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public double getMySpriteXCoordinates() {
+		return mySpriteXCoordinates;
+	}
+
+	public void setMySpriteXCoordinates(double mySpriteXCoordinates) {
+		this.mySpriteXCoordinates = mySpriteXCoordinates;
+	}
+
+	public double getMySpriteYCoordinates() {
+		return mySpriteYCoordinates;
+	}
+
+	public void setMySpriteYCoordinates(double mySpriteYCoordinates) {
+		this.mySpriteYCoordinates = mySpriteYCoordinates;
 	}
 
 }

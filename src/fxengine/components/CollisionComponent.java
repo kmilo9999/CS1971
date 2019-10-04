@@ -59,7 +59,7 @@ public class CollisionComponent extends Component{
 					graphics.initialize();
 				}
 				
-				myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
+				myCollisionShape.update(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
 			}
 			
 			isInitialized = true;
@@ -76,7 +76,7 @@ public class CollisionComponent extends Component{
 		
 		if(tranform != null && graphics != null)
 		{
-			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
+			myCollisionShape.update(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
 		}
 	}
 
