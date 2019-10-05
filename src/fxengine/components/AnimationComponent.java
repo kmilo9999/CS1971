@@ -154,8 +154,14 @@ public class AnimationComponent extends SpriteComponent{
 	
 	public Vec2d getPosCurrentFrame()
 	{
-		return new Vec2d(myFramePosition.x + myCurrentFrame% myFrameSize.x,
-				myFramePosition.y + myCurrentFrame / myFrameSize.x);
+		double row = Math.floor(myCurrentFrame / myNumFrames.x);
+	    double col = Math.floor(myCurrentFrame % myNumFrames.x);
+	    
+	    double posx = myFramePosition.x + col * myFrameSize.x; 
+	    double posy = myFramePosition.y + row * myFrameSize.y;
+		//double posx = myFramePosition.x + (myCurrentFrame * myFrameSize.x) % myNumFrames.x;
+		//double posy = myFramePosition.y + (myCurrentFrame * myFrameSize.y)/ myNumFrames.x;
+		return new Vec2d(posx,posy);
 	}
 
 }

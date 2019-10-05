@@ -18,7 +18,9 @@ import fxengine.scene.GameWorldScene;
 
 public class WizScene extends GameWorldScene{
 
-	
+	private GameObject gameObject;
+	private long myLapseTime = 0;
+	private int currentFrame = 3;
 	
 	public WizScene(String name, FXFrontEnd application) {
 		super(name, application);
@@ -37,14 +39,15 @@ public class WizScene extends GameWorldScene{
 		animation.setNumFrames(new Vec2d(3,4));*/
 		
 		
-		GameObject gameObject = new GameObject("warrior");
+		gameObject = new GameObject("warrior");
 		//gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		AnimationComponent animation = new AnimationComponent(ComponentContants.sprite_animation);
 		animation.setFilePath("img/charactes_sprite_sheet.png");
 		animation.setFrameSize(new Vec2d(32,36));
 		animation.setNumFrames(new Vec2d(3,4));
-		animation.setFramePosition(new Vec2d(0,0));
+		animation.setFramePosition(new Vec2d(0,36));
+		animation.setCurrentFrame(currentFrame);
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
@@ -81,6 +84,19 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
+		
+		AnimationComponent animation = (AnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
+		
+		myLapseTime += nanosSincePreviousTick;
+		if(myLapseTime > 1000000000)
+		{
+			currentFrame++;
+			animation.setCurrentFrame(currentFrame );
+			myLapseTime -= 1000000000;
+		}
+		
+		//animation.setCurrentFrame(5);
+		
 		super.onTick(nanosSincePreviousTick);
 	}
 }
