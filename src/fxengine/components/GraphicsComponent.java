@@ -52,12 +52,17 @@ public class GraphicsComponent extends Component{
 			myXMin = myPanelScreenViewPortUpperLeft.x;
 			myYMin = myPanelScreenViewPortUpperLeft.y;
 			
-			if(this.myParent.hasComponent(ComponentContants.sprite))
+		    if(this.myParent.hasComponent(ComponentContants.sprite)  )
 			{
-				((SpriteComponent) this.myParent.getComponent(ComponentContants.sprite)).initialize();;
-				
+				((SpriteComponent) this.myParent.getComponent(ComponentContants.sprite)).initialize();
 				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
 			}
+		    else if(this.myParent.hasComponent(ComponentContants.sprite_animation))
+		    {
+		    	((AnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation)).initialize();
+				this.mySprite = (AnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);	
+		    }
+		   
 			isInitialized= true;
 		}
 	
@@ -106,37 +111,11 @@ public class GraphicsComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		if(this.myParent.hasComponent(ComponentContants.transform))
+		if(this.myParent.hasComponent(ComponentContants.sprite) ||
+				this.myParent.hasComponent(ComponentContants.sprite_animation))
 		{
-			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-			if(transformComponent != null)
-			{
-				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				//mySprite.setPosition(screenPosition);
-				//this is world position
-				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				//mySprite.setPosition(screenPosition);	
-				
-				
-				//is this world space??
-				/*double xPos =  0;
-				double yPos =  0;
-				
-				Vec2d currentPositionInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				if(currentPositionInScreenSpace.x < myPanelScreenViewPortUpperLeft.x)
-				{
-					
-				}
-				if (currentPositionInScreenSpace.y < myPanelScreenViewPortUpperLeft.y)
-				{
-					
-				}*/
-				
-				//mySprite.setPosition(transformComponent.getPosition());	
-				
-			}
-			 
-		}	
+			mySprite.update(nanosSincePreviousTick);
+		}
 	}
 
 	@Override
@@ -170,12 +149,9 @@ public class GraphicsComponent extends Component{
 				.getComponent(ComponentContants.transform);
 		if (transformComponent != null) {
 
-			// Vec2d spriteSizeGameSpace =
-			// this.myParent.getGameWorld().screenToGameTransform(new
-			// Vec2d(mySprite.getWidth(),mySprite.getHeight()));
 			Vec2d currentPositionInScreenSpace = this.myParent.getGameWorld()
 					.gameToScreenTransform(transformComponent.getPosition());
-			Vec2d currentSizeInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(
+			Vec2d sizeInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(
 					transformComponent.getPosition().plus(new Vec2d(mySprite.getWidth(), mySprite.getHeight())));
 
 			double startPosX = Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
@@ -188,8 +164,8 @@ public class GraphicsComponent extends Component{
 
 			Vec2d p1 = currentPositionInScreenSpace;
 
-			Vec2d currentWidth = new Vec2d(currentSizeInScreenSpace.x, p1.y);
-			Vec2d currentHeigth = new Vec2d(p1.x, currentSizeInScreenSpace.y);
+			Vec2d currentWidth = new Vec2d(sizeInScreenSpace.x, p1.y);
+			Vec2d currentHeigth = new Vec2d(p1.x, sizeInScreenSpace.y);
 
 			double vCurretWidth = Math.max(p1.dist(currentWidth), mySprite.getWidth());
 			double vCurretHeight = Math.max(p1.dist(currentHeigth), mySprite.getHeight());

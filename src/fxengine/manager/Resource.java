@@ -73,6 +73,8 @@ public class Resource {
 				return;
 			}
 			
+				System.err.println("Image " + this.myFilePath + "not found");
+			
 		}
 		
 		// So far only supports Images

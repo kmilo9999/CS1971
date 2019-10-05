@@ -3,13 +3,19 @@ package fxengine.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import fxengine.UISystem.Layout;
+import fxengine.UISystem.UIConstants;
+import fxengine.manager.Resource;
+import fxengine.manager.ResourceManager;
+import fxengine.manager.Resource.ResourceType;
 import fxengine.math.Vec2d;
 
 public class AnimationComponent extends SpriteComponent{
 
 	private List<Vec2d> myFrames;
 	private Vec2d myFrameSize;
-	private int myNumFrames;
+	private Vec2d myNumFrames;
+	private Vec2d myFramePosition;
 	private String myAnimationName;
     private int myCurrentFrame = 0;
 	
@@ -23,25 +29,82 @@ public class AnimationComponent extends SpriteComponent{
 	@Override
 	public void initialize() 
 	{
-  	    // load image and layout 
-		super.initialize();
-		for(int i = 0; i < myNumFrames; i++)
-		{
-			double xPos = i * myFrameSize.x;
-			double yPos = myFrameSize.y;
-			myFrames.add(new Vec2d(xPos,yPos));
+  	    if(!isInitialized)
+  	    {
+  	   // load image and layout 
+  			//super.initialize();
+  	    	TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				if(!transform.isInitialized)
+				{
+					transform.initialize();
+				}
+				
+				if(!this.myFilePath.isEmpty())
+				{
+					
+					if(loadImageSprite())
+					{
+						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myFrameSize.x, this.myFrameSize.y, UIConstants.GRAY);
+			  			for(int i = 0; i < myNumFrames.x ; i++)
+			  			{
+			  				double xPos = (i * myFrameSize.x) + myFramePosition.x;
+			  				
+			  				for(int j = 0 ; j < myNumFrames.y;j++)
+			  				{
+			  					
+			  					double yPos = (j * myFrameSize.y) + myFramePosition.y;
+			  					myFrames.add(new Vec2d(xPos,yPos));	
+			  					
+			  				}
+			  			}
+			  			
+			  			isInitialized = true;
+
+					}
+					else
+					{
+						isInitialized = false;
+						return;
+					}
+					
+				}
+			}
 			
-		}
-	
+  			
+  	    }
 		
 	}
 	
 	@Override
 	public void update(long nanosSincePreviousTick)
 	{
-		Vec2d currentFramePos = myFrames.get(myFrames.size()% myCurrentFrame);
-		mySpriteXCoordinates = currentFramePos.x;
-		mySpriteYCoordinates = currentFramePos.y;
+		//Vec2d currentFramePos = myFrames.get(myFrames.size()% myCurrentFrame);
+		
+		Vec2d framePos =  getPosCurrentFrame();
+		mySpriteXCoordinates = framePos.x;
+		mySpriteYCoordinates = framePos.y;
+		super.update(nanosSincePreviousTick);
+	}
+	
+	@Override
+	protected boolean loadImageSprite()
+	{
+		if(!this.myFilePath.isEmpty())
+		{
+				
+			Resource imageResource = ResourceManager.getIntance().createOrGetResource(myFilePath, ResourceType.Image);
+			if(imageResource.isLoaded())
+			{
+				this.mySourceImage = imageResource.getImage();
+				this.myImageWidth = this.myFrameSize.x;
+				this.myImageHeight = this.myFrameSize.y;
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public Vec2d getFrameSize() {
@@ -52,11 +115,11 @@ public class AnimationComponent extends SpriteComponent{
 		this.myFrameSize = frameSize;
 	}
 
-	public int getNumFrames() {
+	public Vec2d getNumFrames() {
 		return myNumFrames;
 	}
 
-	public void setNumFrames(int numFrames) {
+	public void setNumFrames(Vec2d numFrames) {
 		this.myNumFrames = numFrames;
 	}
 
@@ -79,6 +142,20 @@ public class AnimationComponent extends SpriteComponent{
 	public void nextFrame()
 	{
 		this.myCurrentFrame++;
+	}
+
+	public Vec2d getFramePosition() {
+		return myFramePosition;
+	}
+
+	public void setFramePosition(Vec2d myFramePosition) {
+		this.myFramePosition = myFramePosition;
+	}
+	
+	public Vec2d getPosCurrentFrame()
+	{
+		return new Vec2d(myFramePosition.x + myCurrentFrame% myFrameSize.x,
+				myFramePosition.y + myCurrentFrame / myFrameSize.x);
 	}
 
 }

@@ -92,7 +92,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject.addComponent(mouseControllerComponent);
 		gameObject.addComponent(keyControllerComponent);
 		gameObject.addComponent(collisionCompomemt);
-		
+		gameObject.addComponent(mySprite1);
 		
 		
 		//this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
@@ -111,8 +111,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.setTag(alch_circle);
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite2 = new SpriteComponent(ComponentContants.sprite);
-		mySprite2.setFilePath("img/circle.png");
-		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
+		mySprite2.setFilePath("img/circle.png");		
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);

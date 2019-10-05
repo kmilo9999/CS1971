@@ -31,14 +31,20 @@ public class WizScene extends GameWorldScene{
 		 // Initialize game world
 		super.initScene();
 		
+		/*AnimationComponent animation = new AnimationComponent(ComponentContants.sprite);
+		animation.setFilePath("img/charactes_sprite_sheet.png");
+		animation.setFrameSize(new Vec2d(32,36));
+		animation.setNumFrames(new Vec2d(3,4));*/
+		
+		
 		GameObject gameObject = new GameObject("warrior");
 		//gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		AnimationComponent animation = new AnimationComponent(ComponentContants.sprite);
+		AnimationComponent animation = new AnimationComponent(ComponentContants.sprite_animation);
 		animation.setFilePath("img/charactes_sprite_sheet.png");
 		animation.setFrameSize(new Vec2d(32,36));
-		
-		((GraphicsComponent)graphicsComponent).setSprite(animation);
+		animation.setNumFrames(new Vec2d(3,4));
+		animation.setFramePosition(new Vec2d(0,0));
 		
 		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
@@ -54,7 +60,7 @@ public class WizScene extends GameWorldScene{
 		gameObject.addComponent(mouseControllerComponent);
 		gameObject.addComponent(keyControllerComponent);
 		gameObject.addComponent(collisionCompomemt);
-		
+		gameObject.addComponent(animation);
 		
 		
 		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
@@ -75,6 +81,6 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		
+		super.onTick(nanosSincePreviousTick);
 	}
 }
