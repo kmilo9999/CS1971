@@ -52,17 +52,15 @@ public class GraphicsComponent extends Component{
 			myXMin = myPanelScreenViewPortUpperLeft.x;
 			myYMin = myPanelScreenViewPortUpperLeft.y;
 			
-		    if(this.myParent.hasComponent(ComponentContants.sprite)  )
+		    if(this.myParent.hasComponent(ComponentContants.sprite) )
 			{
-				((SpriteComponent) this.myParent.getComponent(ComponentContants.sprite)).initialize();
 				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
 			}
 		    else if(this.myParent.hasComponent(ComponentContants.sprite_animation))
 		    {
-		    	((AnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation)).initialize();
-				this.mySprite = (AnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);	
+				this.mySprite = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);	
 		    }
-		   
+		    this.mySprite.initialize();
 			isInitialized= true;
 		}
 	

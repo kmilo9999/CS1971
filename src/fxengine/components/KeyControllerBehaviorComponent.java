@@ -9,7 +9,12 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class KeyControllerBehaviorComponent extends KeyEventComponent{
 
+	private Vec2d upVec = new Vec2d(0,-1);
+	private Vec2d downVec = new Vec2d(0,1);
+	private Vec2d rightVec = new Vec2d(1,0);
+	private Vec2d leftVec = new Vec2d(-1,0);
 	
+	private double speed = 0.01;
 	
 	public KeyControllerBehaviorComponent(String name) {
 		super(name);
@@ -26,7 +31,49 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
+		if(keys[22])
+		{
+			
+			TransformComponent transform = (TransformComponent) this.myParent
+					.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				transform.setPosition(transform.getPosition().plus(upVec.smult(speed)));	
+			}
+			
+
+		}
 		
+		if(keys[0])
+		{
+			TransformComponent transform = (TransformComponent) this.myParent
+					.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				transform.setPosition(transform.getPosition().plus(leftVec.smult(speed)));	
+			}
+		}
+		
+		if(keys[18])
+		{
+			TransformComponent transform = (TransformComponent) this.myParent
+					.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				transform.setPosition(transform.getPosition().plus(downVec.smult(speed)));	
+			}
+		}
+		
+		if(keys[3])
+		{
+			TransformComponent transform = (TransformComponent) this.myParent
+					.getComponent(ComponentContants.transform);
+			if(transform != null)
+			{
+				transform.setPosition(transform.getPosition().plus(rightVec.smult(speed)));	
+			}
+		}
+
 	}
 
 	@Override
@@ -56,11 +103,6 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 				this.myParent.clone();
 			}
 			
-			if((int)value.charAt(0) - 97 == 22)
-			{
-				TransformComponent transform = (TransformComponent) this.myParent.getComponent(ComponentContants.transform);
-				transform.setPosition(new Vec2d(transform.getPosition().x,transform.getPosition().y - 1));
-			}
 		}
 	}
 	

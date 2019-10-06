@@ -8,6 +8,7 @@ import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameWorld;
+import fxengine.system.AnimationSystem;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.CollisionSystem;
 import fxengine.system.GraphicsSystem;
@@ -27,6 +28,7 @@ public class GameWorldScene extends BaseScene{
 	protected KeyboardEventSystem myKeyBoardSystem = new KeyboardEventSystem();
 	protected BaseGameSystem myGhrapicsSystem = new GraphicsSystem();
 	protected BaseGameSystem myCollSystem = new CollisionSystem();
+	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
 	
 
 	public GameWorldScene(String name, FXFrontEnd application) {
@@ -49,6 +51,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
 		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
+		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.initialize();
 		
 		

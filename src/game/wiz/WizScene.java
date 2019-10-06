@@ -4,7 +4,7 @@ import fxengine.application.FXFrontEnd;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
-import fxengine.components.AnimationComponent;
+import fxengine.components.SpriteAnimationComponent;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -12,6 +12,7 @@ import fxengine.components.ComponentFactory;
 import fxengine.components.GraphicsComponent;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
+import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
@@ -42,10 +43,10 @@ public class WizScene extends GameWorldScene{
 		gameObject = new GameObject("warrior");
 		//gameObject.setTag(alch_square);
 		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		AnimationComponent animation = new AnimationComponent(ComponentContants.sprite_animation);
+		SpriteAnimationComponent animation = new SpriteAnimationComponent(ComponentContants.sprite_animation);
 		animation.setFilePath("img/charactes_sprite_sheet.png");
 		animation.setFrameSize(new Vec2d(32,36));
-		animation.setNumFrames(new Vec2d(1,3));
+		animation.setNumFrames(new Vec2i(1,3));
 		animation.setFramePosition(new Vec2d(0,36));
 		animation.setCurrentFrame(currentFrame);
 		
@@ -85,13 +86,13 @@ public class WizScene extends GameWorldScene{
 	public void onTick(long nanosSincePreviousTick)
 	{
 		
-		AnimationComponent animation = (AnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
+		SpriteAnimationComponent animation = (SpriteAnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
 		
 		myLapseTime += nanosSincePreviousTick;
 		if(myLapseTime > 450000000)
 		{
 			currentFrame++;
-			animation.setCurrentFrame(currentFrame % 3);
+			animation.setCurrentFrame(currentFrame % animation.getNumFrames().y);
 			myLapseTime = 0;
 		}
 		

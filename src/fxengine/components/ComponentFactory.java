@@ -75,6 +75,11 @@ public class ComponentFactory {
 		
 		else if(componentName.equals(ComponentContants.sprite_animation))
 		{
+			return new SpriteAnimationComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.animation))
+		{
 			return new AnimationComponent(componentName);
 		}
 		
