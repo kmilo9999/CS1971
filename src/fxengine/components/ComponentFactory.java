@@ -35,7 +35,7 @@ public class ComponentFactory {
 		
 		else if(componentName.equals(ComponentContants.controllerKeyEvents))
 		{
-			return new KeyControllerBehaviorComponent(componentName);
+			return new AWSDKeyControllerBehaviorComponent(componentName);
 		}
 		
 		else if(componentName.equals(ComponentContants.cameraControllerKeyEvents))
@@ -81,6 +81,11 @@ public class ComponentFactory {
 		else if(componentName.equals(ComponentContants.animation))
 		{
 			return new AnimationComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.keyAnimationController))
+		{
+			return new AnimationControllerComponent(componentName);
 		}
 		
 		return null;

@@ -3,10 +3,13 @@ package fxengine.scene;
 
 
 import fxengine.application.FXFrontEnd;
+import fxengine.components.Component;
 import fxengine.components.ComponentContants;
+import fxengine.components.ComponentFactory;
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.system.AnimationSystem;
 import fxengine.system.BaseGameSystem;
@@ -54,6 +57,15 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.initialize();
 		
+		///----------- Camera
+		GameObject camera = new GameObject("Camera");
+		Component cameraMouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerMouseEvents);
+		Component cameraKeyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerKeyEvents);
+		camera.addComponent(cameraMouseControllerComponent);
+		camera.addComponent(cameraKeyControllerComponent);
+		
+		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
+		///----------------------------------
 		
 		super.initScene();
 	}

@@ -141,7 +141,7 @@ public class AnimationControllerComponent extends KeyEventComponent{
 		
 	}
 	
-	public void setAnimationKey(int keycode, String animationName)
+	public void bindAnimationToKey(int keycode, String animationName)
 	{
 		if(keycode >=  97 && keycode <= 25 )
 		{

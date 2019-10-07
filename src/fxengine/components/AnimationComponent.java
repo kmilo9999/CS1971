@@ -83,6 +83,14 @@ public class AnimationComponent extends Component{
 		this.myAnimations = myAnimations;
 	}
 	
+	public Animation getAnimation(String animationName) {
+		return myAnimations.get(animationName);
+	}
+
+	public void setAnimations(String animationName, Animation animation) {
+		this.myAnimations.put(animationName, animation);
+	}
+	
 	public void advanceCurrentFrameAnimation()
 	{
 		SpriteAnimationComponent spriteAnimation = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);

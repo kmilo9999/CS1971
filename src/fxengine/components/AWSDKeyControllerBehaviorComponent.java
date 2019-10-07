@@ -7,16 +7,16 @@ import fxengine.system.KeyboardEventSystem;
 import javafx.scene.canvas.GraphicsContext;
 
 
-public class KeyControllerBehaviorComponent extends KeyEventComponent{
+public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 
 	private Vec2d upVec = new Vec2d(0,-1);
 	private Vec2d downVec = new Vec2d(0,1);
 	private Vec2d rightVec = new Vec2d(1,0);
 	private Vec2d leftVec = new Vec2d(-1,0);
 	
-	private double speed = 0.01;
+	private double speed = 0.85;
 	
-	public KeyControllerBehaviorComponent(String name) {
+	public AWSDKeyControllerBehaviorComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
@@ -46,8 +46,10 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 		
 		if(keys[0])
 		{
+		
 			TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
+			
 			if(transform != null)
 			{
 				transform.setPosition(transform.getPosition().plus(leftVec.smult(speed)));	
@@ -56,6 +58,7 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 		
 		if(keys[18])
 		{
+		
 			TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
 			if(transform != null)
@@ -66,6 +69,7 @@ public class KeyControllerBehaviorComponent extends KeyEventComponent{
 		
 		if(keys[3])
 		{
+		
 			TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
 			if(transform != null)

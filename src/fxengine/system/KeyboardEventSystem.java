@@ -2,7 +2,7 @@ package fxengine.system;
 
 import fxengine.components.CameraKeyControllerBehavior;
 import fxengine.components.ComponentContants;
-import fxengine.components.KeyControllerBehaviorComponent;
+import fxengine.components.AWSDKeyControllerBehaviorComponent;
 import fxengine.components.KeyEventComponent;
 import fxengine.event.Event;
 import fxengine.objects.GameObject;
@@ -28,7 +28,7 @@ public class KeyboardEventSystem extends EventSystem{
 				keyEventComponent.processEvent(evt);
 			}
 			if(gameObject.hasComponent(ComponentContants.controllerKeyEvents)) {
-				KeyControllerBehaviorComponent keyControllerBehaviorComponent = (KeyControllerBehaviorComponent)gameObject.getComponent(ComponentContants.controllerKeyEvents);
+				AWSDKeyControllerBehaviorComponent keyControllerBehaviorComponent = (AWSDKeyControllerBehaviorComponent)gameObject.getComponent(ComponentContants.controllerKeyEvents);
 				keyControllerBehaviorComponent.processEvent(evt);
 			}
 			
@@ -49,7 +49,14 @@ public class KeyboardEventSystem extends EventSystem{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		
+		for(GameObject gameObject:myGameObjects)
+		{
+			if(gameObject.hasComponent(ComponentContants.controllerKeyEvents)) {
+				AWSDKeyControllerBehaviorComponent keyControllerBehaviorComponent = (AWSDKeyControllerBehaviorComponent)gameObject.getComponent(ComponentContants.controllerKeyEvents);
+				keyControllerBehaviorComponent.update(nanosSincePreviousTick);
+			}
+			
+		}
 	}
 
 	@Override

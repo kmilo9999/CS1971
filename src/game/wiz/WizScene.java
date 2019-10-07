@@ -1,10 +1,14 @@
 package game.wiz;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fxengine.application.FXFrontEnd;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.SpriteAnimationComponent;
+import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -19,7 +23,7 @@ import fxengine.scene.GameWorldScene;
 
 public class WizScene extends GameWorldScene{
 
-	private GameObject gameObject;
+	private WizControllableCharacter gameObject;
 	private long myLapseTime = 0;
 	private int currentFrame = 0;
 	
@@ -39,10 +43,20 @@ public class WizScene extends GameWorldScene{
 		animation.setFrameSize(new Vec2d(32,36));
 		animation.setNumFrames(new Vec2d(3,4));*/
 		
+		List<Animation> animations = new ArrayList<Animation>();
 		
-		gameObject = new GameObject("warrior");
+		Animation right = new Animation(WizCharacter.moveRight,new Vec2d(0,36),new Vec2d(32,36),new Vec2i(1,3));
+		Animation left = new Animation(WizCharacter.moveLeft,new Vec2d(0,108),new Vec2d(32,36),new Vec2i(1,3));
+		Animation up = new Animation(WizCharacter.moveUp,new Vec2d(0,0),new Vec2d(32,36),new Vec2i(1,3));
+		Animation down = new Animation(WizCharacter.moveDown,new Vec2d(0,72),new Vec2d(32,36),new Vec2i(1,3));
+		animations.add(right);
+		animations.add(left);
+		animations.add(up);
+		animations.add(down);
+
+		gameObject = new WizControllableCharacter("wiz1","warrior",animations);
 		//gameObject.setTag(alch_square);
-		Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
+		/*Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteAnimationComponent animation = new SpriteAnimationComponent(ComponentContants.sprite_animation);
 		animation.setFilePath("img/charactes_sprite_sheet.png");
 		animation.setFrameSize(new Vec2d(32,36));
@@ -64,20 +78,12 @@ public class WizScene extends GameWorldScene{
 		gameObject.addComponent(mouseControllerComponent);
 		gameObject.addComponent(keyControllerComponent);
 		gameObject.addComponent(collisionCompomemt);
-		gameObject.addComponent(animation);
+		gameObject.addComponent(animation);*/
 		
 		
 		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
 		
-		///----------- Camera
-		GameObject camera = new GameObject("Camera");
-		Component cameraMouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerMouseEvents);
-		Component cameraKeyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerKeyEvents);
-		camera.addComponent(cameraMouseControllerComponent);
-		camera.addComponent(cameraKeyControllerComponent);
 		
-		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
-		///----------------------------------
 		
 	}
 
@@ -86,7 +92,7 @@ public class WizScene extends GameWorldScene{
 	public void onTick(long nanosSincePreviousTick)
 	{
 		
-		SpriteAnimationComponent animation = (SpriteAnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
+		/*SpriteAnimationComponent animation = (SpriteAnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
 		
 		myLapseTime += nanosSincePreviousTick;
 		if(myLapseTime > 450000000)
@@ -96,8 +102,9 @@ public class WizScene extends GameWorldScene{
 			myLapseTime = 0;
 		}
 		
-		//animation.setCurrentFrame(5);
+		//animation.setCurrentFrame(5);*/
 		
 		super.onTick(nanosSincePreviousTick);
 	}
 }
+

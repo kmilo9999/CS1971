@@ -15,6 +15,7 @@ public class ComponentContants {
 	public static final String sprite = "SPRITE";
 	public static final String sprite_animation = "SPRITE_ANIMATION";
 	public static final String animation = "ANIMATION";
+	public static final String keyAnimationController = "ANIMATION_CONTROLLER";
 	
 	
 	
