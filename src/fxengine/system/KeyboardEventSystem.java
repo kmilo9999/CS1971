@@ -3,6 +3,7 @@ package fxengine.system;
 import fxengine.components.CameraKeyControllerBehavior;
 import fxengine.components.ComponentContants;
 import fxengine.components.AWSDKeyControllerBehaviorComponent;
+import fxengine.components.AnimationControllerComponent;
 import fxengine.components.KeyEventComponent;
 import fxengine.event.Event;
 import fxengine.objects.GameObject;
@@ -36,6 +37,11 @@ public class KeyboardEventSystem extends EventSystem{
 				CameraKeyControllerBehavior cameraKeyControllerBehavior = (CameraKeyControllerBehavior)gameObject.getComponent(ComponentContants.cameraControllerKeyEvents);
 				cameraKeyControllerBehavior.processEvent(evt);
 			}
+			
+			if(gameObject.hasComponent(ComponentContants.keyAnimationController)) {
+				AnimationControllerComponent animationKeyControllerBehavior = (AnimationControllerComponent)gameObject.getComponent(ComponentContants.keyAnimationController);
+				animationKeyControllerBehavior.processEvent(evt);
+			}
 		}
 	}
 
@@ -56,6 +62,10 @@ public class KeyboardEventSystem extends EventSystem{
 				keyControllerBehaviorComponent.update(nanosSincePreviousTick);
 			}
 			
+			if(gameObject.hasComponent(ComponentContants.keyAnimationController)) {
+				AnimationControllerComponent keyControllerBehaviorComponent = (AnimationControllerComponent)gameObject.getComponent(ComponentContants.keyAnimationController);
+				keyControllerBehaviorComponent.update(nanosSincePreviousTick);
+			}
 		}
 	}
 

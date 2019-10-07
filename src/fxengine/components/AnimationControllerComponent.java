@@ -11,7 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class AnimationControllerComponent extends KeyEventComponent{
 
 	private Map<Integer,String> myAnimationStates = new HashMap<Integer, String>();
-	private String myCurrentAnimationName;
+	private String myCurrentAnimationName = new String();
 	
 	private long myLapseTime = 0;
 	private int currentFrame = 0;
