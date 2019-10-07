@@ -30,32 +30,51 @@ public class AnimationControllerComponent extends KeyEventComponent{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		
+		myCurrentAnimationName = myAnimationStates.get(100);
+		AnimationComponent animationComponent = (AnimationComponent) this.myParent
+				.getComponent(ComponentContants.animation);
+		animationComponent.setCurrentAnimation(myCurrentAnimationName);
 	}
 
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
 		
-		if(!myCurrentAnimationName.isEmpty())
+		if(keys[22])
 		{
-			myLapseTime += nanosSincePreviousTick;	
-		}
-		else
-		{
-			myLapseTime = 0;
-		}
-		
-		
-		if(myLapseTime > 450000000 && !myCurrentAnimationName.isEmpty())
-		{
-
 			AnimationComponent animationComponent = (AnimationComponent) this.myParent
 					.getComponent(ComponentContants.animation);
-			animationComponent.advanceCurrentFrameAnimation();
-
-			myLapseTime = 0;
-		}		
+			myCurrentAnimationName = myAnimationStates.get(22);
+			animationComponent.setCurrentAnimation(myCurrentAnimationName);
+			animationComponent.playCurrentAnimation();
+		}
+		
+		if(keys[3])
+		{
+			AnimationComponent animationComponent = (AnimationComponent) this.myParent
+					.getComponent(ComponentContants.animation);
+			myCurrentAnimationName = myAnimationStates.get(3);
+			animationComponent.setCurrentAnimation(myCurrentAnimationName);
+			animationComponent.playCurrentAnimation();
+		}
+		
+		if(keys[18])
+		{
+			AnimationComponent animationComponent = (AnimationComponent) this.myParent
+					.getComponent(ComponentContants.animation);
+			myCurrentAnimationName = myAnimationStates.get(18);
+			animationComponent.setCurrentAnimation(myCurrentAnimationName);
+			animationComponent.playCurrentAnimation();
+		}
+		
+		if(keys[0])
+		{
+			AnimationComponent animationComponent = (AnimationComponent) this.myParent
+					.getComponent(ComponentContants.animation);
+			myCurrentAnimationName = myAnimationStates.get(0);
+			animationComponent.setCurrentAnimation(myCurrentAnimationName);
+			animationComponent.playCurrentAnimation();
+		}
 	}
 
 	@Override
@@ -77,11 +96,11 @@ public class AnimationControllerComponent extends KeyEventComponent{
 		
 		if(e.type.equals(EventsConstants.KeyPressed))
 		{
-			keyReleased(e.strValue);
+			keyPressed(e.strValue);
 		}
 		else if(e.type.equals(EventsConstants.KeyReleased))
 		{
-			keyPressed(e.strValue);
+			keyReleased(e.strValue);
 		}
 		else if(e.type.equals(EventsConstants.KeyTyped))
 		{
@@ -97,9 +116,9 @@ public class AnimationControllerComponent extends KeyEventComponent{
 
 	private void keyPressed(String value) {
 		// TODO Auto-generated method stub
-		int keyCode = (int) value.charAt(0) - 97;
+	
 		
-		if(myCurrentAnimationName == myAnimationStates.get(keyCode))
+		/*if(myCurrentAnimationName == myAnimationStates.get(keyCode))
 		{
 			return;
 		}
@@ -113,20 +132,21 @@ public class AnimationControllerComponent extends KeyEventComponent{
 
 			myCurrentAnimationName = myAnimationStates.get(keyCode);
 			animationComponent.setCurrentAnimation(myCurrentAnimationName);
-		}
+			System.out.println("update animation controller");
+		}*/
 	}
 
 	private void keyReleased(String value) {
 		// TODO Auto-generated method stub
-		int keyCode = (int) value.charAt(0) - 97;
-		if(!myCurrentAnimationName.isEmpty() && myCurrentAnimationName == myAnimationStates.get(keyCode))
+	/*	int keyCode = (int) value.charAt(0) - 97; */
+		if(!myCurrentAnimationName.isEmpty())
 		{
 			 //stop animation
 			this.myCurrentAnimationName = "";
 			AnimationComponent animationComponent = (AnimationComponent) this.myParent
 					.getComponent(ComponentContants.animation);
 			animationComponent.stopCurrentFrameAnimation();
-			this.myLapseTime = 0;
+			
 			
 		}
 		
@@ -143,7 +163,7 @@ public class AnimationControllerComponent extends KeyEventComponent{
 	
 	public void bindAnimationToKey(int keycode, String animationName)
 	{
-		if(keycode >=  97 && keycode <= 25 )
+		if(keycode >=  0 && keycode <= 25 )
 		{
 			myAnimationStates.put(keycode, animationName);	
 		}

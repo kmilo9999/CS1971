@@ -23,7 +23,7 @@ public class WizControllableCharacter extends WizCharacter{
 		AnimationControllerComponent animationKeyControllers = (AnimationControllerComponent)ComponentFactory.getInstance().createComponent(ComponentContants.keyAnimationController);
 		AnimationComponent animationComponent = (AnimationComponent)this.getComponent(ComponentContants.animation);
 		animationComponent.getAnimations().forEach((name,animation)->{
-			int keyCode = Integer.parseInt(name) - 97;
+			int keyCode = Integer.parseInt(name);
 			animationKeyControllers.bindAnimationToKey(keyCode, name);
 		});
 		

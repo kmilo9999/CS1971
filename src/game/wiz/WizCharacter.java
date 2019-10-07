@@ -60,6 +60,7 @@ public abstract class WizCharacter extends GameObject{
 		{
 			((AnimationComponent)animationComponent).setAnimations(animation.getAnimationName(),animation);	
 		}
+		//((AnimationComponent)animationComponent).setCurrentAnimation(moveRight);
 		
 		//set default animation
 		Animation defaultAnimation =((AnimationComponent)animationComponent).getAnimation(moveDown);
