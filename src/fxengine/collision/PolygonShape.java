@@ -19,25 +19,25 @@ public  class PolygonShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collides(CollisionShape o) {
+	public boolean isColliding(CollisionShape o) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean collidesCircle(CircleCollisionShape c) {
+	public boolean isCollidingCircle(CircleCollisionShape c) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean collidesAABShape(AABCollideShape aab) {
+	public boolean isCollidingAAB(AABCollideShape aab) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean collidesPoint(Vec2d s2) {
+	public boolean isCollidingPoint(Vec2d s2) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -46,6 +46,30 @@ public  class PolygonShape extends CollisionShape {
 	public void update(Vec2d position, Vec2d size) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Vec2d collisionCircle(CircleCollisionShape c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vec2d collisionAABS(AABCollideShape c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vec2d colliding(CollisionShape o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vec2d collidingPoint(Vec2d s2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

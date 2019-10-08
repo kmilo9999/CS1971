@@ -7,6 +7,7 @@ import java.util.Set;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
+import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -22,8 +23,9 @@ public class CollisionComponent extends Component{
 	private String myColliderId;
 	
 	private GameObject myOtherCollider;
-
 	
+	private Vec2d MVT;
+
 	public CollisionComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -131,5 +133,14 @@ public class CollisionComponent extends Component{
 	public void setOtherCollider(GameObject myOtherCollider) {
 		this.myOtherCollider = myOtherCollider;
 	}
+	
+	public Vec2d getMVT() {
+		return MVT;
+	}
+
+	public void setMVT(Vec2d mVT) {
+		MVT = mVT;
+	}
+
 
 }

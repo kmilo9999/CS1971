@@ -1,5 +1,6 @@
 package fxengine.collision;
 
+
 import fxengine.math.Vec2d;
 
 public class AABCollideShape extends CollisionShape {
@@ -23,23 +24,23 @@ public class AABCollideShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collides(CollisionShape o) {
+	public boolean isColliding(CollisionShape o) {
 		// TODO Auto-generated method stub
-		return o.collidesAABShape(this);
+		return o.isCollidingAAB(this);
 	}
 
 	@Override
-	public boolean collidesCircle(CircleCollisionShape c) {
+	public boolean isCollidingCircle(CircleCollisionShape c) {
 		// TODO Auto-generated method stub
 		double clampedValueX = Math.max(myTopLeft.x, Math.min(c.getCenter().x, myTopLeft.x + mySize.x));
 		double clampedValueY = Math.max(myTopLeft.y, Math.min(c.getCenter().y, myTopLeft.y + mySize.y));
 		
-		return c.collidesPoint(new Vec2d(clampedValueX,clampedValueY));
+		return c.isCollidingPoint(new Vec2d(clampedValueX,clampedValueY));
 		
 	}
 
 	@Override
-	public boolean collidesAABShape(AABCollideShape other) {
+	public boolean isCollidingAAB(AABCollideShape other) {
 		// TODO Auto-generated method stub
 		
 		
@@ -70,7 +71,7 @@ public class AABCollideShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collidesPoint(Vec2d s2) {
+	public boolean isCollidingPoint(Vec2d s2) {
 		// TODO Auto-generated method stub
 		if((myTopLeft.x <= s2.x && myTopLeft.x +mySize.x >= s2.x)
 				&& (myTopLeft.y <= s2.y && myTopLeft.y +mySize.x >= s2.y))
@@ -102,6 +103,136 @@ public class AABCollideShape extends CollisionShape {
 
 	public void setSize(Vec2d size) {
 		this.mySize = size;
+	}
+
+	@Override
+	public Vec2d collisionCircle(CircleCollisionShape c) {
+		// TODO Auto-generated method stub
+		double clampedValueX = Math.max(this.myTopLeft.x, Math.min(c.getCenter().x, this.myTopLeft.x + this.mySize.x));
+		double clampedValueY = Math.max(this.myTopLeft.y, Math.min(c.getCenter().y, this.myTopLeft.y + this.mySize.y));
+		
+		Vec2d point = new Vec2d(clampedValueX,clampedValueY);
+		if(point.dist2(c.center) <= c.radius*c.radius)
+		{
+			if( (c.center.x >= this.myTopLeft.x && c.center.x <= this.myTopLeft.x + this.mySize.x )
+					&& (c.center.y >= this.myTopLeft.y && c.center.y <= this.myTopLeft.y + this.mySize.y ) )
+			{
+				
+				Vec2d closesPoint = this.myTopLeft;
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x,this.myTopLeft.x + this.mySize.x).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x,this.myTopLeft.x + this.mySize.x); 
+				}
+				
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x,this.myTopLeft.y + this.mySize.y).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x,this.myTopLeft.y + this.mySize.y);
+				}
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x + this.mySize.x, this.myTopLeft.y + this.mySize.y).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x + this.mySize.x , this.myTopLeft.y + this.mySize.y);
+				}
+				
+				
+				double lenght = c.radius + c.center.dist(closesPoint);
+				Vec2d mvtAxis = new Vec2d(0,1);
+				return mvtAxis.smult( lenght /2);
+			}
+		
+			
+			
+			double lenght = c.radius + c.center.dist(point);
+			Vec2d aabCenter = new Vec2d(this.myTopLeft.x + (this.mySize.x /2),this.myTopLeft.y + (this.mySize.y /2));
+			Vec2d mvtAxis =  c.center.minus(aabCenter);
+			
+			
+			Vec2d distanceVector1 = c.center.minus(aabCenter);
+			if(mvtAxis.dot(distanceVector1) >= 0) 
+			{
+				mvtAxis = mvtAxis.reflect();
+			}
+			
+	        return mvtAxis.normalize().smult(lenght);
+
+	
+		}
+		
+				
+		return new Vec2d(0);
+	}
+
+	@Override
+	public Vec2d collisionAABS(AABCollideShape s2) {
+		// TODO Auto-generated method stub
+		Vec2d aBottomRigth = new Vec2d(this.myTopLeft.x + this.mySize.x,this.myTopLeft.y + this.mySize.y );
+		Vec2d bBottomRigth = new Vec2d(s2.getTopLeft().x + s2.getSize().x ,s2.getTopLeft().y + s2.getSize().y );
+		
+		if (this.myTopLeft.x > bBottomRigth.x   || s2.getTopLeft().x > aBottomRigth.x) 
+		{
+			return new Vec2d(0); 
+		}
+		  
+		if (this.myTopLeft.y > bBottomRigth.y || s2.getTopLeft().y > aBottomRigth.y)
+		{
+		    return new Vec2d(0);
+		} 
+		
+		Interval intervalx1 = getInterval(new Vec2d(1,0) , this.myTopLeft ,this.mySize);
+		Interval intervalx2 = getInterval(new Vec2d(1,0) , s2.getTopLeft() ,s2.getSize());
+		
+		
+		Interval intervaly1 = getInterval(new Vec2d(0, 1) , this.myTopLeft , this.mySize);
+		Interval intervaly2 = getInterval(new Vec2d(0, 1) , s2.getTopLeft() ,s2.getSize());
+		
+		if( intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2))
+		{
+			double shortest = (this.myTopLeft.y + this.mySize.y) - (s2.getTopLeft().y);
+			Vec2d mvtAxis = new Vec2d(0,-1);
+			if(shortest > (this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y))
+			{
+				shortest = (this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y);
+				mvtAxis = new Vec2d(0,1);
+			}
+			if(shortest > (this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x))
+			{
+				shortest = (this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x);
+				mvtAxis = new Vec2d(-1,0);
+			}
+			if(shortest > (this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x))
+			{
+				shortest = (this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x);
+				mvtAxis = new Vec2d(1,0);
+			}
+			
+			return mvtAxis.smult(shortest);
+			
+		}
+		else
+		{
+			return new Vec2d(0);	
+		}
+		
+		
+	}
+
+	@Override
+	public Vec2d colliding(CollisionShape o) {
+		// TODO Auto-generated method stub
+		return o.collisionAABS(this);
+	}
+
+	@Override
+	public Vec2d collidingPoint(Vec2d s2) {
+		// TODO Auto-generated method stub
+		if((this.myTopLeft.x <= s2.x && this.myTopLeft.x + this.mySize.x >= s2.x)
+				&& (this.myTopLeft.y <= s2.y && this.myTopLeft.y + this.mySize.y >= s2.y))
+		{
+			return s2;
+		}
+		return null;
 	}
 	
 	
