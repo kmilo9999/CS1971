@@ -73,6 +73,11 @@ public class ComponentFactory {
 			return new CollisionComponent(componentName);
 		}
 		
+		else if(componentName.equals(ComponentContants.sprite))
+		{
+			return new SpriteComponent(componentName);
+		}
+		
 		else if(componentName.equals(ComponentContants.sprite_animation))
 		{
 			return new SpriteAnimationComponent(componentName);
@@ -86,6 +91,11 @@ public class ComponentFactory {
 		else if(componentName.equals(ComponentContants.keyAnimationController))
 		{
 			return new AnimationControllerComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.terrain))
+		{
+			return new TerrainComponent(componentName);
 		}
 		
 		return null;

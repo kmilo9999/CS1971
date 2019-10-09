@@ -155,7 +155,7 @@ public class AABCollideShape extends CollisionShape {
 				mvtAxis = mvtAxis.reflect();
 			}
 			
-	        return mvtAxis.normalize().smult(lenght);
+	        return mvtAxis.normalize().smult(lenght/2);
 
 	
 		}
@@ -207,7 +207,7 @@ public class AABCollideShape extends CollisionShape {
 				mvtAxis = new Vec2d(1,0);
 			}
 			
-			return mvtAxis.smult(shortest);
+			return mvtAxis.smult(shortest/2);
 			
 		}
 		else

@@ -8,6 +8,7 @@ import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.SpriteAnimationComponent;
+import fxengine.components.TerrainComponent;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
@@ -23,9 +24,8 @@ import fxengine.scene.GameWorldScene;
 
 public class WizScene extends GameWorldScene{
 
-	private WizControllableCharacter gameObject;
-	private long myLapseTime = 0;
-	private int currentFrame = 0;
+	
+	
 	
 	public WizScene(String name, FXFrontEnd application) {
 		super(name, application);
@@ -43,6 +43,10 @@ public class WizScene extends GameWorldScene{
 		animation.setFrameSize(new Vec2d(32,36));
 		animation.setNumFrames(new Vec2d(3,4));*/
 		
+		//terrain
+		TileMap terrain = new TileMap(750,450, 24,13);
+		
+		//characters
 		List<Animation> animations = new ArrayList<Animation>();
 		
 		Animation right = new Animation(WizCharacter.moveRight,new Vec2d(0,36),new Vec2d(32,36),new Vec2i(1,3));
@@ -54,34 +58,19 @@ public class WizScene extends GameWorldScene{
 		animations.add(up);
 		animations.add(down);
 
-		gameObject = new WizControllableCharacter("wiz1","warrior",animations);
-		//gameObject.setTag(alch_square);
-		/*Component graphicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		SpriteAnimationComponent animation = new SpriteAnimationComponent(ComponentContants.sprite_animation);
-		animation.setFilePath("img/charactes_sprite_sheet.png");
-		animation.setFrameSize(new Vec2d(32,36));
-		animation.setNumFrames(new Vec2i(1,3));
-		animation.setFramePosition(new Vec2d(0,36));
-		animation.setCurrentFrame(currentFrame);
+		WizControllableCharacter mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
 		
-		Component tranformComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
-		Component mouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
-		Component keyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
-		((TransformComponent)tranformComponent).setPosition(new Vec2d(3,10));
-		Component collisionCompomemt =  ComponentFactory.getInstance().createComponent(ComponentContants.collision);
-		CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
-		((CollisionComponent)collisionCompomemt).setCollisionShape(myCollisionShape);
-		//((CollisionComponent)collisionCompomemt).getHitList().add(alch_circle);
-		
-		gameObject.addComponent(graphicsComponent);
-		gameObject.addComponent(tranformComponent);
-		gameObject.addComponent(mouseControllerComponent);
-		gameObject.addComponent(keyControllerComponent);
-		gameObject.addComponent(collisionCompomemt);
-		gameObject.addComponent(animation);*/
+		Tile[][] tileMap =  terrain.getTileMap();
+		for(int i = 0 ; i < terrain.getNumTilesX(); i++)
+		{
+			for(int j = 0 ; j < terrain.getNumTilesY(); j++)
+			{
+				this.myGameWorld.addGameObject(tileMap[i][j], GameWorld.BackLayer);		
+			}
+		}
 		
 		
-		this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
+		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);		
 		
 		
 		
@@ -91,19 +80,6 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		
-		/*SpriteAnimationComponent animation = (SpriteAnimationComponent)gameObject.getComponent(ComponentContants.sprite_animation);
-		
-		myLapseTime += nanosSincePreviousTick;
-		if(myLapseTime > 450000000)
-		{
-			currentFrame++;
-			animation.setCurrentFrame(currentFrame % animation.getNumFrames().y);
-			myLapseTime = 0;
-		}
-		
-		//animation.setCurrentFrame(5);*/
-		
 		super.onTick(nanosSincePreviousTick);
 	}
 }

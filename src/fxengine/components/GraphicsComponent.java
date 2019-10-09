@@ -11,7 +11,8 @@ public class GraphicsComponent extends Component{
 	
 	
 	
-	protected SpriteComponent mySprite; 
+	protected SpriteComponent mySprite;
+	protected TerrainComponent myTerrain;
 	
 	private final int INSIDE = 0; // 0000 
 	private final int LEFT = 1;   // 0001 
@@ -55,12 +56,19 @@ public class GraphicsComponent extends Component{
 		    if(this.myParent.hasComponent(ComponentContants.sprite) )
 			{
 				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
+				this.mySprite.initialize();
 			}
 		    else if(this.myParent.hasComponent(ComponentContants.sprite_animation))
 		    {
-				this.mySprite = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);	
+				this.mySprite = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);
+				this.mySprite.initialize();
 		    }
-		    this.mySprite.initialize();
+		    else if(this.myParent.hasComponent(ComponentContants.terrain))
+		    {
+		    	this.myTerrain = (TerrainComponent) this.myParent.getComponent(ComponentContants.terrain);
+		    	this.myTerrain.initialize();
+		    }
+		    
 			isInitialized= true;
 		}
 	
@@ -71,6 +79,7 @@ public class GraphicsComponent extends Component{
 	{
 		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 		
+		//draw sprite
         if(this.mySprite != null && transformComponent != null)
         {
         	if(this.myParent.isSelected())
@@ -98,9 +107,13 @@ public class GraphicsComponent extends Component{
         	{
         						
     			this.mySprite.draw(graphicsCx);
-        	}
-
-        		
+        	}		
+        }
+        
+        
+        if(myTerrain != null && transformComponent != null)
+        {
+        	myTerrain.draw(graphicsCx);
         }
 		
 	}

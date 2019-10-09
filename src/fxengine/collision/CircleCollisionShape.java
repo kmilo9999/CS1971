@@ -83,7 +83,7 @@ public  class CircleCollisionShape extends CollisionShape {
 				mvtAxis = mvtAxis.reflect();
 			}
 			
-	        return mvtAxis.normalize().smult(sumRadi-distCenter );
+	        return mvtAxis.normalize().smult((sumRadi-distCenter )/2 );
 		}	
 		
         

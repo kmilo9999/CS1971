@@ -4,6 +4,7 @@ package fxengine.components;
 import java.util.HashSet;
 import java.util.Set;
 
+import fxengine.collision.Collision;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
@@ -24,7 +25,7 @@ public class CollisionComponent extends Component{
 	
 	private GameObject myOtherCollider;
 	
-	private Vec2d MVT;
+	private Collision myCollisionInfo;
 
 	public CollisionComponent(String name) {
 		super(name);
@@ -134,12 +135,12 @@ public class CollisionComponent extends Component{
 		this.myOtherCollider = myOtherCollider;
 	}
 	
-	public Vec2d getMVT() {
-		return MVT;
+	public Collision getCollisionInfo() {
+		return myCollisionInfo;
 	}
 
-	public void setMVT(Vec2d mVT) {
-		MVT = mVT;
+	public void setCollisionInfo(Collision collisionInfo) {
+		this.myCollisionInfo = collisionInfo;
 	}
 
 

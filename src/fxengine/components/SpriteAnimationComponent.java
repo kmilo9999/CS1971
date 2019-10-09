@@ -48,7 +48,7 @@ public class SpriteAnimationComponent extends SpriteComponent{
 					if(loadImageSprite())
 					{
 						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myFrameSize.x, this.myFrameSize.y, UIConstants.GRAY);
-			  			for(int i = 0; i < myNumFrames.x ; i++)
+			  			/*for(int i = 0; i < myNumFrames.x ; i++)
 			  			{
 			  				double xPos = (i * myFrameSize.x) + myFramePosition.x;
 			  				
@@ -59,7 +59,7 @@ public class SpriteAnimationComponent extends SpriteComponent{
 			  					//myFrames.add(new Vec2d(xPos,yPos));	
 			  					
 			  				}
-			  			}
+			  			}*/
 			  			
 			  			isInitialized = true;
 

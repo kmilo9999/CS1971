@@ -48,7 +48,7 @@ public class GameWorld {
 	
 	private Vec2d myScreenViewPortPos = new Vec2d(100,50);
 
-	private Vec2d myScreenViewPortSize = new Vec2d(650,400);
+	private Vec2d myScreenViewPortSize = new Vec2d(750,450);
 	
 	public double deltax =0;
 	public double deltay =0;
@@ -189,7 +189,7 @@ public class GameWorld {
 			//graphicsSystem.setPanelScreenViewPort(panelScreenViewPort);
 			if(debug_mode == 1)
 			{
-				myWorldViewPort.setPosition(graphicsSystem.getPanelGameViewPort());
+				myWorldViewPort.setPosition(graphicsSystem.getPanelGameViewPortTopLeft());
 				myScrenViewPort.setPosition(graphicsSystem.getPanelScreenViewPortUpperLeft());
 				myWorldViewPort.onDraw(graphicsCx);
 				myScrenViewPort.onDraw(graphicsCx);	
@@ -201,7 +201,7 @@ public class GameWorld {
 			
 			Affine transform = graphicsCx.getTransform();
 			
-			transform.appendTranslation(-graphicsSystem.getPanelGameViewPort().x, -graphicsSystem.getPanelGameViewPort().y);
+			transform.appendTranslation(-graphicsSystem.getPanelGameViewPortTopLeft().x, -graphicsSystem.getPanelGameViewPortTopLeft().y);
 			transform.appendTranslation(viewPortCenterGameSpace.x, viewPortCenterGameSpace.y);
 			transform.appendTranslation(-graphicsSystem.getPanelScreenViewPortSize().x/2, -graphicsSystem.getPanelScreenViewPortSize().y/2);
 			transform.appendScale(graphicsSystem.getViewportScaleFactor(), graphicsSystem.getViewportScaleFactor());
@@ -362,11 +362,11 @@ public class GameWorld {
 	}
 
 
-	public Vec2d getPanelGameViewPort() {
+	public Vec2d getPanelGameViewPortTopLeft() {
 		if(mySystems.containsKey(ComponentContants.graphics))
 		{
 			GraphicsSystem graphicsSystem = (GraphicsSystem) mySystems.get(ComponentContants.graphics);
-			return graphicsSystem.getPanelGameViewPort();	
+			return graphicsSystem.getPanelGameViewPortTopLeft();	
 		}
 		return null ;
 	}
@@ -468,7 +468,7 @@ public class GameWorld {
 			Affine affineTransformation = myAffineTransform.clone();
 			affineTransformation.appendTranslation(screenCoordinates.x-graphicsSystem.getPanelScreenViewPortUpperLeft().x , screenCoordinates.y -graphicsSystem.getPanelScreenViewPortUpperLeft().y);
 			affineTransformation.appendScale(1/graphicsSystem.getViewportScaleFactor(), 1/graphicsSystem.getViewportScaleFactor());
-			affineTransformation.appendTranslation(graphicsSystem.getPanelGameViewPort().x , graphicsSystem.getPanelGameViewPort().y);
+			affineTransformation.appendTranslation(graphicsSystem.getPanelGameViewPortTopLeft().x , graphicsSystem.getPanelGameViewPortTopLeft().y);
 			return new Vec2d(affineTransformation.getTx(),affineTransformation.getTy());
 		
 		}
@@ -486,7 +486,7 @@ public class GameWorld {
 			Affine affineTransformation = myAffineTransform.clone();
 			Vec2d viewPortCenterGameSpace = this.screenToGameTransform(graphicsSystem.getPanelScreenViewPortSize()).sdiv(2);
 			affineTransformation.appendTranslation(viewPortCenterGameSpace.x, viewPortCenterGameSpace.y);
-			affineTransformation.appendTranslation(gameCoordinates.x-graphicsSystem.getPanelGameViewPort().x , gameCoordinates.y -graphicsSystem.getPanelGameViewPort().y);
+			affineTransformation.appendTranslation(gameCoordinates.x-graphicsSystem.getPanelGameViewPortTopLeft().x , gameCoordinates.y -graphicsSystem.getPanelGameViewPortTopLeft().y);
 			affineTransformation.appendTranslation(-graphicsSystem.getPanelScreenViewPortSize().x/2,  -graphicsSystem.getPanelScreenViewPortSize().y/2);
 			affineTransformation.appendScale(graphicsSystem.getViewportScaleFactor(), graphicsSystem.getViewportScaleFactor());
 			affineTransformation.appendTranslation(graphicsSystem.getPanelScreenViewPortSize().x/2,  graphicsSystem.getPanelScreenViewPortSize().y/2);
