@@ -27,8 +27,8 @@ public class GameTileMap {
 	private Vec2i myNumFrames= new Vec2i(0);
 	private int myWidth=0;
 	private int myHeight= 0;
-	private Vec2d numTiles = new Vec2d(0);
-	GameTile[][] tileMap;
+	private Vec2i myNumTiles = new Vec2i(0);
+	GameTile[][] myTileMap;
 	List<List<Integer>> intTileMap = new ArrayList<List<Integer>>(); 
 	
 	
@@ -128,7 +128,11 @@ public class GameTileMap {
 			
 			 Vec2d topLeft = this.myScene.getGameWorld().getPanelGameViewPortTopLeft();
 			 
-			 tileMap = new GameTile[this.intTileMap.size()][minY];
+			 myTileMap = new GameTile[this.intTileMap.size()][minY];
+			 
+			 myNumTiles = new Vec2i(minY,this.intTileMap.size());
+			 System.out.println("numTiles: " + myNumTiles);
+			 
 			 
 			 for(int i = 0 ; i < this.intTileMap.size() ; i++) 
 			 {
@@ -147,9 +151,9 @@ public class GameTileMap {
 					tile.setTileSize(this.myTileSize);
 					tile.setNumFrames(this.myNumFrames);
 					tile.setTextCoord(this.myInitialPosition);
-					tileMap[i][j] = tile;
+					myTileMap[i][j] = tile;
 
-					this.myScene.getGameWorld().addGameObject(tileMap[i][j], GameWorld.BackLayer);		
+					this.myScene.getGameWorld().addGameObject(myTileMap[i][j], GameWorld.BackLayer);		
 					
 				 }
 			 }
@@ -158,6 +162,31 @@ public class GameTileMap {
 			
 			 
 		}
+	}
+
+
+	public Vec2i getNumTiles() {
+		return myNumTiles;
+	}
+
+
+	public void setNumTiles(Vec2i numTiles) {
+		this.myNumTiles = numTiles;
+	}
+
+
+	public List<List<Integer>> getIntTileMap() {
+		return intTileMap;
+	}
+
+
+	public void setIntTileMap(List<List<Integer>> intTileMap) {
+		this.intTileMap = intTileMap;
+	}
+	
+	public GameTile getTile(int x, int y)
+	{
+		return myTileMap[x][y];
 	}
 	
 }

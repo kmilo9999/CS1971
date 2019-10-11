@@ -27,7 +27,9 @@ public abstract class WizCharacter extends GameObject{
    public static String moveDown = "18";
    public static String moveLeft = "0";
    public static String moveRight = "3";
-	
+   
+   private Vec2d rangeVisionTopLef;
+   private Vec2d rangeVisionSize;
 	
    protected List<Animation> myAnimations;
    
@@ -49,10 +51,7 @@ public abstract class WizCharacter extends GameObject{
 		Component spriteAnimation = ComponentFactory.getInstance().createComponent(ComponentContants.tiled_sprite);
 		((TiledSpriteComponent)spriteAnimation).setFilePath("img/charactes_sprite_sheet.png");
 		
-		//animation.setFrameSize(new Vec2d(32, 36));
-		//animation.setNumFrames(new Vec2i(1, 3));
-		//animation.setFramePosition(new Vec2d(0, 36));
-		//animation.setCurrentFrame(currentFrame);
+		
 		
 		Component animationComponent = ComponentFactory.getInstance().createComponent(ComponentContants.animation);
 		
@@ -60,7 +59,7 @@ public abstract class WizCharacter extends GameObject{
 		{
 			((AnimationComponent)animationComponent).setAnimations(animation.getAnimationName(),animation);	
 		}
-		//((AnimationComponent)animationComponent).setCurrentAnimation(moveRight);
+		
 		
 		//set default animation
 		Animation defaultAnimation =((AnimationComponent)animationComponent).getAnimation(moveDown);
@@ -70,9 +69,7 @@ public abstract class WizCharacter extends GameObject{
 		((TiledSpriteComponent)spriteAnimation).setCurrentFrame(0);
 		
 
-		Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
-		//Component mouseControllerComponent = ComponentFactory.getInstance()
-		//		.createComponent(ComponentContants.controllerMouseEvents);
+	    Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		Component keyControllerComponent = ComponentFactory.getInstance()
 				.createComponent(ComponentContants.controllerKeyEvents);
 		((TransformComponent) tranformComponent).setPosition(new Vec2d(3, 10));
@@ -91,6 +88,13 @@ public abstract class WizCharacter extends GameObject{
 		this.addComponent(animationComponent);
 		
 		super.initialize();
+		
+		double topLeftx = ((TransformComponent) tranformComponent).getPosition().x;
+		double topLefty = ((TransformComponent) tranformComponent).getPosition().y;
+		
+		rangeVisionTopLef = new Vec2d(topLeftx - 10,topLefty - 10);
+		rangeVisionSize  = new Vec2d( 32* 3, 36 * 3);
+		
    }
 
 	public String getMyName() {
@@ -107,6 +111,22 @@ public abstract class WizCharacter extends GameObject{
 
 	public void setAnimations(List<Animation> myAnimations) {
 		this.myAnimations = myAnimations;
+	}
+
+	public Vec2d getRangeVisionTopLef() {
+		return rangeVisionTopLef;
+	}
+
+	public void setRangeVisionTopLef(Vec2d rangeVisionTopLef) {
+		this.rangeVisionTopLef = rangeVisionTopLef;
+	}
+
+	public Vec2d getRangeVisionSize() {
+		return rangeVisionSize;
+	}
+
+	public void setRangeVisionSize(Vec2d rangeVisionSize) {
+		this.rangeVisionSize = rangeVisionSize;
 	}
    
 }

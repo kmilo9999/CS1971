@@ -62,7 +62,7 @@ public class GraphicsSystem extends BaseGameSystem{
 				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponentContants.graphics);
 				if(gameObject.getLayerOrder() != GameWorld.BackLayer)
 				{
-					//graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
+					graphicsCx.setGlobalBlendMode(BlendMode.MULTIPLY);
 					if(gComponent != null)
 					{
 						gComponent.draw(graphicsCx);	
@@ -71,7 +71,7 @@ public class GraphicsSystem extends BaseGameSystem{
 				}
 				else
 				{
-					graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
+					//graphicsCx.setGlobalBlendMode(BlendMode.MULTIPLY);
 					if(gComponent != null)
 					{
 						gComponent.draw(graphicsCx);	

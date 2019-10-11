@@ -134,13 +134,13 @@ public class SpriteComponent extends Component {
 			myLayout.setPosition(layoutScreenPos);
 			myLayout.onDraw(graphicsCx);
 			
-			graphicsCx.setGlobalBlendMode(BlendMode.SRC_ATOP);	
+			graphicsCx.setGlobalBlendMode(BlendMode.SRC_OVER);	
 			//graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
 			graphicsCx.drawImage(mySourceImage, mySpriteXCoordinates + myXClipOffSet,mySpriteYCoordinates +myYClipOffSet,this.myLayout.getSize().x,
 						this.myLayout.getSize().y,layoutScreenPos.x,layoutScreenPos.y,
 						this.myLayout.getSize().x,this.myLayout.getSize().y);
 			
-			graphicsCx.setGlobalBlendMode(BlendMode.SRC_OVER);
+			graphicsCx.setGlobalBlendMode(BlendMode.SRC_ATOP);
 			
 		}
 	}

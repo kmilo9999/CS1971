@@ -25,8 +25,10 @@ import fxengine.scene.GameWorldScene;
 
 public class WizScene extends GameWorldScene{
 
-	
-	
+	GameTileMap terrain;
+	WizControllableCharacter mainCharater;
+	Vec2d playerCurrentTile = new Vec2d(0);
+	int[][] fogofWar;
 	
 	public WizScene(String name, FXFrontEnd application) {
 		super(name, application);
@@ -39,13 +41,6 @@ public class WizScene extends GameWorldScene{
 		 // Initialize game world
 		super.initScene();
 		
-		/*AnimationComponent animation = new AnimationComponent(ComponentContants.sprite);
-		animation.setFilePath("img/charactes_sprite_sheet.png");
-		animation.setFrameSize(new Vec2d(32,36));
-		animation.setNumFrames(new Vec2d(3,4));*/
-		
-		//terrain
-		//TileMap terrain = new TileMap(750,450, 24,13);
 		
 		//characters
 		List<Animation> animations = new ArrayList<Animation>();
@@ -59,24 +54,21 @@ public class WizScene extends GameWorldScene{
 		animations.add(up);
 		animations.add(down);
 
-		WizControllableCharacter mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
+		mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
 		
-		/*Tile[][] tileMap =  terrain.getTileMap();
-		for(int i = 0 ; i < terrain.getNumTilesX(); i++)
-		{
-			for(int j = 0 ; j < terrain.getNumTilesY(); j++)
-			{
-				this.myGameWorld.addGameObject(tileMap[i][j], GameWorld.BackLayer);		
-			}
-		}*/
-		
-		GameTileMap terrain = new GameTileMap("text/mytilemap.txt", "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,3), this);
+        //terrain	
+		terrain = new GameTileMap("text/mytilemap.txt", "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
 		terrain.load();
 		
-				
-		
-		
+        fogofWar = new int[terrain.getNumTiles().y][terrain.getNumTiles().x];
+        for(int i = 0 ; i < terrain.getNumTiles().y ; i++)
+        {
+        	for(int j = 0 ; j < terrain.getNumTiles().x ; j++)
+        	{
+        		fogofWar[i][j] = terrain.getTile(i, j).getColor();
+        	}
+        }
 		
 	}
 
@@ -84,6 +76,50 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
+		TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+		int numTileX = (int)(transform.getPosition().x / 32);
+		int numTileY = (int)(transform.getPosition().y / 36);
+		
+		
+		if(playerCurrentTile.x != numTileX  || playerCurrentTile.y != numTileY)
+		{
+			playerCurrentTile = new Vec2d(numTileY,numTileX);
+			//System.out.println("playerCurrentTile: " + playerCurrentTile);
+			
+			int minClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().x, numTileY - 2)); 
+			int minClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX - 2));
+			
+			int maxClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
+			int maxClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
+			
+			for (int i = 0; i < terrain.getNumTiles().x; i++) 
+			{
+				for (int j = 0; j < terrain.getNumTiles().y; j++) 
+				{
+					if((i >= minClampXTile && i <=maxClampXTile)
+							&& (j >= minClampYTile &&  j<=maxClampYTile) )
+					{
+						fogofWar[i][j] = terrain.getTile(i, j).getColor();
+						terrain.getTile(i, j).setColor(fogofWar[i][j]);
+					}
+					else
+					{
+						
+					}
+
+				}
+			}
+		}
+		
+		/*
+		for()
+		{
+			for()
+			{
+				
+			}
+		}*/
+		
 		super.onTick(nanosSincePreviousTick);
 	}
 }
