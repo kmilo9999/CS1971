@@ -13,7 +13,7 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
-import fxengine.components.SpriteAnimationComponent;
+import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
@@ -46,8 +46,8 @@ public abstract class WizCharacter extends GameObject{
    {
 		Component graphicsComponent = ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		
-		Component spriteAnimation = ComponentFactory.getInstance().createComponent(ComponentContants.sprite_animation);
-		((SpriteAnimationComponent)spriteAnimation).setFilePath("img/charactes_sprite_sheet.png");
+		Component spriteAnimation = ComponentFactory.getInstance().createComponent(ComponentContants.tiled_sprite);
+		((TiledSpriteComponent)spriteAnimation).setFilePath("img/charactes_sprite_sheet.png");
 		
 		//animation.setFrameSize(new Vec2d(32, 36));
 		//animation.setNumFrames(new Vec2i(1, 3));
@@ -64,10 +64,10 @@ public abstract class WizCharacter extends GameObject{
 		
 		//set default animation
 		Animation defaultAnimation =((AnimationComponent)animationComponent).getAnimation(moveDown);
-		((SpriteAnimationComponent)spriteAnimation).setFrameSize(defaultAnimation.getFrameSize());
-		((SpriteAnimationComponent)spriteAnimation).setNumFrames(defaultAnimation.getNumFrames());
-		((SpriteAnimationComponent)spriteAnimation).setFramePosition(defaultAnimation.getTexturePosition());
-		((SpriteAnimationComponent)spriteAnimation).setCurrentFrame(0);
+		((TiledSpriteComponent)spriteAnimation).setFrameSize(defaultAnimation.getFrameSize());
+		((TiledSpriteComponent)spriteAnimation).setNumFrames(defaultAnimation.getNumFrames());
+		((TiledSpriteComponent)spriteAnimation).setFramePosition(defaultAnimation.getTexturePosition());
+		((TiledSpriteComponent)spriteAnimation).setCurrentFrame(0);
 		
 
 		Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);

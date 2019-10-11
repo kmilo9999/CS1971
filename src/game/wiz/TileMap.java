@@ -107,28 +107,11 @@ public class TileMap {
 				boolean isStatic = intTileMap[i][j] == 1 ? true : false;
 
 				tileMap[i][j] = new Tile("tile" + i +""+ j, intTileMap[i][j], new Vec2d(xPos, yPos), texCoord1,isStatic);	
-				
-				
 
-				// tileMap[i][j] = new Tile("tile"+(i+j), 1, texCoord1, new Vec2d(xPos,yPos));
 			 }
 		 }
 			 
-		 
-		 //Component terrainComponent = ComponentFactory.getInstance().createComponent(ComponentContants.terrain);
-		 //((TerrainComponent)terrainComponent).setWidth(mapWidth);
-		 //((TerrainComponent)terrainComponent).setHeight(mapHeight);
-		 //((TerrainComponent)terrainComponent).setNumTiles(new Vec2d(this.numTilesX, this.numTilesY));
-		 
-		 
-		 //Component graphics = ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
-		 //Component transformation = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
-		 
-		 
-		 
-		 
-		 
-		 //super.initialize();
+		
 	 }
 
 	public Tile[][] getTileMap() {

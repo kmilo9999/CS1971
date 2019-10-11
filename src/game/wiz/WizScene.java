@@ -7,7 +7,7 @@ import fxengine.application.FXFrontEnd;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
-import fxengine.components.SpriteAnimationComponent;
+import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TerrainComponent;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
@@ -16,6 +16,7 @@ import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
 import fxengine.components.GraphicsComponent;
 import fxengine.components.TransformComponent;
+import fxengine.maploader.GameTileMap;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
@@ -44,7 +45,7 @@ public class WizScene extends GameWorldScene{
 		animation.setNumFrames(new Vec2d(3,4));*/
 		
 		//terrain
-		TileMap terrain = new TileMap(750,450, 24,13);
+		//TileMap terrain = new TileMap(750,450, 24,13);
 		
 		//characters
 		List<Animation> animations = new ArrayList<Animation>();
@@ -59,18 +60,21 @@ public class WizScene extends GameWorldScene{
 		animations.add(down);
 
 		WizControllableCharacter mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
+		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
 		
-		Tile[][] tileMap =  terrain.getTileMap();
+		/*Tile[][] tileMap =  terrain.getTileMap();
 		for(int i = 0 ; i < terrain.getNumTilesX(); i++)
 		{
 			for(int j = 0 ; j < terrain.getNumTilesY(); j++)
 			{
 				this.myGameWorld.addGameObject(tileMap[i][j], GameWorld.BackLayer);		
 			}
-		}
+		}*/
 		
+		GameTileMap terrain = new GameTileMap("text/mytilemap.txt", "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,3), this);
+		terrain.load();
 		
-		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);		
+				
 		
 		
 		

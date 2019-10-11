@@ -39,7 +39,7 @@ public class AnimationComponent extends Component{
 		// TODO Auto-generated method stub
 		if(this.needsUpdate)
 		{
-			SpriteAnimationComponent spriteAnimation = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);
+			TiledSpriteComponent spriteAnimation = (TiledSpriteComponent) this.myParent.getComponent(ComponentContants.tiled_sprite);
 			if(spriteAnimation != null)
 			{
 				myCurrentAnimation = myAnimations.get(this.myCurrentAnimationName);
@@ -120,7 +120,7 @@ public class AnimationComponent extends Component{
 		if(this.myCurrentAnimation != null )
 		{
 			this.myCurrentFrame++;
-			SpriteAnimationComponent spriteAnimation = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);
+			TiledSpriteComponent spriteAnimation = (TiledSpriteComponent) this.myParent.getComponent(ComponentContants.tiled_sprite);
 			spriteAnimation.setCurrentFrame(this.myCurrentFrame % this.myCurrentAnimation.getNumFrames().y);	
 		}
 	}
@@ -129,7 +129,7 @@ public class AnimationComponent extends Component{
 	{
 	    this.myDoAnimate = false; 
 	    this.myCurrentAnimationName = "";
-	    SpriteAnimationComponent spriteAnimation = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);
+	    TiledSpriteComponent spriteAnimation = (TiledSpriteComponent) this.myParent.getComponent(ComponentContants.tiled_sprite);
 		spriteAnimation.setCurrentFrame(0);
 	}
 	

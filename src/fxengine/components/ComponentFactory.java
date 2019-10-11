@@ -78,9 +78,9 @@ public class ComponentFactory {
 			return new SpriteComponent(componentName);
 		}
 		
-		else if(componentName.equals(ComponentContants.sprite_animation))
+		else if(componentName.equals(ComponentContants.tiled_sprite))
 		{
-			return new SpriteAnimationComponent(componentName);
+			return new TiledSpriteComponent(componentName);
 		}
 		
 		else if(componentName.equals(ComponentContants.animation))

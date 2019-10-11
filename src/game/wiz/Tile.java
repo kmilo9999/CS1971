@@ -7,7 +7,7 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
-import fxengine.components.SpriteAnimationComponent;
+import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
@@ -37,12 +37,12 @@ public class Tile extends GameObject{
 		
         Component graphicsComponent = ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		
-		Component spriteComponent = ComponentFactory.getInstance().createComponent(ComponentContants.sprite_animation);
-		((SpriteAnimationComponent)spriteComponent).setFilePath("img/tiles.png");
-		((SpriteAnimationComponent)spriteComponent).setFrameSize(new Vec2d(32, 36));
-		((SpriteAnimationComponent)spriteComponent).setNumFrames(new Vec2i(1, 3));
-		((SpriteAnimationComponent)spriteComponent).setFramePosition(new Vec2d(0, 0));
-		((SpriteAnimationComponent)spriteComponent).setCurrentFrame(myColor);
+		Component tiledspriteComponent = ComponentFactory.getInstance().createComponent(ComponentContants.tiled_sprite);
+		((TiledSpriteComponent)tiledspriteComponent).setFilePath("img/tiles.png");
+		((TiledSpriteComponent)tiledspriteComponent).setFrameSize(new Vec2d(32, 36));
+		((TiledSpriteComponent)tiledspriteComponent).setNumFrames(new Vec2i(1, 3));
+		((TiledSpriteComponent)tiledspriteComponent).setFramePosition(new Vec2d(0, 0));
+		((TiledSpriteComponent)tiledspriteComponent).setCurrentFrame(myColor);
 		
 		if(this.isStatic)
 		{
@@ -56,7 +56,7 @@ public class Tile extends GameObject{
 		
 		this.addComponent(tranformComponent);
 		this.addComponent(graphicsComponent);
-		this.addComponent(spriteComponent);
+		this.addComponent(tiledspriteComponent);
 		
 		
 		super.initialize();

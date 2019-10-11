@@ -58,9 +58,9 @@ public class GraphicsComponent extends Component{
 				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
 				this.mySprite.initialize();
 			}
-		    else if(this.myParent.hasComponent(ComponentContants.sprite_animation))
+		    else if(this.myParent.hasComponent(ComponentContants.tiled_sprite))
 		    {
-				this.mySprite = (SpriteAnimationComponent) this.myParent.getComponent(ComponentContants.sprite_animation);
+				this.mySprite = (TiledSpriteComponent) this.myParent.getComponent(ComponentContants.tiled_sprite);
 				this.mySprite.initialize();
 		    }
 		    else if(this.myParent.hasComponent(ComponentContants.terrain))
@@ -123,7 +123,7 @@ public class GraphicsComponent extends Component{
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
 		if(this.myParent.hasComponent(ComponentContants.sprite) ||
-				this.myParent.hasComponent(ComponentContants.sprite_animation))
+				this.myParent.hasComponent(ComponentContants.tiled_sprite))
 		{
 			mySprite.update(nanosSincePreviousTick);
 		}

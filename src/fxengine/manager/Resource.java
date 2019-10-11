@@ -1,5 +1,10 @@
 package fxengine.manager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URL;
+
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
@@ -7,13 +12,14 @@ public class Resource {
 
 	public enum ResourceType 
 	{ 
-	    Image, Sound; 
+	    Image, Sound, TextFile; 
 	} 
 	
 	private String myFilePath;
 	private ResourceType myType;
 	private Image myImage;
 	private Media mySound;
+	private File myFileText;
 	private boolean isLoaded = false;
 	
 	public Resource(String filePath, ResourceType type)
@@ -76,7 +82,34 @@ public class Resource {
 				System.err.println("Image " + this.myFilePath + "not found");
 			
 		}
+		else if(this.myType == ResourceType.TextFile && !this.myFilePath.isEmpty())
+		{
+			URL resource = getClass().getClassLoader().getResource(this.myFilePath);
+			  if (resource == null) {
+		            throw new IllegalArgumentException("file is not found!");
+		        } else {
+		        	myFileText = new  File(resource.getFile());
+		        }
+			
+			
+			//myFileText  = new File(getClass().getClassLoader().getResource(this.myFilePath).toString());
+			if(myFileText != null)
+			{
+				isLoaded = true;
+				return;
+			}
+			
+			System.err.println("File" + this.myFilePath + "not found");
+		}
 		
 		// So far only supports Images
+	}
+
+	public File getFileReaader() {
+		return myFileText;
+	}
+
+	public void setText(File text) {
+		this.myFileText = text;
 	}
 }

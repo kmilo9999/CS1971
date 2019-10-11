@@ -9,7 +9,7 @@ import fxengine.manager.Resource.ResourceType;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
 
-public class SpriteAnimationComponent extends SpriteComponent{
+public class TiledSpriteComponent extends SpriteComponent{
 
 	
 	private Vec2d myFrameSize;
@@ -20,7 +20,7 @@ public class SpriteAnimationComponent extends SpriteComponent{
     
 	
 
-	public SpriteAnimationComponent(String name) {
+	public TiledSpriteComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 		
