@@ -27,10 +27,10 @@ public class TileMap {
 		this.numTilesY =  numTilesY;
 		tileMap = new Tile[numTilesX][numTilesY];
 		intTileMap = new int[numTilesX][numTilesY];
-		for(int i = 0 ; i < this.numTilesX ; i++) 
+		for(int i = 0 ; i < 0 ; i++) 
 		 {
 			 
-			 for(int j = 0 ; j < this.numTilesY ; j++)
+			 for(int j = 0 ; j < 1 ; j++)
 			 {
 				 intTileMap[i][j] = 0;
 			 }
@@ -104,7 +104,11 @@ public class TileMap {
 			 {
 				double yPos = topLeft.y + (j * 36);
 
-				tileMap[i][j] = new Tile("tile" + (i + j), intTileMap[i][j], new Vec2d(xPos, yPos), texCoord1);
+				boolean isStatic = intTileMap[i][j] == 1 ? true : false;
+
+				tileMap[i][j] = new Tile("tile" + i +""+ j, intTileMap[i][j], new Vec2d(xPos, yPos), texCoord1,isStatic);	
+				
+				
 
 				// tileMap[i][j] = new Tile("tile"+(i+j), 1, texCoord1, new Vec2d(xPos,yPos));
 			 }

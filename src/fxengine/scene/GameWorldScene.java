@@ -18,6 +18,7 @@ import fxengine.system.GraphicsSystem;
 import fxengine.system.KeyboardEventSystem;
 import fxengine.system.MouseEventSystem;
 import fxengine.system.PhysicsSystem;
+import fxengine.system.TransformSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -34,6 +35,7 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myCollSystem = new CollisionSystem();
 	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
+	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	
 
 	public GameWorldScene(String name, FXFrontEnd application) {
@@ -52,12 +54,14 @@ public class GameWorldScene extends BaseScene{
 	public void initScene() {
 		// TODO Auto-generated method stub
 
+		this.myGameWorld.addSystem(ComponentContants.transform, myTransformSystem);
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
 		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
+		
 		this.myGameWorld.initialize();
 		
 		///----------- Camera

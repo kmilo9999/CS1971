@@ -26,6 +26,8 @@ public class CollisionComponent extends Component{
 	private GameObject myOtherCollider;
 	
 	private Collision myCollisionInfo;
+	
+	private boolean isStatic = false;
 
 	public CollisionComponent(String name) {
 		super(name);
@@ -141,6 +143,14 @@ public class CollisionComponent extends Component{
 
 	public void setCollisionInfo(Collision collisionInfo) {
 		this.myCollisionInfo = collisionInfo;
+	}
+
+	public boolean isStatic() {
+		return isStatic;
+	}
+
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;
 	}
 
 

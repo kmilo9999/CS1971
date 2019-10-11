@@ -189,23 +189,24 @@ public class AABCollideShape extends CollisionShape {
 		
 		if( intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2))
 		{
-			double shortest = (this.myTopLeft.y + this.mySize.y) - (s2.getTopLeft().y);
+			double shortest = Math.abs((this.myTopLeft.y + this.mySize.y) - (s2.getTopLeft().y));
 			Vec2d mvtAxis = new Vec2d(0,-1);
-			if(shortest > (this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y))
+			if(shortest > Math.abs((this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y)))
 			{
-				shortest = (this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y);
+				shortest = Math.abs((this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y));
 				mvtAxis = new Vec2d(0,1);
 			}
-			if(shortest > (this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x))
+			if(shortest > Math.abs((this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x)))
 			{
 				shortest = (this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x);
 				mvtAxis = new Vec2d(-1,0);
 			}
-			if(shortest > (this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x))
+			if(shortest > Math.abs((this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x)))
 			{
-				shortest = (this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x);
+				shortest = Math.abs((this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x));
 				mvtAxis = new Vec2d(1,0);
 			}
+			
 			
 			return mvtAxis.smult(shortest/2);
 			

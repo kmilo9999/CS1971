@@ -17,7 +17,7 @@ public class TerrainComponent extends Component{
 	private Vec2d panelScreenViewPortSize;
 	private Vec2d panelScreenViewTopLeft;
 	private Vec2d gameWorldTopLeft;
-	
+		
 	
 	
 	private Map<Integer,Vec2d> myTextureCoordinates;

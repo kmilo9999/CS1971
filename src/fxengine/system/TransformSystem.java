@@ -1,5 +1,8 @@
 package fxengine.system;
 
+import fxengine.components.CollisionComponent;
+import fxengine.components.ComponentContants;
+import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -22,6 +25,15 @@ public class TransformSystem extends BaseGameSystem{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
+		for (int i = 0; i < myGameObjects.size(); i++) {
+			if(myGameObjects.get(i).hasComponent(ComponentContants.transform))
+			{
+				TransformComponent transform = (TransformComponent) myGameObjects.get(i)
+						.getComponent(ComponentContants.transform);
+				transform.update(nanosSincePreviousTick);
+			}
+			
+		}
 		
 	}
 
