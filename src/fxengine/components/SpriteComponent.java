@@ -7,6 +7,7 @@ import fxengine.manager.Resource.ResourceType;
 import fxengine.manager.ResourceManager;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 
 
@@ -73,7 +74,7 @@ public class SpriteComponent extends Component {
 					
 					if(loadImageSprite())
 					{
-						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.GRAY);
+						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.TRANSPARENT);
 					}
 					else
 					{
@@ -133,12 +134,13 @@ public class SpriteComponent extends Component {
 			myLayout.setPosition(layoutScreenPos);
 			myLayout.onDraw(graphicsCx);
 			
-				
+			graphicsCx.setGlobalBlendMode(BlendMode.SRC_ATOP);	
+			//graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
 			graphicsCx.drawImage(mySourceImage, mySpriteXCoordinates + myXClipOffSet,mySpriteYCoordinates +myYClipOffSet,this.myLayout.getSize().x,
 						this.myLayout.getSize().y,layoutScreenPos.x,layoutScreenPos.y,
 						this.myLayout.getSize().x,this.myLayout.getSize().y);
 			
-			
+			graphicsCx.setGlobalBlendMode(BlendMode.SRC_OVER);
 			
 		}
 	}

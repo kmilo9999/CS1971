@@ -3,6 +3,7 @@ package fxengine.UISystem;
 import fxengine.math.Vec2d;
 import fxengine.scene.BaseScene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -70,10 +71,13 @@ public class Layout extends UIElement{
 			graphicsCx.setStroke(myBorderColor);
 			graphicsCx.strokeRect(this.myPosition.x ,this.myPosition.y,this.mySize.x + 5.5,this.mySize.y + 5.5);	
 		}		
+		//graphicsCx.setGlobalBlendMode(BlendMode.SRC_ATOP);
 		graphicsCx.setFill(myColor);
 		graphicsCx.fillRect(this.myPosition.x ,this.myPosition.y,this.mySize.x ,this.mySize.y );
-		
+		//double alpha = graphicsCx.getGlobalAlpha();
+		//graphicsCx.setGlobalAlpha(0);
 		super.onDraw(graphicsCx);
+		//graphicsCx.setGlobalAlpha(alpha);
 	}
 
 

@@ -47,7 +47,7 @@ public class TiledSpriteComponent extends SpriteComponent{
 					
 					if(loadImageSprite())
 					{
-						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myFrameSize.x, this.myFrameSize.y, UIConstants.GRAY);
+						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myFrameSize.x, this.myFrameSize.y, UIConstants.TRANSPARENT);
 			  			/*for(int i = 0; i < myNumFrames.x ; i++)
 			  			{
 			  				double xPos = (i * myFrameSize.x) + myFramePosition.x;

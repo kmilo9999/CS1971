@@ -6,7 +6,9 @@ import fxengine.components.ComponentContants;
 import fxengine.components.GraphicsComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
+import fxengine.objects.GameWorld;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 
 public class GraphicsSystem extends BaseGameSystem{
 
@@ -51,16 +53,33 @@ public class GraphicsSystem extends BaseGameSystem{
 	@Override
 	public void draw(GraphicsContext graphicsCx) {
 		// TODO Auto-generated method stub
+		
+		
 		for(List<GameObject> gameObjects:myLayerGameObjects)
 		{
 			for(GameObject gameObject:gameObjects) 
 			{
 				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponentContants.graphics);
-				
-				if(gComponent != null)
+				if(gameObject.getLayerOrder() != GameWorld.BackLayer)
 				{
-					gComponent.draw(graphicsCx);	
+					//graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
+					if(gComponent != null)
+					{
+						gComponent.draw(graphicsCx);	
+					}
+					
 				}
+				else
+				{
+					graphicsCx.setGlobalBlendMode(BlendMode.OVERLAY);
+					if(gComponent != null)
+					{
+						gComponent.draw(graphicsCx);	
+					}	
+				}
+				
+				
+				
 			}
 		}
 	
