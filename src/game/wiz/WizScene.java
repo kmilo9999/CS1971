@@ -61,14 +61,39 @@ public class WizScene extends GameWorldScene{
 		terrain = new GameTileMap("text/mytilemap.txt", "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
 		terrain.load();
 		
-        fogofWar = new int[terrain.getNumTiles().y][terrain.getNumTiles().x];
-        for(int i = 0 ; i < terrain.getNumTiles().y ; i++)
+        fogofWar = new int[terrain.getNumTiles().x][terrain.getNumTiles().y];
+        for(int i = 0 ; i < terrain.getNumTiles().x ; i++)
         {
-        	for(int j = 0 ; j < terrain.getNumTiles().x ; j++)
+        	for(int j = 0 ; j < terrain.getNumTiles().y ; j++)
         	{
         		fogofWar[i][j] = terrain.getTile(i, j).getColor();
         	}
         }
+        
+        // init fog of war
+        TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+        int numTileX = (int)(transform.getPosition().x / 32);
+		int numTileY = (int)(transform.getPosition().y / 36);
+        int minClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().x, numTileY - 2)); 
+		int minClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX - 2));
+		
+		int maxClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
+		int maxClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
+        for (int i = 0; i < terrain.getNumTiles().x; i++) 
+		{
+			for (int j = 0; j < terrain.getNumTiles().y; j++)
+			{
+				if((i >= minClampXTile && i <=maxClampXTile)
+						&& (j >= minClampYTile &&  j<=maxClampYTile) )
+				{
+					terrain.getTile(i, j).setColor(fogofWar[i][j]);
+				}
+				else
+				{
+					terrain.getTile(i, j).setColor(3);
+				}
+			}
+		}
 		
 	}
 
@@ -79,37 +104,50 @@ public class WizScene extends GameWorldScene{
 		TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
 		int numTileX = (int)(transform.getPosition().x / 32);
 		int numTileY = (int)(transform.getPosition().y / 36);
-		
-		
-		if(playerCurrentTile.x != numTileX  || playerCurrentTile.y != numTileY)
+		/*for (int i = 0; i < terrain.getNumTiles().x; i++) 
 		{
-			playerCurrentTile = new Vec2d(numTileY,numTileX);
-			//System.out.println("playerCurrentTile: " + playerCurrentTile);
-			
-			int minClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().x, numTileY - 2)); 
-			int minClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX - 2));
-			
-			int maxClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
-			int maxClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileX + 2));
-			
-			for (int i = 0; i < terrain.getNumTiles().x; i++) 
+			for (int j = 0; j < terrain.getNumTiles().y; j++)
 			{
-				for (int j = 0; j < terrain.getNumTiles().y; j++) 
+				//terrain.getTile(i,j).setColor(2);
+				terrain.changeTileColor(i,j,3);
+			}
+		}*/
+		
+		//System.out.println("tiles updated");
+		
+		if(true)
+		{
+			if(playerCurrentTile.x != numTileX  || playerCurrentTile.y != numTileY)
+			{
+				playerCurrentTile = new Vec2d(numTileY,numTileX);
+				//System.out.println("playerCurrentTile: " + playerCurrentTile);
+				
+				int minClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().x, numTileX - 2)); 
+				int minClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileY - 2));
+				
+				int maxClampXTile =  Math.max(0,  Math.min(terrain.getNumTiles().x, numTileX + 2));
+				int maxClampYTile =  Math.max(0,  Math.min(terrain.getNumTiles().y, numTileY + 2));
+				
+				for (int i = 0; i < terrain.getNumTiles().y; i++) 
 				{
-					if((i >= minClampXTile && i <=maxClampXTile)
-							&& (j >= minClampYTile &&  j<=maxClampYTile) )
+					for (int j = 0; j < terrain.getNumTiles().x; j++) 
 					{
-						fogofWar[i][j] = terrain.getTile(i, j).getColor();
-						terrain.getTile(i, j).setColor(fogofWar[i][j]);
-					}
-					else
-					{
-						
-					}
+						//terrain.getTile(i, j).setColor(3);
+						if((i >= minClampXTile && i <=maxClampXTile)
+								&& (j >= minClampYTile &&  j<=maxClampYTile) )
+						{
+							terrain.getTile(j, i).setColor(fogofWar[j][i]);
+						}
+						else
+						{
+							terrain.getTile(j, i).setColor(3);
+						}
 
+					}
 				}
 			}
 		}
+		
 		
 		/*
 		for()

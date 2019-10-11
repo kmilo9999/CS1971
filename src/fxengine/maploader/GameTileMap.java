@@ -130,37 +130,37 @@ public class GameTileMap {
 			 
 			 myTileMap = new GameTile[this.intTileMap.size()][minY];
 			 
-			 myNumTiles = new Vec2i(minY,this.intTileMap.size());
+			 myNumTiles = new Vec2i(this.intTileMap.size(),minY);
 			 System.out.println("numTiles: " + myNumTiles);
 			 
 			 
-			 for(int i = 0 ; i < this.intTileMap.size() ; i++) 
+			 for(int i = 0 ; i < minY ; i++) 
 			 {
 				 double xPos = topLeft.x + (i * this.myTileSize.x);
 				 
-				 for(int j = 0 ; j < minY ; j++)
+				 for(int j = 0 ; j < this.intTileMap.size() ; j++)
 				 {
 					double yPos = topLeft.y + (j * this.myTileSize.y);
 
-					boolean isStatic = this.intTileMap.get(i).get(j) == 1 ? true : false;
+					boolean isStatic = this.intTileMap.get(j).get(i) == 1 ? true : false;
 
 					GameTile tile = new GameTile("tile" + i +""+ j,myTextureMapFilePath,new Vec2d(xPos, yPos));
 					
-					tile.setColor(intTileMap.get(i).get(j));
+					tile.setColor(intTileMap.get(j).get(i));
 					tile.setStatic(isStatic); 
 					tile.setTileSize(this.myTileSize);
 					tile.setNumFrames(this.myNumFrames);
 					tile.setTextCoord(this.myInitialPosition);
-					myTileMap[i][j] = tile;
+					myTileMap[j][i] = tile;
 
-					this.myScene.getGameWorld().addGameObject(myTileMap[i][j], GameWorld.BackLayer);		
+					this.myScene.getGameWorld().addGameObject(myTileMap[j][i], GameWorld.BackLayer);		
 					
 				 }
 			 }
 			 
 			 
 			
-			 
+			 System.out.println("Map generation completed");
 		}
 	}
 
@@ -187,6 +187,11 @@ public class GameTileMap {
 	public GameTile getTile(int x, int y)
 	{
 		return myTileMap[x][y];
+	}
+	
+	public void changeTileColor(int x, int y, int color)
+	{
+		myTileMap[x][y].setColor(color);
 	}
 	
 }

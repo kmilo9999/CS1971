@@ -84,6 +84,12 @@ public class GameTile extends GameObject{
 
 	public void setColor(int myColor) {
 		this.myColor = myColor;
+		Component tiledspriteComponent = this.getComponent(ComponentContants.tiled_sprite) ;
+		if(tiledspriteComponent != null)
+		{
+			((TiledSpriteComponent)tiledspriteComponent).setCurrentFrame(this.myColor);	
+		}
+		
 	}
 
 	public Vec2d getTextCoord() {
