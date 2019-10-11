@@ -75,12 +75,13 @@ public class GameTileMap {
 					List<Integer> intLine = new ArrayList<Integer>(); 
 				    for(int i = 0 ; i < st.length();i++)
 				    {
-				    	intLine.add(st.charAt(i) - 97); 
+				    	int number = st.charAt(i) - 48;
+				    	intLine.add(number); 
 				    }
 				    
 				    intTileMap.add(intLine);
 				    
-					System.out.println(st);
+					//System.out.println(st);
 				    
 				}
 				
@@ -139,12 +140,14 @@ public class GameTileMap {
 
 					boolean isStatic = this.intTileMap.get(i).get(j) == 1 ? true : false;
 
-					tileMap[i][j] = new GameTile("tile" + i +""+ j,myTextureMapFilePath,new Vec2d(xPos, yPos));
-					tileMap[i][j].setColor(intTileMap.get(i).get(j));
-					tileMap[i][j].setStatic(isStatic); 
-					tileMap[i][j].setTileSize(this.myTileSize);
-					tileMap[i][j].setNumFrames(this.myNumFrames);
-					tileMap[i][j].setTextCoord(this.myInitialPosition);
+					GameTile tile = new GameTile("tile" + i +""+ j,myTextureMapFilePath,new Vec2d(xPos, yPos));
+					
+					tile.setColor(intTileMap.get(i).get(j));
+					tile.setStatic(isStatic); 
+					tile.setTileSize(this.myTileSize);
+					tile.setNumFrames(this.myNumFrames);
+					tile.setTextCoord(this.myInitialPosition);
+					tileMap[i][j] = tile;
 
 					this.myScene.getGameWorld().addGameObject(tileMap[i][j], GameWorld.BackLayer);		
 					
