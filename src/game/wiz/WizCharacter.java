@@ -28,9 +28,12 @@ public abstract class WizCharacter extends GameObject{
    public static String moveLeft = "0";
    public static String moveRight = "3";
    
+   
+   
    private Vec2d rangeVisionTopLef;
    private Vec2d rangeVisionSize;
-	
+  
+   private Vec2d originalPos = new Vec2d(20, 20);
    protected List<Animation> myAnimations;
    
 	
@@ -72,11 +75,11 @@ public abstract class WizCharacter extends GameObject{
 	    Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		Component keyControllerComponent = ComponentFactory.getInstance()
 				.createComponent(ComponentContants.controllerKeyEvents);
-		((TransformComponent) tranformComponent).setPosition(new Vec2d(3, 10));
+		((TransformComponent) tranformComponent).setPosition(originalPos);
 		Component collisionCompomemt = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 		((CollisionComponent) collisionCompomemt).setCollisionShape(myCollisionShape);
-		// ((CollisionComponent)collisionCompomemt).getHitList().add(alch_circle);
+		((CollisionComponent)collisionCompomemt).getHitList().add(WizScene.goal);
 
 		this.addComponent(graphicsComponent);
 		this.addComponent(tranformComponent);
@@ -127,6 +130,11 @@ public abstract class WizCharacter extends GameObject{
 
 	public void setRangeVisionSize(Vec2d rangeVisionSize) {
 		this.rangeVisionSize = rangeVisionSize;
+	}
+	
+	public void resetCharacterPos()
+	{
+		((TransformComponent)this.getComponent(ComponentContants.transform)).setPosition(originalPos);
 	}
    
 }

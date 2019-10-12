@@ -142,9 +142,17 @@ public class GameTileMap {
 				 {
 					double yPos = topLeft.y + (j * this.myTileSize.y);
 
-					boolean isStatic = this.intTileMap.get(j).get(i) == 1 ? true : false;
+					boolean isStatic = this.intTileMap.get(j).get(i) == 1 || 
+							this.intTileMap.get(j).get(i) == 2 ? true : false;
 
-					GameTile tile = new GameTile("tile" + i +""+ j,myTextureMapFilePath,new Vec2d(xPos, yPos));
+					String tileId ="tile" + i +""+ j;
+					
+					GameTile tile = new GameTile(tileId,myTextureMapFilePath,new Vec2d(xPos, yPos));
+					if(intTileMap.get(j).get(i) == 2)
+					{
+						tile.setTag("GOAL");
+					}
+					
 					
 					tile.setColor(intTileMap.get(j).get(i));
 					tile.setStatic(isStatic); 
@@ -164,6 +172,129 @@ public class GameTileMap {
 		}
 	}
 
+	
+	public void loadMap(String mapPath)
+	{
+		this.myFilePath = mapPath;
+		if(!this.myFilePath.isEmpty())
+		{
+			for(List<Integer> l: intTileMap)
+			{
+				l.clear();
+			}
+			intTileMap.clear();
+			
+			 FileReader fr;
+			 boolean readFile = false;
+			 int minY = 1000000;
+			 
+			Resource resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.TextFile);
+			
+			
+			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
+
+            try {
+				BufferedReader br = new BufferedReader(new FileReader(resource.getFileReaader()));
+				String st; 
+				while ((st = br.readLine()) != null)
+				{
+					
+					if(st.length() < minY  )
+					{
+						minY = st.length();
+					} 
+					
+					List<Integer> intLine = new ArrayList<Integer>(); 
+				    for(int i = 0 ; i < st.length();i++)
+				    {
+				    	int number = st.charAt(i) - 48;
+				    	intLine.add(number); 
+				    }
+				    
+				    intTileMap.add(intLine);
+				    
+					//System.out.println(st);
+				    
+				}
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Path path = resource.getFileReaader().toPath();
+			//System.out.println(path.toString());
+ catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			  
+			String st; 
+			
+			/*while ((st = br.readLine()) != null)
+			{
+				
+				if(st.length() < minY  )
+				{
+					minY = st.length();
+				} 
+				
+				List<Integer> intLine = new ArrayList<Integer>(); 
+			    for(int i = 0 ; i < st.length();i++)
+			    {
+			    	intLine.add(st.charAt(i) - 97); 
+			    }
+			    
+			    intTileMap.add(intLine);
+			    
+				System.out.println(st);
+			    
+			}*/
+			
+			readFile = true; 
+				 
+			if(!readFile)
+			{
+				return;
+			}
+			
+			
+			 Vec2d topLeft = this.myScene.getGameWorld().getPanelGameViewPortTopLeft();
+			 
+			 //myTileMap = new GameTile[this.intTileMap.size()][minY];
+			 
+			 myNumTiles = new Vec2i(this.intTileMap.size(),minY);
+			 System.out.println("numTiles: " + myNumTiles);
+			 
+			 
+			 for(int i = 0 ; i < minY ; i++) 
+			 {
+				 
+				 
+				 for(int j = 0 ; j < this.intTileMap.size() ; j++)
+				 {
+				
+
+					boolean isStatic = this.intTileMap.get(j).get(i) == 1 ? true : false;
+
+					String tileId ="tile" + i +""+ j;
+					if(intTileMap.get(j).get(i) == 2)
+					{
+						tileId = "GOAL";
+					}
+					
+					myTileMap[j][i].setColor(intTileMap.get(j).get(i));
+					
+					myTileMap[j][i].setStatic(isStatic);
+		
+					
+				 }
+			 }
+			 
+			 
+			
+			 System.out.println("Map generation completed");
+		}
+	}
 
 	public Vec2i getNumTiles() {
 		return myNumTiles;

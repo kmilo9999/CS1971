@@ -130,6 +130,28 @@ public class GameTile extends GameObject{
 
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
+		if(this.isStatic)
+		{
+			if(this.hasComponent(ComponentContants.collision))
+			{
+				CollisionComponent collisionComponent = (CollisionComponent)this.getComponent(ComponentContants.collision);
+				collisionComponent.setStatic(this.isStatic);	
+			}
+			else
+			{
+				Component collisionComponent = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
+				CollisionShape collisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
+				((CollisionComponent)collisionComponent).setCollisionShape(collisionShape);
+				((CollisionComponent)collisionComponent).setStatic(this.isStatic);
+				this.addComponent(collisionComponent);				
+			}
+			
+			
+		}
+		else
+		{
+			this.removeComponent(ComponentContants.collision);
+		}
 	}
 	
 }
