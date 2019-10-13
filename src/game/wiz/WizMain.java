@@ -28,12 +28,16 @@ public class WizMain {
 		
 		
 		WizGame game = new WizGame("Wiz");
+		BaseScene introScene = new WizIntroScene("Intro", game);
 		BaseScene level1Scene = new WizScene("level1",game,fogOfWar,level1,0);
 		BaseScene level2Scene = new WizScene("level2",game,fogOfWar,level2,1);
+		BaseScene endScene = new WizEndScene("End",game);
 
+		game.addScene(introScene);
 		game.addScene(level1Scene);
 		game.addScene(level2Scene);
-		game.setActiveScreen("level1");
+		game.addScene(endScene);
+		game.setActiveScreen("Intro");
 		game.start(); // begin processing events
 		// don't put code after start()!
 	}

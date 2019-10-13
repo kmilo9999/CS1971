@@ -135,12 +135,18 @@ public class WizScene extends GameWorldScene{
 		}
 		
 	    CollisionComponent collision = (CollisionComponent)mainCharater.getComponent(ComponentContants.collision);
-		if(collision != null  && collision.isCollided() && currentLevel==0 )
+		if(collision != null  && collision.isCollided() )
 		{
 			if(collision.getOtherCollider().getTag().equals(goal))
 			{
-				
-				((WizGame)this.myApplication).setActiveScreen("level2");
+				if(this.currentLevel == 0)
+				{
+					((WizGame)this.myApplication).setActiveScreen("level2");	
+				}
+				else if(currentLevel ==  1)
+				{
+					((WizGame)this.myApplication).setActiveScreen("End");
+				}
 			}
 			
 		}

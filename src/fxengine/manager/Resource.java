@@ -72,12 +72,20 @@ public class Resource {
 	{
 		if(this.myType == ResourceType.Image && !this.myFilePath.isEmpty())
 		{
-			myImage  = new Image(getClass().getClassLoader().getResource(this.myFilePath).toString(),false);
-			if(myImage != null)
+			try
 			{
-				isLoaded = true;
-				return;
+				String strPath = getClass().getClassLoader().getResource(this.myFilePath).toString();
+				myImage  = new Image(strPath,false);
+				if(myImage != null)
+				{
+					isLoaded = true;
+					return;
+				}
+			}catch(Exception e)
+			{
+				e.printStackTrace();
 			}
+		
 			
 				System.err.println("Image " + this.myFilePath + "not found");
 			
