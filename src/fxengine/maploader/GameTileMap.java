@@ -62,7 +62,7 @@ public class GameTileMap {
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
 
             try {
-				BufferedReader br = new BufferedReader(new FileReader(resource.getFileReaader()));
+				BufferedReader br = resource.getFileReaader();
 				String st; 
 				while ((st = br.readLine()) != null)
 				{
@@ -194,7 +194,7 @@ public class GameTileMap {
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
 
             try {
-				BufferedReader br = new BufferedReader(new FileReader(resource.getFileReaader()));
+				BufferedReader br = resource.getFileReaader();
 				String st; 
 				while ((st = br.readLine()) != null)
 				{

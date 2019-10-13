@@ -1,8 +1,11 @@
 package fxengine.manager;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import javafx.scene.image.Image;
@@ -19,7 +22,7 @@ public class Resource {
 	private ResourceType myType;
 	private Image myImage;
 	private Media mySound;
-	private File myFileText;
+	private BufferedReader myFileText;
 	private boolean isLoaded = false;
 	
 	public Resource(String filePath, ResourceType type)
@@ -92,11 +95,11 @@ public class Resource {
 		}
 		else if(this.myType == ResourceType.TextFile && !this.myFilePath.isEmpty())
 		{
-			URL resource = getClass().getClassLoader().getResource(this.myFilePath);
+			InputStream resource = getClass().getClassLoader().getResourceAsStream(this.myFilePath);
 			  if (resource == null) {
 		            throw new IllegalArgumentException("file is not found!");
 		        } else {
-		        	myFileText = new  File(resource.getFile());
+		        	myFileText = new  BufferedReader(new InputStreamReader(resource));
 		        }
 			
 			
@@ -113,11 +116,11 @@ public class Resource {
 		// So far only supports Images
 	}
 
-	public File getFileReaader() {
+	public BufferedReader getFileReaader() {
 		return myFileText;
 	}
 
-	public void setText(File text) {
+	public void setText(BufferedReader text) {
 		this.myFileText = text;
 	}
 }
