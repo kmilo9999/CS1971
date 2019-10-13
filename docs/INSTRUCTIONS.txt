@@ -1,16 +1,9 @@
-1. execute the jar
-2. there is one game object within the view port
-3. clikc on the game object will select it
-4. to pan the game world press ctr + left click and move the mouse
-5. to zoom in scroll the mouse wheel up. to zoom out scroll the mouse wheel down
-6. Drag elements from the left menu to the game viewport.
-7. Try the different combinations
-
-   Square + Circle
-   Diamon + tirangle
-   Triangle + Star
-   Check + Diamon
-   Cloud + Diamon
-
-
-ENJOY
+1. execute the jar Java -jar wiz1.jar [yes/no] [absolut_path_to_map1] [absolut_path_to_map2]
+  - you can add 3 parameters:
+    -- "yes" to activate fog of war, "no" to disable fog of war  : default value is "no"
+    -- abosulte path to custom file map level 1. PLEASE create a 13x24 texfile where 0 indicates a non-block tile, 1 for walls and 2 for goal.
+       By default it will load a file inside the jar in the folder resource/text
+    -- abosulte path to custom file map level 2. PLEASE create a 13x24 texfile where 0 indicates a non-block tile, 1 for walls and 2 for goal.
+       By default it will load a file inside the jar in the folder resource/text
+2. The intro scene will tell you what to do to move your character and the tile you need to look for.
+3. you move your character using the AWSD.

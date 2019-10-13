@@ -15,7 +15,7 @@ public class Resource {
 
 	public enum ResourceType 
 	{ 
-	    Image, Sound, TextFile; 
+	    Image, Sound, InternalTextFile, ExternalTextFile; 
 	} 
 	
 	private String myFilePath;
@@ -93,7 +93,7 @@ public class Resource {
 				System.err.println("Image " + this.myFilePath + "not found");
 			
 		}
-		else if(this.myType == ResourceType.TextFile && !this.myFilePath.isEmpty())
+		else if(this.myType == ResourceType.InternalTextFile && !this.myFilePath.isEmpty())
 		{
 			InputStream resource = getClass().getClassLoader().getResourceAsStream(this.myFilePath);
 			  if (resource == null) {
@@ -112,7 +112,29 @@ public class Resource {
 			
 			System.err.println("File" + this.myFilePath + "not found");
 		}
-		
+		else if(this.myType == ResourceType.ExternalTextFile && !this.myFilePath.isEmpty())
+		{
+			  FileReader fr = null;
+			  
+			try {
+				fr = new FileReader(this.myFilePath);
+				myFileText =new BufferedReader(fr);
+				
+				
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}    
+	        
+			if(myFileText != null)
+			{
+				isLoaded = true;
+				return;
+			}
+			
+			System.err.println("File" + this.myFilePath + "not found");
+		}
 		// So far only supports Images
 	}
 

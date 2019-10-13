@@ -1,3 +1,2 @@
 It doesnt resize the game elements on the screen. 
 It zooms but it doesnt clip elements in the scaled viewport
-it does not generate more than one procedural room

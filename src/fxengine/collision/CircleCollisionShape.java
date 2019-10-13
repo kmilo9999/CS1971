@@ -1,6 +1,5 @@
 package fxengine.collision;
 
-import java.util.Vector;
 
 import fxengine.math.Vec2d;
 

@@ -37,6 +37,7 @@ public class WizScene extends GameWorldScene{
 	public static String goal = "GOAL";
 	
 	private int currentLevel = 0;
+	private boolean isMapExternal = false;
 	
 	public WizScene(String name, GameApplication application,String fogOfWar, String defaultMap, int level) {
 		super(name, application);
@@ -56,7 +57,16 @@ public class WizScene extends GameWorldScene{
 		
 		if(currentLevel == 0)
 		{
-			this.currentMapPath = defaultMap.isEmpty()? "text/mytilemap.txt":defaultMap;	
+			if(defaultMap.isEmpty())
+			{
+				this.currentMapPath = "text/mytilemap.txt";	
+			}
+			else
+			{
+				this.currentMapPath = defaultMap;
+				isMapExternal = true;
+			}
+				
 		}
 		else if(currentLevel ==  1)
 		{
@@ -89,6 +99,7 @@ public class WizScene extends GameWorldScene{
 		
         //terrain	
 		terrain = new GameTileMap(this.currentMapPath, "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
+		terrain.setExternal(isMapExternal);
 		terrain.load();
 		
         // init fog of war

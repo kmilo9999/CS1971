@@ -30,7 +30,7 @@ public class GameTileMap {
 	private Vec2i myNumTiles = new Vec2i(0);
 	GameTile[][] myTileMap;
 	List<List<Integer>> intTileMap = new ArrayList<List<Integer>>(); 
-	
+	private boolean isExternal = false;
 	
 	private GameWorldScene myScene;
 	
@@ -52,11 +52,20 @@ public class GameTileMap {
 	{
 		if(!this.myFilePath.isEmpty())
 		{
-			 FileReader fr;
+			 
 			 boolean readFile = false;
 			 int minY = 1000000;
-			 
-			Resource resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.TextFile);
+			
+			 Resource resource;
+			if(!this.isExternal)
+			{
+				resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.InternalTextFile);	
+			}
+			else
+			{
+				resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.ExternalTextFile);
+			}
+			
 			
 			
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
@@ -188,7 +197,7 @@ public class GameTileMap {
 			 boolean readFile = false;
 			 int minY = 1000000;
 			 
-			Resource resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.TextFile);
+			Resource resource = ResourceManager.getIntance().createOrGetResource(this.myFilePath, ResourceType.InternalTextFile);
 			
 			
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
@@ -323,6 +332,16 @@ public class GameTileMap {
 	public void changeTileColor(int x, int y, int color)
 	{
 		myTileMap[x][y].setColor(color);
+	}
+
+
+	public boolean isExternal() {
+		return isExternal;
+	}
+
+
+	public void setExternal(boolean isExternal) {
+		this.isExternal = isExternal;
 	}
 	
 }

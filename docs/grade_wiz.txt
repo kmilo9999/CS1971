@@ -24,28 +24,28 @@ Primary Engine Requirements
 
 Primary Game Requirements
 ========================================
-[ ] - Handin meets all playtesting requirements.
+[X] - Handin meets all playtesting requirements.
 [X] - The TA debugger should be extended to display the respective MTVs for all collision pairs. TAs should quickly be able to verify that the correct MTV is being calculated.
-[ ] - One of the tile types should be passable.  One should be impassable
-[ ] - The player-controlled unit should not be able to enter the impassable tiles. The unit should
+[X] - One of the tile types should be passable.  One should be impassable
+[X] - The player-controlled unit should not be able to enter the impassable tiles. The unit should
 be able to enter passable tiles.
 [X] - Your game never crashes.
 
 Secondary Engine Requirements
 =======================================
-[ ] - Handin meets all primary engine requirements
-[ ] - Your engine must implement a procedural map generation algorithm (space partitioning or
+[X] - Handin meets all primary engine requirements
+[X] - Your engine must implement a procedural map generation algorithm (space partitioning or
 similar complexity) OR support level loading from a text file.
 [X] - Your engine must correctly suppport an animation behavior.
 
 Secondary Game Requirements
 ======================================
 [ ] - Handin meets all primary game requirements
-[ ] - Your game must use a procedurally generated map OR a map loaded from a level file.
+[ X] - Your game must use a procedurally generated map OR a map loaded from a level file.
 	[ ] - If using a procedurally generated map, the player must be able to select a seed either using a text box or using buttons with
 pre-selected seed.
 [X] - Your game must include a sprite animation.
-[ ] - Your game must meet at least two of the extra game requirements (see the wiz extras doc for
+[X] - Your game must meet at least two of the extra game requirements (see the wiz extras doc for
 a list of ideas)
 
 Global Requirements (you don't need to show how to verify these)
