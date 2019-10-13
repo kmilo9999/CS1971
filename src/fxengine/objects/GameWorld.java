@@ -34,7 +34,7 @@ public class GameWorld {
 	private Map<String,BaseGameSystem> mySystems;
 
 	private GameObject mySelected = null;
-	private boolean myNeedsUpdate = false;
+	private boolean mySceneUpdated = false;
 
 	private Affine myAffineTransform;
 	
@@ -52,6 +52,8 @@ public class GameWorld {
 	
 	public double deltax =0;
 	public double deltay =0;
+	
+	//private boolean isClearingObjects = false;
 	
 	public GameWorld()
 	{
@@ -81,7 +83,7 @@ public class GameWorld {
 	public void update(long nanosSincePreviousTick)
 	{
 
-		if(myNeedsUpdate)
+		if(mySceneUpdated)
 		{
 			
 			//remove objects
@@ -154,13 +156,21 @@ public class GameWorld {
 		   //myDirtyObjects.get(0).clear();
 		   toRemoveList.clear();
 		   //myDirtyObjects.get(1).clear();
-		   myNeedsUpdate = false;
+		   mySceneUpdated = false;
+		   
+		 
+		   
 		}
+		
+		
 		
 		for(Map.Entry<String,BaseGameSystem>  systemEntry: mySystems.entrySet())
 		{
-			systemEntry.getValue().update(nanosSincePreviousTick);
-		}
+				systemEntry.getValue().update(nanosSincePreviousTick);
+		}	
+		
+		
+		
 	}
 	
 	public void draw(GraphicsContext graphicsCx)
@@ -418,7 +428,7 @@ public class GameWorld {
 		List<GameObject> dirtyObjects = myDirtyObjects.get(clone.getLayerOrder());
 		dirtyObjects.add(clone);
 		
-		myNeedsUpdate = true;
+		mySceneUpdated = true;
 	}
 	
 	
@@ -430,23 +440,23 @@ public class GameWorld {
 		List<GameObject> dirtyObjects = myDirtyObjects.get(layer);
 		dirtyObjects.add(gameObject);
 		
-		myNeedsUpdate = true;
+		mySceneUpdated = true;
 	}
 	
-	public void toRemoveGameObject(String gameObjectId) {
+	public void removeGameObject(String gameObjectId) {
 	
 		toRemoveList.add(gameObjectId);
-		myNeedsUpdate = true;
+		mySceneUpdated = true;
 	}
 	
 	
 	public boolean isNeedsUpdate() {
-		return myNeedsUpdate;
+		return mySceneUpdated;
 	}
 
 	public void setNeedsUpdate(boolean myNeedsUpdate) {
 		
-		this.myNeedsUpdate = myNeedsUpdate;
+		this.mySceneUpdated = myNeedsUpdate;
 	}
 
 	public GameObject getSelected() {
@@ -520,5 +530,20 @@ public class GameWorld {
 	public void setMyScreenViewPortSize(Vec2d myScreenViewPortSize) {
 		this.myScreenViewPortSize = myScreenViewPortSize;
 	}
+	
+	public void destroyGameObjects()
+	{
+		//this.isClearingObjects = true;
+		for(List<GameObject> gameObjects: myGameObjects)
+		{
+			for(GameObject gameObject: gameObjects)
+			{
+				this.removeGameObject(gameObject.getId());
+			}
+		}
+		
+	}
+	
+	
 
 }

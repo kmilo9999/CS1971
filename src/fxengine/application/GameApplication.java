@@ -28,25 +28,35 @@ public class GameApplication extends FXFrontEnd{
 		//verify new scene is set
 		if(!this.currentScene.isActive())
 		{
-			this.currentScene.cleanScene();
-			for(BaseScene scene: myScenes)
+			
+			if(!this.currentScene.isSceneCleared())
 			{
-				if(scene.isActive() )
+				this.currentScene.cleanScene();	
+			}
+			else
+			{
+				for(BaseScene scene: myScenes)
 				{
-					scene.setActive(true);
-					this.currentScene = scene;
+					if(scene.isActive() )
+					{
+						scene.setActive(true);
+						this.currentScene = scene;
+						if(!this.currentScene.isInitialized())
+						{
+							this.currentScene.setCurrentWindowSize(this.currentStageSize);
+							this.currentScene.initScene();
+							//this.currentScene.onResize(this.currentStageSize);
+						}
+						break;
+					}
+					
+
+					
 					
 				}
-				if(!scene.isInitialized())
-				{
-					this.currentScene.setCurrentWindowSize(this.currentStageSize);
-					this.currentScene.initScene();
-					//this.currentScene.onResize(this.currentStageSize);
-				}
-
-				
-				break;
 			}
+			
+			
 		}
 		
 		
@@ -161,6 +171,7 @@ public class GameApplication extends FXFrontEnd{
 	
 	public void setActiveScreen(String name)
 	{
+		
 		if(this.currentScene != null)
 		{
 			this.currentScene.setActive(false);

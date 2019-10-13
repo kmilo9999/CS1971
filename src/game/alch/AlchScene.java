@@ -3,6 +3,7 @@ package game.alch;
 import java.util.List;
 
 import fxengine.application.FXFrontEnd;
+import fxengine.application.GameApplication;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
@@ -56,7 +57,7 @@ public class AlchScene extends GameWorldScene{
 	private int numClouds = 0;
 	private int numDbz = 0;
 	
-	public AlchScene(String name, FXFrontEnd application) {
+	public AlchScene(String name, GameApplication application) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 	}
@@ -151,8 +152,8 @@ public class AlchScene extends GameWorldScene{
 		    	   {
 		    		   String otherId = collisionState.getColliderId();
 		    		   
-		    		   this.myGameWorld.toRemoveGameObject(gameObject.getId());
-		    		   this.myGameWorld.toRemoveGameObject(otherId);
+		    		   this.myGameWorld.removeGameObject(gameObject.getId());
+		    		   this.myGameWorld.removeGameObject(otherId);
 		    		   
 		    		// collisionState.getOtherCollider().setMarkForDestoryed(true);
 		    		   TransformComponent transform = (TransformComponent) gameObject.getComponent(ComponentContants.transform);

@@ -3,6 +3,7 @@ package fxengine.scene;
 
 
 import fxengine.application.FXFrontEnd;
+import fxengine.application.GameApplication;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
@@ -37,14 +38,15 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	
+	
 
-	public GameWorldScene(String name, FXFrontEnd application) {
+	public GameWorldScene(String name, GameApplication application) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 		this.myGameWorld = new GameWorld();
 	}
 	
-	public GameWorldScene(String name, FXFrontEnd application, GameWorld gameworld) {
+	public GameWorldScene(String name, GameApplication application, GameWorld gameworld) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 		this.myGameWorld = gameworld;
@@ -53,7 +55,9 @@ public class GameWorldScene extends BaseScene{
 	@Override
 	public void initScene() {
 		// TODO Auto-generated method stub
-
+		
+		this.mySceneCleared = true;
+		this.mySceneInitializing = true;
 		this.myGameWorld.addSystem(ComponentContants.transform, myTransformSystem);
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
@@ -75,13 +79,37 @@ public class GameWorldScene extends BaseScene{
 		///----------------------------------
 		
 		super.initScene();
+		this.mySceneInitializing = true;
+		this.mySceneRunning = true;
+		this.mySceneCleared = false;
 	}
 	
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		myGameWorld.update(nanosSincePreviousTick);
-		super.onTick(nanosSincePreviousTick);
+		if(this.mySceneRunning)
+		{
+			myGameWorld.update(nanosSincePreviousTick);
+			super.onTick(nanosSincePreviousTick);
+		}
+		if(this.mySceneIsDestroying)
+		{
+			this.mySceneRunning = false;
+			this.mySceneIsDestroying = false;
+			this.mySceneCleared = true;
+		}
+		
+	}
+	
+	@Override
+	public void cleanScene() {
+		if(this.mySceneRunning)
+		{
+			myGameWorld.destroyGameObjects();
+			super.cleanScene();
+			this.mySceneIsDestroying = true;
+		}
+		
 	}
 	
 	/**
@@ -232,8 +260,7 @@ public class GameWorldScene extends BaseScene{
 		
 		return -1;
 	}
-	
-	
+
 	
 	
 

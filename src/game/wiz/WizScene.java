@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fxengine.application.FXFrontEnd;
+import fxengine.application.GameApplication;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
@@ -35,9 +36,9 @@ public class WizScene extends GameWorldScene{
 	
 	public static String goal = "GOAL";
 	
-	int currentLevel = 0;
+	private int currentLevel = 0;
 	
-	public WizScene(String name, FXFrontEnd application,String fogOfWar, String defaultMap) {
+	public WizScene(String name, GameApplication application,String fogOfWar, String defaultMap, int level) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 		if(fogOfWar.equals("YES") || fogOfWar.equals("Y") || fogOfWar.equals("yes")
@@ -51,7 +52,17 @@ public class WizScene extends GameWorldScene{
 			doFogOfWar = false;
 		}
 		
-		this.currentMapPath = defaultMap.isEmpty()? "text/mytilemap.txt":defaultMap;
+		this.currentLevel = level;
+		
+		if(currentLevel == 0)
+		{
+			this.currentMapPath = defaultMap.isEmpty()? "text/mytilemap.txt":defaultMap;	
+		}
+		else if(currentLevel ==  1)
+		{
+			this.currentMapPath = defaultMap.isEmpty()? "text/myTileMap2.txt":defaultMap;
+		}
+		
 	}
 	
 	@Override
@@ -128,21 +139,15 @@ public class WizScene extends GameWorldScene{
 		{
 			if(collision.getOtherCollider().getTag().equals(goal))
 			{
-				loadNextLevel("text/myTileMap2.txt");
-				currentLevel++;
+				
+				((WizGame)this.myApplication).setActiveScreen("level2");
 			}
+			
 		}
 		
 		super.onTick(nanosSincePreviousTick);
 	}
 	
-	private void loadNextLevel(String filePath) {
-		// TODO Auto-generated method stub
-		
-		terrain.loadMap(filePath);
-		mainCharater.resetCharacterPos();
-	}
-
 	private void fogOfWar()
 	{
 		int xTile = playerCurrentTile.x;
