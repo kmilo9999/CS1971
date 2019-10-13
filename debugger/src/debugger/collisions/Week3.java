@@ -31,21 +31,21 @@ public final class Week3 extends Week3Reqs {
 		
 		if( intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2))
 		{
-			float shortest = (s1.topLeft.y + s1.size.y) - (s2.topLeft.y);
+			float shortest = Math.abs((s1.topLeft.y + s1.size.y) - (s2.topLeft.y));
 			Vec2f mvtAxis = new Vec2f(0,-1);
-			if(shortest > (s1.topLeft.y) - (s2.topLeft.y + s2.size.y))
+			if(shortest > Math.abs((s1.topLeft.y) - (s2.topLeft.y + s2.size.y)))
 			{
-				shortest = (s1.topLeft.y) - (s2.topLeft.y + s2.size.y);
+				shortest = Math.abs((s1.topLeft.y) - (s2.topLeft.y + s2.size.y));
 				mvtAxis = new Vec2f(0,1);
 			}
-			if(shortest > (s1.topLeft.x + s1.size.x) - (s2.topLeft.x))
+			if(shortest > Math.abs((s1.topLeft.x + s1.size.x) - (s2.topLeft.x)))
 			{
 				shortest = (s1.topLeft.x + s1.size.x) - (s2.topLeft.x);
 				mvtAxis = new Vec2f(-1,0);
 			}
-			if(shortest > (s1.topLeft.x) - (s2.topLeft.x + s2.size.x))
+			if(shortest > Math.abs((s1.topLeft.x) - (s2.topLeft.x + s2.size.x)))
 			{
-				shortest = (s1.topLeft.x) - (s2.topLeft.x + s2.size.x);
+				shortest = Math.abs((s1.topLeft.x) - (s2.topLeft.x + s2.size.x));
 				mvtAxis = new Vec2f(1,0);
 			}
 			
