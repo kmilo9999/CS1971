@@ -32,10 +32,10 @@ public class CollisionSystem extends BaseGameSystem{
 							CollisionComponent collisionComponent2 = (CollisionComponent) myGameObjects.get(j)
 									.getComponent(ComponentContants.collision);
 							if (collisionComponent2 != null) {
-								if (collisionComponent2.getHitList().contains(myGameObjects.get(i).getTag())) {
+								if (collisionComponent.getHitList().contains(myGameObjects.get(j).getTag())) {
 									// check collision
 									if (collisionComponent.getCollisionShape()
-											.collides(collisionComponent2.getCollisionShape())) {
+											.isColliding(collisionComponent2.getCollisionShape())) {
 										System.out.println("COLLISION!");
 										collisionComponent.setCollided(true);
 										collisionComponent.setColliderId(((GameObject)myGameObjects.get(j)).getId());

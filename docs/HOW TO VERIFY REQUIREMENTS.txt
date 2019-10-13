@@ -1,34 +1,35 @@
 ﻿
 
+Primary Engine Requirements
 
-Playtesting Requirements
-- Element is displayed in viewport: open the application
-- Element can be moved around the workspace: move the elements in the viewport
-- Element is rendered using a sprite: all the images on the game objects are being draw using the component fxengine.components.SpriteComponent
+- Your engine must be able to calculate MTVs in addition to normal collision calculations. 
+     Check the file fxengine.collision.AABCollideShape methods collisionCircle and collisionAABS
+     Check the file fxengine.collision.CircleCollisionShape methods collisionCircle and collisionAABS
+     The same logic is in the debugger
 
-Primary Engine Requirements:
-- Engine supports collisions between points, circles, and AABs: Check the component fxengine.components.CollisionComponent and CollisionShape
-- This is done using a collision system and collision behavior:
-- Collision checking is done using double dispatch (or with similarly clean implementation): check out classes CircleCollisionShape and AABCollideShape
+Primary Game Requirements
 
-Primary Game Requirements:
-- two base elements in the menu : I have 4
-- which can be copied and dragged into the workspace: you can drag elements form the menu to the viewport
-- without destroying or moving the original
-- which can combine to make a new element : 
-
-
+-  The TA debugger should be extended to display the respective MTVs for all collision pairs. TAs should quickly be able to verify that the correct MTV is being calculated.
+   Execute the debugger project inside the project workspace
+- One of the tile types should be passable.  One should be impassable : in the game there are walls and grass
+- The player-controlled unit should not be able to enter the impassable tiles. The unit should: play the game
+- Your game never crashes: I havent seen crashing so far
 
 Secondary Engine Requirements
-- Engine supports a sprite behavior: check fxengine.components.SpriteComponent
-- Spritesheets/sprites are only loaded once: check fxengine.manager.ResourceManager. I have a map of resources with the file path, object pair.
 
-Secondary Game Requirements 
-- All elements have unique sprites & use sprite behavior
-- four base elements: Circle, square, triangle, star
- - three non-base elements: check, diamon, cloud
- - one final element: BDZ image
+- Your engine must implement a procedural map generation algorithm (space partitioning or
+similar complexity) OR support level loading from a text file.: I do load from text file
+   Check file fxengine.maploader.GameTileMap
+   The game jar can load custom maps. Check the instructions file on how to do it.
+- Your engine must correctly suppport an animation behavior: Check the file fxengine.components.AnimationComponent
 
 
+Secondary Game Requirements
 
-It took me around 12 hours to get this far  :D. 
+- Your game must use a procedurally generated map OR a map loaded from a level file: 
+   Check file fxengine.maploader.GameTileMap
+   The game jar can load custom maps. Check the instructions file on how to do it.
+- Your game must include a sprite animation.: The main character has animation
+- Your game must meet at least two of the extra game requirements: I implemented fog of war and multi level.
+
+It took me a TON of time to get this far  :D. 

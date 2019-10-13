@@ -1,6 +1,5 @@
 package fxengine.collision;
 
-import java.util.Vector;
 
 import fxengine.math.Vec2d;
 
@@ -26,13 +25,13 @@ public  class CircleCollisionShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collides(CollisionShape o) {
+	public boolean isColliding(CollisionShape o) {
 		// TODO Auto-generated method stub
-		return o.collidesCircle(this);
+		return o.isCollidingCircle(this);
 	}
 
 	@Override
-	public boolean collidesCircle(CircleCollisionShape c) {
+	public boolean isCollidingCircle(CircleCollisionShape c) {
 		// TODO Auto-generated method stub
 		if(c.getCenter().dist2(center) <= (c.getRadius() + radius) * (c.getRadius() + radius)  )
 		{
@@ -42,14 +41,14 @@ public  class CircleCollisionShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collidesAABShape(AABCollideShape aab) {
+	public boolean isCollidingAAB(AABCollideShape aab) {
 		// TODO Auto-generated method stub
-		return aab.collidesCircle(this);
+		return aab.isCollidingCircle(this);
 		
 	}
 	
 	@Override
-	public boolean collidesPoint(Vec2d s2)
+	public boolean isCollidingPoint(Vec2d s2)
 	{
 		if(s2.dist2(center) <= radius*radius)
 		{
@@ -60,11 +59,58 @@ public  class CircleCollisionShape extends CollisionShape {
 	}
 
 	@Override
-	public void initialize(Vec2d position, Vec2d size) {
+	public void update(Vec2d position, Vec2d size) {
 		// TODO Auto-generated method stub
 		
 		center = new Vec2d(position.x +  size.x/2 ,position.y +  size.y/2 );
 		radius = size.x/2;
+	}
+
+	@Override
+	public Vec2d collisionCircle(CircleCollisionShape c) {
+		// TODO Auto-generated method stub
+		double sumRadi = this.radius + c.radius;
+		double distCenter = this.center.dist(c.center);
+		
+		if(distCenter < sumRadi)
+		{
+			Vec2d mvtAxis = c.center.minus(this.center);
+			
+			Vec2d distanceVector1 = c.center.minus(this.center);
+			if(mvtAxis.dot(distanceVector1) >= 0) 
+			{
+				mvtAxis = mvtAxis.reflect();
+			}
+			
+	        return mvtAxis.normalize().smult((sumRadi-distCenter )/2 );
+		}	
+		
+        
+        
+		return new Vec2d(0);
+		
+	}
+
+	@Override
+	public Vec2d collisionAABS(AABCollideShape c) {
+		// TODO Auto-generated method stub
+		return c.collisionCircle(this);
+	}
+
+	@Override
+	public Vec2d colliding(CollisionShape o) {
+		// TODO Auto-generated method stub
+		return o.collisionCircle(this);
+	}
+
+	@Override
+	public Vec2d collidingPoint(Vec2d s2) {
+		// TODO Auto-generated method stub
+		if(s2.dist2(this.center) <= this.radius*this.radius)
+		{
+			return s2;
+		}
+		return null;
 	}
 	
 	

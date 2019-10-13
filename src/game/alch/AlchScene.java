@@ -3,6 +3,7 @@ package game.alch;
 import java.util.List;
 
 import fxengine.application.FXFrontEnd;
+import fxengine.application.GameApplication;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
@@ -56,7 +57,7 @@ public class AlchScene extends GameWorldScene{
 	private int numClouds = 0;
 	private int numDbz = 0;
 	
-	public AlchScene(String name, FXFrontEnd application) {
+	public AlchScene(String name, GameApplication application) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 	}
@@ -92,7 +93,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject.addComponent(mouseControllerComponent);
 		gameObject.addComponent(keyControllerComponent);
 		gameObject.addComponent(collisionCompomemt);
-		
+		gameObject.addComponent(mySprite1);
 		
 		
 		//this.myGameWorld.addGameObject(gameObject, GameWorld.FrontLayer);		
@@ -111,8 +112,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.setTag(alch_circle);
 		Component graphicsComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.graphics);
 		SpriteComponent mySprite2 = new SpriteComponent(ComponentContants.sprite);
-		mySprite2.setFilePath("img/circle.png");
-		((GraphicsComponent)graphicsComponent2).setSprite(mySprite2);
+		mySprite2.setFilePath("img/circle.png");		
 		Component tranformComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    Component mouseControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerMouseEvents);
 		Component keyControllerComponent2 =  ComponentFactory.getInstance().createComponent(ComponentContants.controllerKeyEvents);
@@ -152,8 +152,8 @@ public class AlchScene extends GameWorldScene{
 		    	   {
 		    		   String otherId = collisionState.getColliderId();
 		    		   
-		    		   this.myGameWorld.toRemoveGameObject(gameObject.getId());
-		    		   this.myGameWorld.toRemoveGameObject(otherId);
+		    		   this.myGameWorld.removeGameObject(gameObject.getId());
+		    		   this.myGameWorld.removeGameObject(otherId);
 		    		   
 		    		// collisionState.getOtherCollider().setMarkForDestoryed(true);
 		    		   TransformComponent transform = (TransformComponent) gameObject.getComponent(ComponentContants.transform);

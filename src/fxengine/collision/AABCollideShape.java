@@ -1,67 +1,68 @@
 package fxengine.collision;
 
+
 import fxengine.math.Vec2d;
 
 public class AABCollideShape extends CollisionShape {
 	
-	protected Vec2d topLeft;
-	protected Vec2d size;
+	protected Vec2d myTopLeft;
+	protected Vec2d mySize;
 
 	public AABCollideShape(Vec2d topLeft, Vec2d size) {
-		this.topLeft = topLeft;
-		this.size = size;
+		this.myTopLeft = topLeft;
+		this.mySize = size;
 	}
 	
 	/////
 	
 	public Vec2d getTopLeft() {
-		return topLeft;
+		return myTopLeft;
 	}
 	
 	public Vec2d getSize() {
-		return size;
+		return mySize;
 	}
 
 	@Override
-	public boolean collides(CollisionShape o) {
+	public boolean isColliding(CollisionShape o) {
 		// TODO Auto-generated method stub
-		return o.collidesAABShape(this);
+		return o.isCollidingAAB(this);
 	}
 
 	@Override
-	public boolean collidesCircle(CircleCollisionShape c) {
+	public boolean isCollidingCircle(CircleCollisionShape c) {
 		// TODO Auto-generated method stub
-		double clampedValueX = Math.max(topLeft.x, Math.min(c.getCenter().x, topLeft.x + size.x));
-		double clampedValueY = Math.max(topLeft.y, Math.min(c.getCenter().y, topLeft.y + size.y));
+		double clampedValueX = Math.max(myTopLeft.x, Math.min(c.getCenter().x, myTopLeft.x + mySize.x));
+		double clampedValueY = Math.max(myTopLeft.y, Math.min(c.getCenter().y, myTopLeft.y + mySize.y));
 		
-		return c.collidesPoint(new Vec2d(clampedValueX,clampedValueY));
+		return c.isCollidingPoint(new Vec2d(clampedValueX,clampedValueY));
 		
 	}
 
 	@Override
-	public boolean collidesAABShape(AABCollideShape other) {
+	public boolean isCollidingAAB(AABCollideShape other) {
 		// TODO Auto-generated method stub
 		
 		
-		Vec2d aBottomRigth = new Vec2d(topLeft.x + size.x,topLeft.y + size.y );
+		Vec2d aBottomRigth = new Vec2d(myTopLeft.x + mySize.x,myTopLeft.y + mySize.y );
 		Vec2d bBottomRigth = new Vec2d(other.getTopLeft().x + other.getSize().x ,other.getTopLeft().y + other.getSize().y );
 		
-		if (topLeft.x > bBottomRigth.x   || other.getTopLeft().x > aBottomRigth.x) 
+		if (myTopLeft.x > bBottomRigth.x   || other.getTopLeft().x > aBottomRigth.x) 
 		{
 			return false; 
 		}
 		  
-		if (topLeft.y > bBottomRigth.y || other.getTopLeft().y > aBottomRigth.y)
+		if (myTopLeft.y > bBottomRigth.y || other.getTopLeft().y > aBottomRigth.y)
 		{
 		    return false;
 		} 
 		  
 	
-		Interval intervalx1 = getInterval(new Vec2d(1,0) ,topLeft ,size);
+		Interval intervalx1 = getInterval(new Vec2d(1,0) ,myTopLeft ,mySize);
 		Interval intervalx2 = getInterval(new Vec2d(1,0) ,other.getTopLeft() ,other.getSize());
 		
 		
-		Interval intervaly1 = getInterval(new Vec2d(0, 1) ,topLeft ,size);
+		Interval intervaly1 = getInterval(new Vec2d(0, 1) ,myTopLeft ,mySize);
 		Interval intervaly2 = getInterval(new Vec2d(0, 1) ,other.getTopLeft() ,other.getSize());
 		
 		return intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2);
@@ -70,10 +71,10 @@ public class AABCollideShape extends CollisionShape {
 	}
 
 	@Override
-	public boolean collidesPoint(Vec2d s2) {
+	public boolean isCollidingPoint(Vec2d s2) {
 		// TODO Auto-generated method stub
-		if((topLeft.x <= s2.x && topLeft.x +size.x >= s2.x)
-				&& (topLeft.y <= s2.y && topLeft.y +size.x >= s2.y))
+		if((myTopLeft.x <= s2.x && myTopLeft.x +mySize.x >= s2.x)
+				&& (myTopLeft.y <= s2.y && myTopLeft.y +mySize.x >= s2.y))
 		{
 			return true;
 		}
@@ -90,10 +91,149 @@ public class AABCollideShape extends CollisionShape {
 	}
 
 	@Override
-	public void initialize(Vec2d position, Vec2d size) {
+	public void update(Vec2d position, Vec2d size) {
 		// TODO Auto-generated method stub
-		this.topLeft =position;
-		this.size =size;
+		this.myTopLeft =position;
+		this.mySize =size;
+	}
+
+	public void setTopLeft(Vec2d topLeft) {
+		this.myTopLeft = topLeft;
+	}
+
+	public void setSize(Vec2d size) {
+		this.mySize = size;
+	}
+
+	@Override
+	public Vec2d collisionCircle(CircleCollisionShape c) {
+		// TODO Auto-generated method stub
+		double clampedValueX = Math.max(this.myTopLeft.x, Math.min(c.getCenter().x, this.myTopLeft.x + this.mySize.x));
+		double clampedValueY = Math.max(this.myTopLeft.y, Math.min(c.getCenter().y, this.myTopLeft.y + this.mySize.y));
+		
+		Vec2d point = new Vec2d(clampedValueX,clampedValueY);
+		if(point.dist2(c.center) <= c.radius*c.radius)
+		{
+			if( (c.center.x >= this.myTopLeft.x && c.center.x <= this.myTopLeft.x + this.mySize.x )
+					&& (c.center.y >= this.myTopLeft.y && c.center.y <= this.myTopLeft.y + this.mySize.y ) )
+			{
+				
+				Vec2d closesPoint = this.myTopLeft;
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x,this.myTopLeft.x + this.mySize.x).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x,this.myTopLeft.x + this.mySize.x); 
+				}
+				
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x,this.myTopLeft.y + this.mySize.y).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x,this.myTopLeft.y + this.mySize.y);
+				}
+				
+				if( closesPoint.dist(c.center) > new Vec2d(this.myTopLeft.x + this.mySize.x, this.myTopLeft.y + this.mySize.y).dist(c.center))
+				{
+					closesPoint = new Vec2d(this.myTopLeft.x + this.mySize.x , this.myTopLeft.y + this.mySize.y);
+				}
+				
+				
+				double lenght = c.radius + c.center.dist(closesPoint);
+				Vec2d mvtAxis = new Vec2d(0,1);
+				return mvtAxis.smult( lenght /2);
+			}
+		
+			
+			
+			double lenght = c.radius + c.center.dist(point);
+			Vec2d aabCenter = new Vec2d(this.myTopLeft.x + (this.mySize.x /2),this.myTopLeft.y + (this.mySize.y /2));
+			Vec2d mvtAxis =  c.center.minus(aabCenter);
+			
+			
+			Vec2d distanceVector1 = c.center.minus(aabCenter);
+			if(mvtAxis.dot(distanceVector1) >= 0) 
+			{
+				mvtAxis = mvtAxis.reflect();
+			}
+			
+	        return mvtAxis.normalize().smult(lenght/2);
+
+	
+		}
+		
+				
+		return new Vec2d(0);
+	}
+
+	@Override
+	public Vec2d collisionAABS(AABCollideShape s2) {
+		// TODO Auto-generated method stub
+		Vec2d aBottomRigth = new Vec2d(this.myTopLeft.x + this.mySize.x,this.myTopLeft.y + this.mySize.y );
+		Vec2d bBottomRigth = new Vec2d(s2.getTopLeft().x + s2.getSize().x ,s2.getTopLeft().y + s2.getSize().y );
+		
+		if (this.myTopLeft.x > bBottomRigth.x   || s2.getTopLeft().x > aBottomRigth.x) 
+		{
+			return new Vec2d(0); 
+		}
+		  
+		if (this.myTopLeft.y > bBottomRigth.y || s2.getTopLeft().y > aBottomRigth.y)
+		{
+		    return new Vec2d(0);
+		} 
+		
+		Interval intervalx1 = getInterval(new Vec2d(1,0) , this.myTopLeft ,this.mySize);
+		Interval intervalx2 = getInterval(new Vec2d(1,0) , s2.getTopLeft() ,s2.getSize());
+		
+		
+		Interval intervaly1 = getInterval(new Vec2d(0, 1) , this.myTopLeft , this.mySize);
+		Interval intervaly2 = getInterval(new Vec2d(0, 1) , s2.getTopLeft() ,s2.getSize());
+		
+		if( intervalx1.overlap(intervalx2) && intervaly1.overlap(intervaly2))
+		{
+			double shortest = Math.abs((this.myTopLeft.y + this.mySize.y) - (s2.getTopLeft().y));
+			Vec2d mvtAxis = new Vec2d(0,-1);
+			if(shortest > Math.abs((this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y)))
+			{
+				shortest = Math.abs((this.myTopLeft.y) - (s2.getTopLeft().y + s2.getSize().y));
+				mvtAxis = new Vec2d(0,1);
+			}
+			if(shortest > Math.abs((this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x)))
+			{
+				shortest = (this.myTopLeft.x + this.mySize.x) - (s2.getTopLeft().x);
+				mvtAxis = new Vec2d(-1,0);
+			}
+			if(shortest > Math.abs((this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x)))
+			{
+				shortest = Math.abs((this.myTopLeft.x) - (s2.getTopLeft().x + s2.getSize().x));
+				mvtAxis = new Vec2d(1,0);
+			}
+			
+			
+			return mvtAxis.smult(shortest/2);
+			
+		}
+		else
+		{
+			return new Vec2d(0);	
+		}
+		
+		
+	}
+
+	@Override
+	public Vec2d colliding(CollisionShape o) {
+		// TODO Auto-generated method stub
+		return o.collisionAABS(this);
+	}
+
+	@Override
+	public Vec2d collidingPoint(Vec2d s2) {
+		// TODO Auto-generated method stub
+		if((this.myTopLeft.x <= s2.x && this.myTopLeft.x + this.mySize.x >= s2.x)
+				&& (this.myTopLeft.y <= s2.y && this.myTopLeft.y + this.mySize.y >= s2.y))
+		{
+			return s2;
+		}
+		return null;
 	}
 	
 	

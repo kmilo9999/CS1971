@@ -4,9 +4,11 @@ package fxengine.components;
 import java.util.HashSet;
 import java.util.Set;
 
+import fxengine.collision.Collision;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
+import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -22,8 +24,11 @@ public class CollisionComponent extends Component{
 	private String myColliderId;
 	
 	private GameObject myOtherCollider;
-
 	
+	private Collision myCollisionInfo;
+	
+	private boolean isStatic = false;
+
 	public CollisionComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -59,7 +64,7 @@ public class CollisionComponent extends Component{
 					graphics.initialize();
 				}
 				
-				myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
+				myCollisionShape.update(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
 			}
 			
 			isInitialized = true;
@@ -76,7 +81,7 @@ public class CollisionComponent extends Component{
 		
 		if(tranform != null && graphics != null)
 		{
-			myCollisionShape.initialize(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
+			myCollisionShape.update(tranform.getPosition(),graphics.getSprite().getLayout().getSize());
 		}
 	}
 
@@ -131,5 +136,22 @@ public class CollisionComponent extends Component{
 	public void setOtherCollider(GameObject myOtherCollider) {
 		this.myOtherCollider = myOtherCollider;
 	}
+	
+	public Collision getCollisionInfo() {
+		return myCollisionInfo;
+	}
+
+	public void setCollisionInfo(Collision collisionInfo) {
+		this.myCollisionInfo = collisionInfo;
+	}
+
+	public boolean isStatic() {
+		return isStatic;
+	}
+
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;
+	}
+
 
 }

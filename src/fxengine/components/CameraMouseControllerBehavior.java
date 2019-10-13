@@ -89,7 +89,7 @@ public class CameraMouseControllerBehavior extends MouseEventComponent {
 			{
 				if(keyController.getSpecialKeyState(KeyboardEventSystem.CONTROL_KEYCODE))
 				{
-					Vec2d gameUpLeft = this.myParent.getGameWorld().getPanelGameViewPort();
+					Vec2d gameUpLeft = this.myParent.getGameWorld().getPanelGameViewPortTopLeft();
 					
 					Vec2d currentMousePosGameSpace = this.myParent.getGameWorld().screenToGameTransform(currentMousePosition);
 					Vec2d lastMousePositionGameSpace = this.myParent.getGameWorld().screenToGameTransform(this.myLastPosition);

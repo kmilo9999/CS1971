@@ -1,0 +1,71 @@
+[ ] - Playtesting
+[ ] - Primary
+[ ] - Secondary
+Total: -/4
+
+Retries used: NONE STANDARD EXTRA (2 extra retries remaining)
+
+[X] - Attended a design check
+[ ] - Completed playtesting
+
+========================================
+
+Playtesting Requirements
+========================================
+[ ] - Handin meets all global requirements
+[ ] - Handin only crashes on edge cases
+[ ] - Your game should have a map with at least two visually distinct tile types.
+[ ] - The TA debugger should correctly show MTVs for circle-circle and AAB-AAB collisions.
+[ ] - Your game should have a unit that the player can move freely.
+
+Primary Engine Requirements
+========================================
+[X] - Your engine must be able to calculate MTVs in addition to normal collision calculations.
+
+Primary Game Requirements
+========================================
+[X] - Handin meets all playtesting requirements.
+[X] - The TA debugger should be extended to display the respective MTVs for all collision pairs. TAs should quickly be able to verify that the correct MTV is being calculated.
+[X] - One of the tile types should be passable.  One should be impassable
+[X] - The player-controlled unit should not be able to enter the impassable tiles. The unit should
+be able to enter passable tiles.
+[X] - Your game never crashes.
+
+Secondary Engine Requirements
+=======================================
+[X] - Handin meets all primary engine requirements
+[X] - Your engine must implement a procedural map generation algorithm (space partitioning or
+similar complexity) OR support level loading from a text file.
+[X] - Your engine must correctly suppport an animation behavior.
+
+Secondary Game Requirements
+======================================
+[ ] - Handin meets all primary game requirements
+[ X] - Your game must use a procedurally generated map OR a map loaded from a level file.
+	[ ] - If using a procedurally generated map, the player must be able to select a seed either using a text box or using buttons with
+pre-selected seed.
+[X] - Your game must include a sprite animation.
+[X] - Your game must meet at least two of the extra game requirements (see the wiz extras doc for
+a list of ideas)
+
+Global Requirements (you don't need to show how to verify these)
+======================================
+[ ] - Eclipse project or ant build file
+[ ] - README
+    [ ] - has a copy of the rubric
+    [ ] - shows how to verify non-global requirements
+    [ ] - documents known bugs
+    [ ] - approximate hours to complete checkpoint
+[ ] - INSTRUCTIONS file included
+[ ] - No external dependencies
+[ ] - Engine and game in separate packages
+[ ] - Engine and game logically separated
+[ ] - Engine and game code isn't horribly designed
+    [ ] - No game logic is handled outside of the game world
+    [ ] - Most game logic is contained within behaviors
+    [ ] - GameObjects do not gain any functionality from inheritance
+    [ ] - Behaviors are extensible- no hardcoding required to add new behaviors
+    [ ] - Systems are extensible- minimal hardcoding required to add new systems
+[ ] - Handin runs on department machines
+[ ] - Handin isn't permanent fixed size
+[ ] - Handin runs 20+ UPS

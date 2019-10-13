@@ -54,7 +54,7 @@ public class UISprite extends Layout{
 	
 	public void onMouseClicked(MouseEvent e)
 	{
-		System.out.println("UISprite CLICKED " + this.myScene.getSceneName());
+		//System.out.println("UISprite CLICKED " + this.myScene.getSceneName());
 		super.onMouseClicked(e);
 		
 		

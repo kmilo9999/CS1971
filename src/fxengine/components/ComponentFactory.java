@@ -28,49 +28,74 @@ public class ComponentFactory {
 			return new GraphicsComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.controllerMouseEvents))
+		else if(componentName.equals(ComponentContants.controllerMouseEvents))
 		{
 			return new MouseControllerBehaviorComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.controllerKeyEvents))
+		else if(componentName.equals(ComponentContants.controllerKeyEvents))
 		{
-			return new KeyControllerBehaviorComponent(componentName);
+			return new AWSDKeyControllerBehaviorComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.cameraControllerKeyEvents))
+		else if(componentName.equals(ComponentContants.cameraControllerKeyEvents))
 		{
 			return new CameraKeyControllerBehavior(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.cameraControllerMouseEvents))
+		else if(componentName.equals(ComponentContants.cameraControllerMouseEvents))
 		{
 			return new CameraMouseControllerBehavior(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.mouseEvents))
+		else if(componentName.equals(ComponentContants.mouseEvents))
 		{
 			return new MouseEventComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.keyEvents))
+		else if(componentName.equals(ComponentContants.keyEvents))
 		{
 			return new KeyEventComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.transform))
+		else if(componentName.equals(ComponentContants.transform))
 		{
 			return new TransformComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.controlled))
+		else if(componentName.equals(ComponentContants.controlled))
 		{
 			return new ControllerBehaviourComponent(componentName);
 		}
 		
-		if(componentName.equals(ComponentContants.collision))
+		else if(componentName.equals(ComponentContants.collision))
 		{
 			return new CollisionComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.sprite))
+		{
+			return new SpriteComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.tiled_sprite))
+		{
+			return new TiledSpriteComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.animation))
+		{
+			return new AnimationComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.keyAnimationController))
+		{
+			return new AnimationControllerComponent(componentName);
+		}
+		
+		else if(componentName.equals(ComponentContants.terrain))
+		{
+			return new TerrainComponent(componentName);
 		}
 		
 		return null;

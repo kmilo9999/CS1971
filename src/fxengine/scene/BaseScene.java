@@ -26,6 +26,11 @@ public abstract class BaseScene {
 	protected Vec2d myWindowSize;
 	protected String mySceneName;
 	protected boolean myIsInitialized = false;
+	
+	protected boolean mySceneIsDestroying = false;
+	protected boolean mySceneCleared = false;
+	protected boolean mySceneRunning = false;
+	protected boolean mySceneInitializing = false;
 
     public BaseScene(String name, FXFrontEnd application)
 	{
@@ -283,6 +288,39 @@ public abstract class BaseScene {
 
 	public void setInitialized(boolean myIsInitialized) {
 		this.myIsInitialized = myIsInitialized;
+	}
+	
+
+	public boolean isSceneIsDestroying() {
+		return mySceneIsDestroying;
+	}
+
+	public void setSceneIsDestroying(boolean sceneIsDestroying) {
+		this.mySceneIsDestroying = sceneIsDestroying;
+	}
+
+	public boolean isSceneCleared() {
+		return mySceneCleared;
+	}
+
+	public void setSceneCleared(boolean sceneCleared) {
+		this.mySceneCleared = sceneCleared;
+	}
+
+	public boolean isSceneRunning() {
+		return mySceneRunning;
+	}
+
+	public void setSceneRunning(boolean sceneRunning) {
+		this.mySceneRunning = sceneRunning;
+	}
+
+	public boolean isSceneInitializing() {
+		return mySceneInitializing;
+	}
+
+	public void setSceneInitializing(boolean sceneInitializing) {
+		this.mySceneInitializing = sceneInitializing;
 	}
 	
 }

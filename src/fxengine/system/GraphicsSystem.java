@@ -6,7 +6,9 @@ import fxengine.components.ComponentContants;
 import fxengine.components.GraphicsComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
+import fxengine.objects.GameWorld;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 
 public class GraphicsSystem extends BaseGameSystem{
 
@@ -14,7 +16,7 @@ public class GraphicsSystem extends BaseGameSystem{
 	private List<List<GameObject>> myLayerGameObjects;
 	
 	private Vec2d panelScreenViewPortUpperLeft = new Vec2d(100,50);
-	private Vec2d panelScreenViewPortSize = new Vec2d(650,400);
+	private Vec2d panelScreenViewPortSize = new Vec2d(750,450);
 
 
 	private Vec2d panelGameViewPortUpperLeft = new Vec2d(0);
@@ -51,16 +53,33 @@ public class GraphicsSystem extends BaseGameSystem{
 	@Override
 	public void draw(GraphicsContext graphicsCx) {
 		// TODO Auto-generated method stub
+		
+		
 		for(List<GameObject> gameObjects:myLayerGameObjects)
 		{
 			for(GameObject gameObject:gameObjects) 
 			{
 				GraphicsComponent gComponent = (GraphicsComponent)gameObject.getComponent(ComponentContants.graphics);
-				
-				if(gComponent != null)
+				if(gameObject.getLayerOrder() != GameWorld.BackLayer)
 				{
-					gComponent.draw(graphicsCx);	
+					graphicsCx.setGlobalBlendMode(BlendMode.MULTIPLY);
+					if(gComponent != null)
+					{
+						gComponent.draw(graphicsCx);	
+					}
+					
 				}
+				else
+				{
+					//graphicsCx.setGlobalBlendMode(BlendMode.MULTIPLY);
+					if(gComponent != null)
+					{
+						gComponent.draw(graphicsCx);	
+					}	
+				}
+				
+				
+				
 			}
 		}
 	
@@ -83,7 +102,7 @@ public class GraphicsSystem extends BaseGameSystem{
 	}
 	
 
-	public Vec2d getPanelGameViewPort() {
+	public Vec2d getPanelGameViewPortTopLeft() {
 		return panelGameViewPortUpperLeft;
 	}
 

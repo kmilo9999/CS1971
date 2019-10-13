@@ -3,16 +3,23 @@ package fxengine.scene;
 
 
 import fxengine.application.FXFrontEnd;
+import fxengine.application.GameApplication;
+import fxengine.components.Component;
 import fxengine.components.ComponentContants;
+import fxengine.components.ComponentFactory;
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
+import fxengine.system.AnimationSystem;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.CollisionSystem;
 import fxengine.system.GraphicsSystem;
 import fxengine.system.KeyboardEventSystem;
 import fxengine.system.MouseEventSystem;
+import fxengine.system.PhysicsSystem;
+import fxengine.system.TransformSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,15 +34,19 @@ public class GameWorldScene extends BaseScene{
 	protected KeyboardEventSystem myKeyBoardSystem = new KeyboardEventSystem();
 	protected BaseGameSystem myGhrapicsSystem = new GraphicsSystem();
 	protected BaseGameSystem myCollSystem = new CollisionSystem();
+	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
+	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
+	protected BaseGameSystem myTransformSystem = new TransformSystem();
+	
 	
 
-	public GameWorldScene(String name, FXFrontEnd application) {
+	public GameWorldScene(String name, GameApplication application) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 		this.myGameWorld = new GameWorld();
 	}
 	
-	public GameWorldScene(String name, FXFrontEnd application, GameWorld gameworld) {
+	public GameWorldScene(String name, GameApplication application, GameWorld gameworld) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
 		this.myGameWorld = gameworld;
@@ -44,22 +55,61 @@ public class GameWorldScene extends BaseScene{
 	@Override
 	public void initScene() {
 		// TODO Auto-generated method stub
-
+		
+		this.mySceneCleared = true;
+		this.mySceneInitializing = true;
+		this.myGameWorld.addSystem(ComponentContants.transform, myTransformSystem);
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
 		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
+		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
+		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
+		
 		this.myGameWorld.initialize();
 		
+		///----------- Camera
+		GameObject camera = new GameObject("Camera");
+		Component cameraMouseControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerMouseEvents);
+		Component cameraKeyControllerComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.cameraControllerKeyEvents);
+		camera.addComponent(cameraMouseControllerComponent);
+		camera.addComponent(cameraKeyControllerComponent);
+		
+		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
+		///----------------------------------
 		
 		super.initScene();
+		this.mySceneInitializing = true;
+		this.mySceneRunning = true;
+		this.mySceneCleared = false;
 	}
 	
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		myGameWorld.update(nanosSincePreviousTick);
-		super.onTick(nanosSincePreviousTick);
+		if(this.mySceneRunning)
+		{
+			myGameWorld.update(nanosSincePreviousTick);
+			super.onTick(nanosSincePreviousTick);
+		}
+		if(this.mySceneIsDestroying)
+		{
+			this.mySceneRunning = false;
+			this.mySceneIsDestroying = false;
+			this.mySceneCleared = true;
+		}
+		
+	}
+	
+	@Override
+	public void cleanScene() {
+		if(this.mySceneRunning)
+		{
+			myGameWorld.destroyGameObjects();
+			super.cleanScene();
+			this.mySceneIsDestroying = true;
+		}
+		
 	}
 	
 	/**
@@ -210,8 +260,7 @@ public class GameWorldScene extends BaseScene{
 		
 		return -1;
 	}
-	
-	
+
 	
 	
 

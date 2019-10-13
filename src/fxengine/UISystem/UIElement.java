@@ -167,7 +167,7 @@ public abstract class UIElement {
 		if(this.mySize.x> this.mySize.y)
 		{
 			 newScaled = new Vec2d(this.mySize.x  ,this.mySize.y * ratio );
-			 System.out.println("HERE1");
+			 //System.out.println("HERE1");
 		}else
 		{
 			 newScaled = new Vec2d(this.mySize.x * ratio,(this.mySize.y ));

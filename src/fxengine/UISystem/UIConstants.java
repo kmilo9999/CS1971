@@ -19,7 +19,7 @@ public class UIConstants {
 	public static final Color LIGTHGRAY = Color.rgb(217,213,210);
 	public static final Color GRAYGREEN = Color.rgb(178,200,145);
 	
-	public static final Color TRANSPARENT = Color.rgb(255, 255, 255,0);
+	public static final Color TRANSPARENT = Color.rgb(0,0, 0,0);
 	public static final Color HOVERED = Color.rgb(88, 88, 88);
 	public static final Color SELECTED = Color.rgb(15, 150, 15, 0.25);
 	public static final Color COLLIDING = Color.rgb(150, 30, 30);

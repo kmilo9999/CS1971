@@ -11,7 +11,8 @@ public class GraphicsComponent extends Component{
 	
 	
 	
-	protected SpriteComponent mySprite; 
+	protected SpriteComponent mySprite;
+	protected TerrainComponent myTerrain;
 	
 	private final int INSIDE = 0; // 0000 
 	private final int LEFT = 1;   // 0001 
@@ -52,12 +53,22 @@ public class GraphicsComponent extends Component{
 			myXMin = myPanelScreenViewPortUpperLeft.x;
 			myYMin = myPanelScreenViewPortUpperLeft.y;
 			
-			if(this.myParent.hasComponent(ComponentContants.sprite))
+		    if(this.myParent.hasComponent(ComponentContants.sprite) )
 			{
-				((SpriteComponent) this.myParent.getComponent(ComponentContants.sprite)).initialize();;
-				
 				this.mySprite = (SpriteComponent) this.myParent.getComponent(ComponentContants.sprite);
+				this.mySprite.initialize();
 			}
+		    else if(this.myParent.hasComponent(ComponentContants.tiled_sprite))
+		    {
+				this.mySprite = (TiledSpriteComponent) this.myParent.getComponent(ComponentContants.tiled_sprite);
+				this.mySprite.initialize();
+		    }
+		    else if(this.myParent.hasComponent(ComponentContants.terrain))
+		    {
+		    	this.myTerrain = (TerrainComponent) this.myParent.getComponent(ComponentContants.terrain);
+		    	this.myTerrain.initialize();
+		    }
+		    
 			isInitialized= true;
 		}
 	
@@ -68,6 +79,7 @@ public class GraphicsComponent extends Component{
 	{
 		TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 		
+		//draw sprite
         if(this.mySprite != null && transformComponent != null)
         {
         	if(this.myParent.isSelected())
@@ -95,9 +107,13 @@ public class GraphicsComponent extends Component{
         	{
         						
     			this.mySprite.draw(graphicsCx);
-        	}
-
-        		
+        	}		
+        }
+        
+        
+        if(myTerrain != null && transformComponent != null)
+        {
+        	myTerrain.draw(graphicsCx);
         }
 		
 	}
@@ -106,37 +122,11 @@ public class GraphicsComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		if(this.myParent.hasComponent(ComponentContants.transform))
+		if(this.myParent.hasComponent(ComponentContants.sprite) ||
+				this.myParent.hasComponent(ComponentContants.tiled_sprite))
 		{
-			TransformComponent transformComponent = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-			if(transformComponent != null)
-			{
-				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				//mySprite.setPosition(screenPosition);
-				//this is world position
-				//Vec2d screenPosition = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				//mySprite.setPosition(screenPosition);	
-				
-				
-				//is this world space??
-				/*double xPos =  0;
-				double yPos =  0;
-				
-				Vec2d currentPositionInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(transformComponent.getPosition());
-				if(currentPositionInScreenSpace.x < myPanelScreenViewPortUpperLeft.x)
-				{
-					
-				}
-				if (currentPositionInScreenSpace.y < myPanelScreenViewPortUpperLeft.y)
-				{
-					
-				}*/
-				
-				//mySprite.setPosition(transformComponent.getPosition());	
-				
-			}
-			 
-		}	
+			mySprite.update(nanosSincePreviousTick);
+		}
 	}
 
 	@Override
@@ -170,12 +160,9 @@ public class GraphicsComponent extends Component{
 				.getComponent(ComponentContants.transform);
 		if (transformComponent != null) {
 
-			// Vec2d spriteSizeGameSpace =
-			// this.myParent.getGameWorld().screenToGameTransform(new
-			// Vec2d(mySprite.getWidth(),mySprite.getHeight()));
 			Vec2d currentPositionInScreenSpace = this.myParent.getGameWorld()
 					.gameToScreenTransform(transformComponent.getPosition());
-			Vec2d currentSizeInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(
+			Vec2d sizeInScreenSpace = this.myParent.getGameWorld().gameToScreenTransform(
 					transformComponent.getPosition().plus(new Vec2d(mySprite.getWidth(), mySprite.getHeight())));
 
 			double startPosX = Math.max(currentPositionInScreenSpace.x, myPanelScreenViewPortUpperLeft.x);
@@ -188,8 +175,8 @@ public class GraphicsComponent extends Component{
 
 			Vec2d p1 = currentPositionInScreenSpace;
 
-			Vec2d currentWidth = new Vec2d(currentSizeInScreenSpace.x, p1.y);
-			Vec2d currentHeigth = new Vec2d(p1.x, currentSizeInScreenSpace.y);
+			Vec2d currentWidth = new Vec2d(sizeInScreenSpace.x, p1.y);
+			Vec2d currentHeigth = new Vec2d(p1.x, sizeInScreenSpace.y);
 
 			double vCurretWidth = Math.max(p1.dist(currentWidth), mySprite.getWidth());
 			double vCurretHeight = Math.max(p1.dist(currentHeigth), mySprite.getHeight());
