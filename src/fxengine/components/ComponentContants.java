@@ -18,6 +18,7 @@ public class ComponentContants {
 	public static final String keyAnimationController = "ANIMATION_CONTROLLER";
 	public static final String physics = "PHYSICS";
 	public static final String terrain = "TERRAIN";
+	public static final String AIMovement = "AIMOVEMENT";
 	
 	
 	
