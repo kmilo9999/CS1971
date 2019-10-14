@@ -73,8 +73,8 @@ public abstract class WizCharacter extends GameObject{
 		
 
 	    Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
-		Component keyControllerComponent = ComponentFactory.getInstance()
-				.createComponent(ComponentContants.controllerKeyEvents);
+		//Component keyControllerComponent = ComponentFactory.getInstance()
+		//		.createComponent(ComponentContants.controllerKeyEvents);
 		((TransformComponent) tranformComponent).setPosition(originalPos);
 		Component collisionCompomemt = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
@@ -84,7 +84,7 @@ public abstract class WizCharacter extends GameObject{
 		this.addComponent(graphicsComponent);
 		this.addComponent(tranformComponent);
 		//this.addComponent(mouseControllerComponent);
-		this.addComponent(keyControllerComponent);
+		//this.addComponent(keyControllerComponent);
 		
 		this.addComponent(collisionCompomemt);
 		this.addComponent(spriteAnimation);

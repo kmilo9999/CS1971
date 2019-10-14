@@ -27,9 +27,11 @@ public class WizControllableCharacter extends WizCharacter{
 			animationKeyControllers.bindAnimationToKey(keyCode, name);
 		});
 		
+		Component keyControllerComponent = ComponentFactory.getInstance()
+				.createComponent(ComponentContants.controllerKeyEvents);
 		
 		this.addComponent(animationKeyControllers);
-		
+		this.addComponent(keyControllerComponent);
 	}
 
 }

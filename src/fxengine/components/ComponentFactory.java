@@ -98,6 +98,11 @@ public class ComponentFactory {
 			return new TerrainComponent(componentName);
 		}
 		
+		else if(componentName.equals(ComponentContants.AIMovement))
+		{
+			return new AIMovementComponent(componentName);
+		}
+		
 		return null;
 	}
 }

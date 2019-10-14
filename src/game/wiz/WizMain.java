@@ -37,7 +37,7 @@ public class WizMain {
 		game.addScene(level1Scene);
 		game.addScene(level2Scene);
 		game.addScene(endScene);
-		game.setActiveScreen("Intro");
+		game.setActiveScreen("level1");
 		game.start(); // begin processing events
 		// don't put code after start()!
 	}

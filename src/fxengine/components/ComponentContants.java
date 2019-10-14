@@ -19,6 +19,7 @@ public class ComponentContants {
 	public static final String physics = "PHYSICS";
 	public static final String terrain = "TERRAIN";
 	public static final String AIMovement = "AIMOVEMENT";
+	public static final String AI = "AI";
 	
 	
 	

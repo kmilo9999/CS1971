@@ -27,7 +27,7 @@ import fxengine.scene.GameWorldScene;
 public class WizScene extends GameWorldScene{
 
 	GameTileMap terrain;
-	WizControllableCharacter mainCharater;
+	WizCharacter mainCharater;
 	Vec2i playerCurrentTile = new Vec2i(0);
 	int[][] fogofWar;
 	
@@ -94,7 +94,8 @@ public class WizScene extends GameWorldScene{
 		animations.add(up);
 		animations.add(down);
 
-		mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
+		//mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
+		mainCharater = new WizAiCharacter("wiz1","warrior",animations);
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
 		
         //terrain	

@@ -2,7 +2,6 @@ package fxengine.scene;
 
 
 
-import fxengine.application.FXFrontEnd;
 import fxengine.application.GameApplication;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -12,6 +11,7 @@ import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
+import fxengine.system.AiSystem;
 import fxengine.system.AnimationSystem;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.CollisionSystem;
@@ -37,6 +37,7 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
+	protected BaseGameSystem myAISystem = new AiSystem();
 	
 	
 
@@ -65,6 +66,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
+		this.myGameWorld.addSystem(ComponentContants.AI, myAISystem);
 		
 		this.myGameWorld.initialize();
 		
