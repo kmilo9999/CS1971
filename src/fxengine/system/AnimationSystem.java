@@ -22,6 +22,9 @@ public class AnimationSystem extends BaseGameSystem{
 			{
 				gameObject.getComponent(ComponentContants.animation).update(nanosSincePreviousTick);
 			}
+            if(gameObject.hasComponent(ComponentContants.AutoAnimation)) {
+            	gameObject.getComponent(ComponentContants.AutoAnimation).update(nanosSincePreviousTick);	
+			}
 		}
 	}
 

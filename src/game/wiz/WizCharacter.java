@@ -33,15 +33,16 @@ public abstract class WizCharacter extends GameObject{
    private Vec2d rangeVisionTopLef;
    private Vec2d rangeVisionSize;
   
-   private Vec2d originalPos = new Vec2d(20, 20);
+   private Vec2d originalPos ;
    protected List<Animation> myAnimations;
    
 	
-   public WizCharacter(String id, String characterName, List<Animation> animations) {
+   public WizCharacter(String id, String characterName, Vec2d initialPosition, List<Animation> animations) {
 		super(id);
 		// TODO Auto-generated constructor stub
 		this.myName = characterName;
 		this.myAnimations =  animations;
+		originalPos = initialPosition;
 	}
 
    private String myName;

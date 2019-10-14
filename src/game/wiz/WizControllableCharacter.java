@@ -8,11 +8,12 @@ import fxengine.components.AnimationControllerComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
+import fxengine.math.Vec2d;
 
 public class WizControllableCharacter extends WizCharacter{
 
-	public WizControllableCharacter(String id, String characterName,List<Animation> animations ) {
-		super(id, characterName,animations);
+	public WizControllableCharacter(String id, String characterName, Vec2d initPosition,List<Animation> animations ) {
+		super(id, characterName,initPosition,animations);
 		// TODO Auto-generated constructor stub
 	}
 	

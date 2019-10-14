@@ -13,8 +13,6 @@ public class AnimationControllerComponent extends KeyEventComponent{
 	private Map<Integer,String> myAnimationStates = new HashMap<Integer, String>();
 	private String myCurrentAnimationName = new String();
 	
-	private long myLapseTime = 0;
-	private int currentFrame = 0;
 	
 	public AnimationControllerComponent(String name) {
 		super(name);
@@ -117,28 +115,12 @@ public class AnimationControllerComponent extends KeyEventComponent{
 	private void keyPressed(String value) {
 		// TODO Auto-generated method stub
 	
-		
-		/*if(myCurrentAnimationName == myAnimationStates.get(keyCode))
-		{
-			return;
-		}
-		
-		AnimationComponent animationComponent = (AnimationComponent) this.myParent
-				.getComponent(ComponentContants.animation);
-		if(myAnimationStates.containsKey(keyCode)
-				&& animationComponent != null
-				&& animationComponent.getAnimations().containsKey(myAnimationStates.get(keyCode)))
-		{
-
-			myCurrentAnimationName = myAnimationStates.get(keyCode);
-			animationComponent.setCurrentAnimation(myCurrentAnimationName);
-			System.out.println("update animation controller");
-		}*/
+	
 	}
 
 	private void keyReleased(String value) {
 		// TODO Auto-generated method stub
-	/*	int keyCode = (int) value.charAt(0) - 97; */
+	
 		if(!myCurrentAnimationName.isEmpty())
 		{
 			 //stop animation
@@ -150,14 +132,6 @@ public class AnimationControllerComponent extends KeyEventComponent{
 			
 		}
 		
-		
-		/*if(myAnimationStates.containsKey(keyCode))
-		{
-			String animationName = myAnimationStates.get(keyCode);
-			AnimationComponent animationComponent = (AnimationComponent) this.myParent
-					.getComponent(ComponentContants.animation);
-			animationComponent.setCurrentAnimation(animationName);
-		}*/
 		
 	}
 	

@@ -16,19 +16,21 @@ public class AIMovementComponent extends Component{
 	private Vec2d myNextPoint;
 	private Vec2d myCurrentPoint = null;
 	private long myCurrentTime = 0;
-	private long myStartTime = 0;
+	
 	private boolean myPathUpdated;
-	private long myWalkTime = 180000;
+	private long myWalkTime = 900000000;
+	private double myNumSteps = 0 ;
+	private double myCurrentStep = 0;
 	private boolean run = false;
 	
 	public AIMovementComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
-		myPathPoints = new LinkedList<Vec2d>();
-		myStartPoint = null;
-		myCurrentPoint = null;
-		myCurrentTime = 0;
-		myStartTime = 0;
+		this.myPathPoints = new LinkedList<Vec2d>();
+		this.myStartPoint = null;
+		this.myCurrentPoint = null;
+		this.myCurrentTime = 0;
+		this.myNumSteps = 9;
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class AIMovementComponent extends Component{
 		// TODO Auto-generated method stub
 		if( myPathPoints.peek() != null)
 		{
-			isInitialized = true;
+			this.isInitialized = true;
 			
 		}
 	}
@@ -52,70 +54,82 @@ public class AIMovementComponent extends Component{
 		// TODO Auto-generated method stub
 		if(myPathUpdated)
 		{
-			run = true;
+			this.run = true;
 		}
 		
 		if(run)
 		{
-			myPathUpdated = false;
-			if(myNextPoint == null)
+			this.myPathUpdated = false;
+			if(this.myNextPoint == null)
 			{
 				
 				if(!this.myPathPoints.isEmpty())
 				{
-					myNextPoint = this.myPathPoints.poll();	
+					this.myNextPoint = this.myPathPoints.poll();
+					if(this.myParent.hasComponent(ComponentContants.animation)
+							&& this.myParent.hasComponent(ComponentContants.AutoAnimation))
+					{
+						AnimationNonControlledComponent animationControllers = (AnimationNonControlledComponent) this.myParent.getComponent(ComponentContants.AutoAnimation);
+						Vec2d currentDirection = this.myNextPoint.minus(this.myStartPoint).normalize();
+
+						// animation.
+						animationControllers.setCurrentDirection(currentDirection);
+						
+					}
 				}
 				else
 				{
-					run= false;
+					this.run= false;
 				}
 			}
 			else{
 				
-				if (myStartTime == 0) {
-		            myStartTime = nanosSincePreviousTick;
-		          
-		        }
-				
-				long now = nanosSincePreviousTick;
-		        long diff = now - myStartTime;
-		        /*if (diff >= myPlayTime) {
-		            diff = myPlayTime;
-		           
-		        }*/
+				this.myCurrentTime += nanosSincePreviousTick;
 		        
-		        myCurrentTime = diff / myWalkTime;
-		        //pointInTime = i;
-
-		      
+				if(this.myCurrentTime >= this.myWalkTime && this.myCurrentStep < this.myNumSteps)
+				{
+					
+					this.myCurrentTime = 0;
+					this.myCurrentStep++;
+					this.myCurrentPoint = this.myStartPoint.lerpTo(this.myNextPoint, this.myCurrentStep  * (1/this.myNumSteps));
+					TransformComponent transform =  (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
+			        transform.setPosition(this.myCurrentPoint);
+			    
+				}
+				else
+				{
+					if(this.myCurrentStep == this.myNumSteps)
+					{
+						// I have arrived
+						//System.out.println("I have arrived");
+						if(!this.myPathPoints.isEmpty())
+			        	{
+							this.myStartPoint = new Vec2d(this.myCurrentPoint);
+			        	}
+			        	else
+			        	{	
+			        		run = false;
+			        		if(this.myParent.hasComponent(ComponentContants.animation)
+									&& this.myParent.hasComponent(ComponentContants.AutoAnimation))
+			        		{
+			        			AnimationNonControlledComponent animationNonControlled = (AnimationNonControlledComponent) this.myParent.getComponent(ComponentContants.AutoAnimation);
+								animationNonControlled.setCurrentDirection(new Vec2d(0));
+										        			
+			        		}
+			        		
+			        	}
+						this.myNextPoint = null;
+						this.myCurrentTime = 0;
+						this.myCurrentStep = 0;
+					}
+					
+				}
 		        
-		        double pointX = myStartPoint.x + ((myNextPoint.x - myStartPoint.x) * ((float)myCurrentTime/100000.0f));
-		        double pointY = myStartPoint.y + ((myNextPoint.y - myStartPoint.y) * ((float)myCurrentTime/100000.0f));
-		        myCurrentPoint = new Vec2d(pointX,pointY);
-		        System.out.println("myCurrentPoint: " + myCurrentPoint);
-		        TransformComponent transform =  (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-		        transform.setPosition(myCurrentPoint);
-		        
-		        if(myCurrentPoint.x - myNextPoint.x > 0.00001 && myCurrentPoint.y - myNextPoint.y > 0.00001)
-		        {
-		        	// I have arrived
-		        	if(!this.myPathPoints.isEmpty())
-		        	{
-		        		myStartPoint = new Vec2d(myCurrentPoint);
-		        		myNextPoint = null;
-		        		myStartTime = 0;
-		        	}
-		        	else
-		        	{
-		        		run = false;
-			        	return;	
-		        	}
-		        	
-		        }
 			
-			}
+			 }
 			
 		}
+		
 		
 	}
 

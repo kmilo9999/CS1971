@@ -18,6 +18,7 @@ public class AiSystem extends BaseGameSystem{
 			if(myGameObjects.get(i).hasComponent(ComponentContants.AIMovement)) {
 				myGameObjects.get(i).getComponent(ComponentContants.AIMovement).update(nanosSincePreviousTick);
 			}
+			
 		}
 		
 	}

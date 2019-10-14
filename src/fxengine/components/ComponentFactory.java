@@ -103,6 +103,11 @@ public class ComponentFactory {
 			return new AIMovementComponent(componentName);
 		}
 		
+		else if(componentName.equals(ComponentContants.AutoAnimation))
+		{
+			return new AnimationNonControlledComponent(componentName);
+		}
+		
 		return null;
 	}
 }

@@ -95,7 +95,7 @@ public class WizScene extends GameWorldScene{
 		animations.add(down);
 
 		//mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
-		mainCharater = new WizAiCharacter("wiz1","warrior",animations);
+		mainCharater = new WizAiCharacter("wiz1","warrior", new Vec2d(32,72),animations);
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
 		
         //terrain	
@@ -130,6 +130,14 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
+		
+		//correct sprite position to tile
+		//TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+		//int numTileX = (int)(transform.getPosition().x / 32);
+		//int numTileY = (int)(transform.getPosition().y / 36);
+		
+		
+		
 		
 		if(doFogOfWar)
 		{
