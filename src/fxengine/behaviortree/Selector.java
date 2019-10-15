@@ -7,11 +7,11 @@ public class Selector extends Composite {
 	
 	public Selector()
 	{
-		children = new ArrayList<BTNode>();
+		
 	}
 	
 	@Override
-	public Status update(float seconds) {
+	public Status update(long seconds) {
 		// TODO Auto-generated method stub
 		children.sort(new BTNodeComparator());
 		
@@ -32,6 +32,18 @@ public class Selector extends Composite {
 		}
 		
 		return Status.FAIL;
+	}
+
+	@Override
+	public int compareTo(BTNode o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -7,12 +7,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
+import fxengine.PathFinding.Node;
+import fxengine.PathFinding.PathFinding;
 import fxengine.manager.Resource;
 import fxengine.manager.Resource.ResourceType;
 import fxengine.manager.ResourceManager;
@@ -34,6 +38,10 @@ public class GameTileMap {
 	private Vec2d myPlayerInitialPosition;
 	
 	private GameWorldScene myScene;
+	
+	private PathFinding myPathFinding;
+	
+	private boolean myEnablePathFinding = false; 
 	
 	public GameTileMap(String mapTextFilePath, String textureMapFilePath, int width, int height, Vec2d initialPoisition, Vec2d tileSize, Vec2i numFrames, GameWorldScene scene)
 	{
@@ -379,9 +387,70 @@ public class GameTileMap {
 		return new Vec2i((int)(y / myTileSize.y), (int)(x / myTileSize.x));
 	}
 	
+	public Vec2i coordinateToTile(Vec2d position)
+	{
+		return new Vec2i((int)(position.y / myTileSize.y), (int)( position.x / myTileSize.x));
+	}
+	
 	public Vec2d tileToCoordinate(int x, int y)
 	{
 		return new Vec2d(y * myTileSize.x, x * myTileSize.y);
+	}
+
+
+	public PathFinding getPathFinding() {
+		return myPathFinding;
+	}
+
+
+	public void setPathFinding(PathFinding pathFinding) {
+		this.myPathFinding = pathFinding;
+	}
+
+
+	public boolean isEnablePathFinding() {
+		return myEnablePathFinding;
+	}
+
+
+	public void enablePathFinding() {
+		this.myEnablePathFinding = true;
+		if(this.myPathFinding == null)
+		{
+			this.myPathFinding = new PathFinding(this.getNumTiles().x, this.getNumTiles().y, 
+					this.getIntTileMap());
+		}
+	}
+	
+	public void disablePathFinding() {
+		this.myEnablePathFinding = false;
+		this.myPathFinding = null;
+	}
+	
+	public Queue<Vec2d> findPath(Node startNode, Node endNode)
+	{
+		if(myEnablePathFinding)
+		{
+			
+			List<Node> resultPath = myPathFinding.findPath(startNode, endNode);
+			if(resultPath != null)
+			{
+				Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
+				for(Node  node: resultPath)
+				{
+					//	convert to game coordinates
+					Vec2d gameCoordinate = tileToCoordinate(node.x, node.y);
+					//Vec2d gameCoordinate = new Vec2d(node.y * 32,node.x * 36);
+					pathPoints.add(gameCoordinate);
+					
+				}
+				
+				return pathPoints;
+			} 
+			
+			
+		}
+		return null;
 	}
 	
 }

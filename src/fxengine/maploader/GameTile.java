@@ -153,5 +153,14 @@ public class GameTile extends GameObject{
 			this.removeComponent(ComponentContants.collision);
 		}
 	}
+
+	public Vec2d getPosition() {
+		return myPosition;
+	}
+
+	public void setPosition(Vec2d myPosition) {
+		this.myPosition = myPosition;
+	}
+	
 	
 }

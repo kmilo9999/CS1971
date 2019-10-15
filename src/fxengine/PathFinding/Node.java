@@ -16,6 +16,19 @@ public class Node implements Comparable<Node>{
     	
     }
     
+    public Node(Node other)
+    {
+    	x = other.x;
+    	y = other.y;
+    	parentX = other.parentX;
+    	parentY = other.parentY;
+    	gCost = other.gCost;
+    	hCost = other.hCost; 
+    	fCost = other.fCost;
+    	
+    }
+    
+    
     public Node(int x, int y)
     {
     	 this.x = x;

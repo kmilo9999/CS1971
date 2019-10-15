@@ -9,11 +9,19 @@ import fxengine.PathFinding.Node;
 import fxengine.PathFinding.PathFinding;
 import fxengine.application.FXFrontEnd;
 import fxengine.application.GameApplication;
+import fxengine.behaviortree.Action;
+import fxengine.behaviortree.BTNode;
+import fxengine.behaviortree.BehaviorTree;
+import fxengine.behaviortree.Composite;
+import fxengine.behaviortree.Condition;
+import fxengine.behaviortree.Selector;
+import fxengine.behaviortree.Sequence;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TerrainComponent;
+import fxengine.components.AIComponent;
 import fxengine.components.AIMovementComponent;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
@@ -109,6 +117,7 @@ public class WizScene extends GameWorldScene{
 		terrain = new GameTileMap(this.currentMapPath, "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
 		terrain.setExternal(isMapExternal);
 		terrain.load();
+		terrain.enablePathFinding();
 		
 		Vec2d playerInitialPosition = terrain.getPlayerInitialPosition();
 		if(terrain.getPlayerInitialPosition() == null)
@@ -122,7 +131,7 @@ public class WizScene extends GameWorldScene{
 		///-------------------
 		// init path finding
 		
-		pathFinding  = new PathFinding(terrain.getNumTiles().x, terrain.getNumTiles().y, terrain.getIntTileMap());
+		//pathFinding  = new PathFinding(terrain.getNumTiles().x, terrain.getNumTiles().y, terrain.getIntTileMap());
 
         TransformComponent transformIinit = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
 		int startNumTileY = (int)(transformIinit.getPosition().x / 32);
@@ -130,18 +139,17 @@ public class WizScene extends GameWorldScene{
 		
 		Vec2d endPos = new Vec2d(transformIinit.getPosition().x + 32,transformIinit.getPosition().y + 36);
 		Vec2i endTile = terrain.coordinateToTile(endPos.x, endPos.y);
-		//int endNumTileY = (int)(xEndPos / 32);
-		//int endNumTileX = (int)(yEndPos / 36);
+		
 		
 		Node startNode = new Node(startNumTileX,startNumTileY);
-		//Node endNode = new Node(endNumTileX,endNumTileY);
-		//Node endNode = new Node(endTile);
-		Node endNode = new Node(new Vec2i(3,10));
 		
-		List<Node> resultPath = pathFinding.findPath(startNode, endNode);
-		Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
-		AIMovementComponent aiMovementComponent = (AIMovementComponent) mainCharater.getComponent(ComponentContants.AIMovement);
-		if(resultPath != null)
+		Node endNode = new Node(new Vec2i(2,10));
+		
+		//Queue<Vec2d> resultPath = terrain.findPath(startNode, endNode);
+		//Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
+		//AIMovementComponent aiMovementComponent = (AIMovementComponent) mainCharater.getComponent(ComponentContants.AIMovement);
+		//aiMovementComponent.setPathPoints(resultPath);
+		/*if(resultPath != null)
 		{
 			for(Node  node: resultPath)
 			{
@@ -152,14 +160,42 @@ public class WizScene extends GameWorldScene{
 				
 			}
 			
-			aiMovementComponent.setPathPoints(pathPoints);
-		}
+			
+		}*/
 		
         System.out.println("end of AI Movement");
 		
 
 		//--------------------------------------
-		
+        // AI Actions
+        
+        Composite root = new Sequence();
+        
+        Node controlPoint0 = new Node(new Vec2i(3,13));
+        Node controlPoint1 = new Node(new Vec2i(3,10));
+        Node controlPoint2 = new Node(new Vec2i(3,13));
+        //Node controlPoint2 = new Node(new Vec2i(2,10));
+        //Node controlPoint3 = new Node(new Vec2i(2,14));
+        //Node controlPoint4 = new Node(new Vec2i(3,13));
+        Queue<Node> controlsPoints  = new LinkedList<Node>();
+        controlsPoints.add(controlPoint0);
+        controlsPoints.add(controlPoint1);
+        controlsPoints.add(controlPoint2);
+        //controlsPoints.add(controlPoint3);
+        //controlsPoints.add(controlPoint4);
+        
+        Action patrol = new PatrolAction((GameObject)mainCharater, terrain,controlsPoints);
+        Condition timeDelay = new TimeDelay(3);
+        root.children.add(timeDelay);
+        root.children.add(patrol);
+        
+        BehaviorTree behaviorTree = new BehaviorTree(root);
+        
+        AIComponent aiComponent = (AIComponent)ComponentFactory.getInstance().createComponent(ComponentContants.AI);
+        aiComponent.setBehaviorTree(behaviorTree);
+        mainCharater.addComponent(aiComponent);
+        
+		//--------------------------------------
 		
         // init fog of war
         
@@ -189,14 +225,7 @@ public class WizScene extends GameWorldScene{
 	public void onTick(long nanosSincePreviousTick)
 	{
 		
-		//correct sprite position to tile
-		//TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
-		//int numTileX = (int)(transform.getPosition().x / 32);
-		//int numTileY = (int)(transform.getPosition().y / 36);
-		
-		
-		
-		
+	
 		if(doFogOfWar)
 		{
 			TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);

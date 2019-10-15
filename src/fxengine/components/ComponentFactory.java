@@ -108,6 +108,11 @@ public class ComponentFactory {
 			return new AnimationNonControlledComponent(componentName);
 		}
 		
+		else if(componentName.equals(ComponentContants.AI))
+		{
+			return new AIComponent(componentName);
+		}
+		
 		return null;
 	}
 }

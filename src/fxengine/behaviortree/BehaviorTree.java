@@ -4,7 +4,7 @@ import fxengine.behaviortree.BTNode.Status;
 
 public class BehaviorTree {
    
-	public BlackBoard blackBoard;
+	public static BlackBoard blackBoard;
 	private BTNode myRoot;
 	
 	

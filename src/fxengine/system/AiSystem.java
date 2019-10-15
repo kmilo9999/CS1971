@@ -15,6 +15,10 @@ public class AiSystem extends BaseGameSystem{
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < myGameObjects.size(); i++) {
+			if(myGameObjects.get(i).hasComponent(ComponentContants.AI)) {
+				myGameObjects.get(i).getComponent(ComponentContants.AI).update(nanosSincePreviousTick);
+			}
+			
 			if(myGameObjects.get(i).hasComponent(ComponentContants.AIMovement)) {
 				myGameObjects.get(i).getComponent(ComponentContants.AIMovement).update(nanosSincePreviousTick);
 			}
