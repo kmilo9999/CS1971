@@ -160,8 +160,6 @@ public class AIMovementComponent extends Component{
 			   return;	
 			}
 			
-			
-			
 			//at least has one point to go to
 			myPathUpdated = true;
 		}

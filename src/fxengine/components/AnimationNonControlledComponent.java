@@ -36,12 +36,13 @@ public class AnimationNonControlledComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		if(myCurrentDirection.isZero())
+		if(myCurrentDirection == null || myCurrentDirection.isZero() )
 		{
-			this.myCurrentAnimationName = "";
 			AnimationComponent animationComponent = (AnimationComponent) this.myParent
 					.getComponent(ComponentContants.animation);
-			animationComponent.stopCurrentFrameAnimation();
+			myCurrentAnimationName = myAnimationStates.get(18);
+			animationComponent.setCurrentAnimation(myCurrentAnimationName);
+			animationComponent.playCurrentAnimation();
 		}
 		else if(myCurrentDirection.x > myCurrentDirection.y)
 		{
@@ -57,7 +58,7 @@ public class AnimationNonControlledComponent extends Component{
 			{
 				AnimationComponent animationComponent = (AnimationComponent) this.myParent
 						.getComponent(ComponentContants.animation);
-				myCurrentAnimationName = myAnimationStates.get(0);
+				myCurrentAnimationName = myAnimationStates.get(22);
 				animationComponent.setCurrentAnimation(myCurrentAnimationName);
 				animationComponent.playCurrentAnimation();
 			}
@@ -78,7 +79,7 @@ public class AnimationNonControlledComponent extends Component{
 				
 				AnimationComponent animationComponent = (AnimationComponent) this.myParent
 						.getComponent(ComponentContants.animation);
-				myCurrentAnimationName = myAnimationStates.get(22);
+				myCurrentAnimationName = myAnimationStates.get(0);
 				animationComponent.setCurrentAnimation(myCurrentAnimationName);
 				animationComponent.playCurrentAnimation();
 			}

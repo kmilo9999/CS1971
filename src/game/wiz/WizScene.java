@@ -1,8 +1,12 @@
 package game.wiz;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
+import fxengine.PathFinding.Node;
+import fxengine.PathFinding.PathFinding;
 import fxengine.application.FXFrontEnd;
 import fxengine.application.GameApplication;
 import fxengine.collision.CollisionConstants;
@@ -10,6 +14,7 @@ import fxengine.collision.CollisionShape;
 import fxengine.collision.CollisionShapeFactory;
 import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TerrainComponent;
+import fxengine.components.AIMovementComponent;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
@@ -30,6 +35,9 @@ public class WizScene extends GameWorldScene{
 	WizCharacter mainCharater;
 	Vec2i playerCurrentTile = new Vec2i(0);
 	int[][] fogofWar;
+	PathFinding pathFinding ;
+	
+	
 	
 	boolean doFogOfWar = true;
 	String currentMapPath;
@@ -95,13 +103,63 @@ public class WizScene extends GameWorldScene{
 		animations.add(down);
 
 		//mainCharater = new WizControllableCharacter("wiz1","warrior",animations);
-		mainCharater = new WizAiCharacter("wiz1","warrior", new Vec2d(32,72),animations);
-		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
+		
 		
         //terrain	
 		terrain = new GameTileMap(this.currentMapPath, "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
 		terrain.setExternal(isMapExternal);
 		terrain.load();
+		
+		Vec2d playerInitialPosition = terrain.getPlayerInitialPosition();
+		if(terrain.getPlayerInitialPosition() == null)
+		{
+			playerInitialPosition =  new Vec2d(32,72);
+		}
+		
+		mainCharater = new WizAiCharacter("wiz1","warrior", playerInitialPosition,animations);
+		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
+		
+		///-------------------
+		// init path finding
+		
+		pathFinding  = new PathFinding(terrain.getNumTiles().x, terrain.getNumTiles().y, terrain.getIntTileMap());
+
+        TransformComponent transformIinit = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+		int startNumTileY = (int)(transformIinit.getPosition().x / 32);
+		int startNumTileX = (int)(transformIinit.getPosition().y / 36);
+		
+		Vec2d endPos = new Vec2d(transformIinit.getPosition().x + 32,transformIinit.getPosition().y + 36);
+		Vec2i endTile = terrain.coordinateToTile(endPos.x, endPos.y);
+		//int endNumTileY = (int)(xEndPos / 32);
+		//int endNumTileX = (int)(yEndPos / 36);
+		
+		Node startNode = new Node(startNumTileX,startNumTileY);
+		//Node endNode = new Node(endNumTileX,endNumTileY);
+		//Node endNode = new Node(endTile);
+		Node endNode = new Node(new Vec2i(3,10));
+		
+		List<Node> resultPath = pathFinding.findPath(startNode, endNode);
+		Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
+		AIMovementComponent aiMovementComponent = (AIMovementComponent) mainCharater.getComponent(ComponentContants.AIMovement);
+		if(resultPath != null)
+		{
+			for(Node  node: resultPath)
+			{
+				//	convert to game coordinates
+				Vec2d gameCoordinate = terrain.tileToCoordinate(node.x, node.y);
+				//Vec2d gameCoordinate = new Vec2d(node.y * 32,node.x * 36);
+				pathPoints.add(gameCoordinate);
+				
+			}
+			
+			aiMovementComponent.setPathPoints(pathPoints);
+		}
+		
+        System.out.println("end of AI Movement");
+		
+
+		//--------------------------------------
+		
 		
         // init fog of war
         

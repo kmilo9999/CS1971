@@ -32,22 +32,6 @@ public class WizAiCharacter extends WizCharacter{
 		
 		super.initialize();
 		
-		TransformComponent transform = (TransformComponent)this.getComponent(ComponentContants.transform);
-		
-		Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
-		pathPoints.add(new Vec2d(transform.getPosition()));
-		pathPoints.add(new Vec2d(transform.getPosition().x,transform.getPosition().y + 36));
-		pathPoints.add(new Vec2d(transform.getPosition().x,transform.getPosition().y + 72) );
-		pathPoints.add(new Vec2d(transform.getPosition().x + 64 ,transform.getPosition().y + 72) );
-		
-		((AIMovementComponent) aiMovementComponent).setPathPoints(pathPoints);
-		
-		//Component keyControllerComponent = ComponentFactory.getInstance()
-		//		.createComponent(ComponentContants.controllerKeyEvents);
-		
-		//this.addComponent(animationNonControlled);
-		//this.addComponent(keyControllerComponent);
-		//this.addComponent(aiMovementComponent);
 		AnimationComponent animationComponent = (AnimationComponent)this.getComponent(ComponentContants.animation);
 		animationComponent.getAnimations().forEach((name,animation)->{
 			int keyCode = Integer.parseInt(name);

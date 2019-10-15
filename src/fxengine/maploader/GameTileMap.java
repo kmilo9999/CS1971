@@ -31,6 +31,7 @@ public class GameTileMap {
 	GameTile[][] myTileMap;
 	List<List<Integer>> intTileMap = new ArrayList<List<Integer>>(); 
 	private boolean isExternal = false;
+	private Vec2d myPlayerInitialPosition;
 	
 	private GameWorldScene myScene;
 	
@@ -84,8 +85,15 @@ public class GameTileMap {
 					List<Integer> intLine = new ArrayList<Integer>(); 
 				    for(int i = 0 ; i < st.length();i++)
 				    {
-				    	int number = st.charAt(i) - 48;
-				    	intLine.add(number); 
+				    	if(st.charAt(i) == 'X')
+				    	{
+				    		intLine.add(99);	
+				    	}
+				    	else
+				    	{
+				    		int number = st.charAt(i) - 48;
+					    	intLine.add(number);	
+				    	}
 				    }
 				    
 				    intTileMap.add(intLine);
@@ -151,10 +159,22 @@ public class GameTileMap {
 				 {
 					double yPos = topLeft.y + (j * this.myTileSize.y);
 
-					boolean isStatic = this.intTileMap.get(j).get(i) == 1 || 
-							this.intTileMap.get(j).get(i) == 2 ? true : false;
-
 					String tileId ="tile" + i +""+ j;
+					boolean isStatic = false;
+					int tileColor = intTileMap.get(j).get(i);
+					if(this.intTileMap.get(j).get(i) == 99)
+					{
+						tileColor = 0;
+						this.myPlayerInitialPosition = new Vec2d(xPos, yPos);
+					}
+					else {
+						
+						isStatic = tileColor == 1 || tileColor == 2 ? true : false;
+
+					}
+						
+					
+					
 					
 					GameTile tile = new GameTile(tileId,myTextureMapFilePath,new Vec2d(xPos, yPos));
 					if(intTileMap.get(j).get(i) == 2)
@@ -163,7 +183,7 @@ public class GameTileMap {
 					}
 					
 					
-					tile.setColor(intTileMap.get(j).get(i));
+					tile.setColor(tileColor);
 					tile.setStatic(isStatic); 
 					tile.setTileSize(this.myTileSize);
 					tile.setNumFrames(this.myNumFrames);
@@ -342,6 +362,26 @@ public class GameTileMap {
 
 	public void setExternal(boolean isExternal) {
 		this.isExternal = isExternal;
+	}
+
+
+	public Vec2d getPlayerInitialPosition() {
+		return myPlayerInitialPosition;
+	}
+
+
+	public void setPlayerInitialPosition(Vec2d myPlayerInitialPosition) {
+		this.myPlayerInitialPosition = myPlayerInitialPosition;
+	}
+	
+	public Vec2i coordinateToTile(double x, double y)
+	{
+		return new Vec2i((int)(y / myTileSize.y), (int)(x / myTileSize.x));
+	}
+	
+	public Vec2d tileToCoordinate(int x, int y)
+	{
+		return new Vec2d(y * myTileSize.x, x * myTileSize.y);
 	}
 	
 }
