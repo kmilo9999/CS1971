@@ -1,18 +1,13 @@
 package game.wiz;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
-import fxengine.components.AIMovementComponent;
 import fxengine.components.Animation;
 import fxengine.components.AnimationComponent;
-import fxengine.components.AnimationControllerComponent;
 import fxengine.components.AnimationNonControlledComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
-import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 
 public class WizAiCharacter extends WizCharacter{
@@ -37,5 +32,7 @@ public class WizAiCharacter extends WizCharacter{
 			int keyCode = Integer.parseInt(name);
 			animationNonControlled.bindAnimationToKey(keyCode, name);
 		});
+		
+		this.setTag(WizScene.enemy);
 	}
 }

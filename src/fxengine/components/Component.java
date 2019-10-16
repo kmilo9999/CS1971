@@ -10,6 +10,8 @@ public abstract class Component {
 	
 	protected String myName;
 	
+	protected boolean isEnabled = true;
+	
 	public Component(String name)
 	{
 		this.myName = name;
@@ -50,6 +52,14 @@ public abstract class Component {
 
 	public void setInitialized(boolean isInitialized) {
 		this.isInitialized = isInitialized;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	
 }

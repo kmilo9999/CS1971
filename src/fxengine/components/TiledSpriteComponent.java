@@ -8,6 +8,7 @@ import fxengine.manager.ResourceManager;
 import fxengine.manager.Resource.ResourceType;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
+import javafx.scene.canvas.GraphicsContext;
 
 public class TiledSpriteComponent extends SpriteComponent{
 
@@ -106,6 +107,16 @@ public class TiledSpriteComponent extends SpriteComponent{
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void draw(GraphicsContext graphicsCx)
+	{
+		if(isEnabled)
+		{
+			super.draw(graphicsCx);	
+		}
+		
 	}
 	
 	public Vec2d getFrameSize() {

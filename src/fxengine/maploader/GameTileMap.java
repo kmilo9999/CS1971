@@ -177,7 +177,8 @@ public class GameTileMap {
 					}
 					else {
 						
-						isStatic = tileColor == 1 || tileColor == 2 ? true : false;
+						isStatic = tileColor == 1 || tileColor == 2 || 
+								tileColor == 4 ? true : false;
 
 					}
 						
@@ -188,6 +189,10 @@ public class GameTileMap {
 					if(intTileMap.get(j).get(i) == 2)
 					{
 						tile.setTag("GOAL");
+					}
+					if(intTileMap.get(j).get(i) == 4)
+					{
+						tile.setTag("LIGHT");
 					}
 					
 					

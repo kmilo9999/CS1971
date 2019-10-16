@@ -1,39 +1,18 @@
 package game.wiz;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
-import fxengine.PathFinding.Node;
 import fxengine.PathFinding.PathFinding;
-import fxengine.application.FXFrontEnd;
 import fxengine.application.GameApplication;
-import fxengine.behaviortree.Action;
-import fxengine.behaviortree.BTNode;
-import fxengine.behaviortree.BehaviorTree;
-import fxengine.behaviortree.Composite;
-import fxengine.behaviortree.Condition;
-import fxengine.behaviortree.Selector;
-import fxengine.behaviortree.Sequence;
-import fxengine.collision.CollisionConstants;
-import fxengine.collision.CollisionShape;
-import fxengine.collision.CollisionShapeFactory;
-import fxengine.components.TiledSpriteComponent;
-import fxengine.components.TerrainComponent;
-import fxengine.components.AIComponent;
-import fxengine.components.AIMovementComponent;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
-import fxengine.components.Component;
 import fxengine.components.ComponentContants;
-import fxengine.components.ComponentFactory;
-import fxengine.components.GraphicsComponent;
+import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TransformComponent;
 import fxengine.maploader.GameTileMap;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
-import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
 
@@ -41,19 +20,32 @@ public class WizScene extends GameWorldScene{
 
 	GameTileMap terrain;
 	WizCharacter mainCharater;
+	WizCharacter[] aiCharaters;
+	int numEnemiesPerLevel;
 	Vec2i playerCurrentTile = new Vec2i(0);
 	int[][] fogofWar;
 	PathFinding pathFinding ;
 	
-	
+	int currentSecond = 0;
+	long currentTime = 0;
+	boolean activateLight = false;
+	boolean activatedLigth = false;
 	
 	boolean doFogOfWar = true;
+	boolean defaultDoFogOfWar;
 	String currentMapPath;
+	int dummylight = 0;
 	
 	public static String goal = "GOAL";
+	public static String ligth = "LIGHT";
+	public static String enemy = "ENEMY";
 	
 	private int currentLevel = 0;
 	private boolean isMapExternal = false;
+	
+	Vec2d lightPos;
+	
+	LevelState levelState;
 	
 	public WizScene(String name, GameApplication application,String fogOfWar, String defaultMap, int level) {
 		super(name, application);
@@ -62,12 +54,15 @@ public class WizScene extends GameWorldScene{
 				|| fogOfWar.equals("y") || fogOfWar.equals("yEs") || fogOfWar.equals("yES"))
 		{
 			doFogOfWar = true;
+			
 		}
 		else if(fogOfWar.equals("NO")  || fogOfWar.equals("N") || fogOfWar.equals("no")
 				|| fogOfWar.equals("n") || fogOfWar.equals("No") || fogOfWar.equals("nO"))
 		{
 			doFogOfWar = false;
 		}
+		
+		defaultDoFogOfWar = doFogOfWar;
 		
 		this.currentLevel = level;
 		
@@ -76,6 +71,8 @@ public class WizScene extends GameWorldScene{
 			if(defaultMap.isEmpty())
 			{
 				this.currentMapPath = "text/mytilemap.txt";	
+				numEnemiesPerLevel = 1;
+				aiCharaters = new WizCharacter[numEnemiesPerLevel];
 			}
 			else
 			{
@@ -86,7 +83,15 @@ public class WizScene extends GameWorldScene{
 		}
 		else if(currentLevel ==  1)
 		{
-			this.currentMapPath = defaultMap.isEmpty()? "text/myTileMap2.txt":defaultMap;
+			if(defaultMap.isEmpty())
+			{
+				this.currentMapPath = "text/myTileMap2.txt";	
+			}
+			else
+			{
+				this.currentMapPath = defaultMap;
+				isMapExternal = true;
+			}
 		}
 		
 	}
@@ -114,7 +119,7 @@ public class WizScene extends GameWorldScene{
 		
 		
         //terrain	
-		terrain = new GameTileMap(this.currentMapPath, "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,4), this);
+		terrain = new GameTileMap(this.currentMapPath, "img/tiles.png", 750,450, new Vec2d(0,0), new Vec2d(32,36), new Vec2i(1,5), this);
 		terrain.setExternal(isMapExternal);
 		terrain.load();
 		terrain.enablePathFinding();
@@ -123,27 +128,53 @@ public class WizScene extends GameWorldScene{
 		if(terrain.getPlayerInitialPosition() == null)
 		{
 			playerInitialPosition =  new Vec2d(32,72);
+
 		}
 		
-		mainCharater = new WizAiCharacter("wiz1","warrior", playerInitialPosition,animations);
+		mainCharater = new WizControllableCharacter("wiz1","warrior", playerInitialPosition,animations);
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
+		
+		
+		if(currentLevel == 0)
+		{
+			List<Vec2d> positions = new ArrayList<>();
+			positions.add(new Vec2d(416,108));
+			levelState = new LevelState(numEnemiesPerLevel, positions, terrain);
+			
+			for(WizCharacter enemy: levelState.getEnemies())
+			{
+				this.myGameWorld.addGameObject(enemy, GameWorld.FrontLayer);
+			}
+		}
+		
+		//int index = 0;
+		//while(index < numEnemiesPerLevel)
+		//{
+		//	aiCharaters[index] = new WizAiCharacter("enemy"+index,"priest", playerInitialPosition,animations);
+		//	this.myGameWorld.addGameObject(aiCharaters[index], GameWorld.FrontLayer);
+		//}
+		
+		//mainCharater = new WizAiCharacter("wiz1","warrior", playerInitialPosition,animations);
+		//this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
 		
 		///-------------------
 		// init path finding
 		
 		//pathFinding  = new PathFinding(terrain.getNumTiles().x, terrain.getNumTiles().y, terrain.getIntTileMap());
 
-        TransformComponent transformIinit = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
-		int startNumTileY = (int)(transformIinit.getPosition().x / 32);
-		int startNumTileX = (int)(transformIinit.getPosition().y / 36);
-		
-		Vec2d endPos = new Vec2d(transformIinit.getPosition().x + 32,transformIinit.getPosition().y + 36);
-		Vec2i endTile = terrain.coordinateToTile(endPos.x, endPos.y);
 		
 		
-		Node startNode = new Node(startNumTileX,startNumTileY);
+        //TransformComponent transformIinit = (TransformComponent)aiCharaters[index].getComponent(ComponentContants.transform);
+		//int startNumTileY = (int)(transformIinit.getPosition().x / 32);
+		//int startNumTileX = (int)(transformIinit.getPosition().y / 36);
 		
-		Node endNode = new Node(new Vec2i(2,10));
+		//Vec2d endPos = new Vec2d(transformIinit.getPosition().x + 32,transformIinit.getPosition().y + 36);
+		//Vec2i endTile = terrain.coordinateToTile(endPos.x, endPos.y);
+		
+		
+		//Node startNode = new Node(startNumTileX,startNumTileY);
+		
+		//Node endNode = new Node(new Vec2i(2,10));
 		
 		//Queue<Vec2d> resultPath = terrain.findPath(startNode, endNode);
 		//Queue<Vec2d> pathPoints = new LinkedList<Vec2d>();
@@ -163,37 +194,37 @@ public class WizScene extends GameWorldScene{
 			
 		}*/
 		
-        System.out.println("end of AI Movement");
+       // System.out.println("end of AI Movement");
 		
 
 		//--------------------------------------
         // AI Actions
         
-        Composite root = new Sequence();
+        //Composite root = new Sequence();
         
-        Node controlPoint0 = new Node(new Vec2i(3,13));
-        Node controlPoint1 = new Node(new Vec2i(3,10));
-        Node controlPoint2 = new Node(new Vec2i(3,13));
+       // Node controlPoint0 = new Node(new Vec2i(3,13));
+      //  Node controlPoint1 = new Node(new Vec2i(3,10));
+      //  Node controlPoint2 = new Node(new Vec2i(3,13));
         //Node controlPoint2 = new Node(new Vec2i(2,10));
         //Node controlPoint3 = new Node(new Vec2i(2,14));
         //Node controlPoint4 = new Node(new Vec2i(3,13));
-        Queue<Node> controlsPoints  = new LinkedList<Node>();
-        controlsPoints.add(controlPoint0);
-        controlsPoints.add(controlPoint1);
-        controlsPoints.add(controlPoint2);
+     //   Queue<Node> controlsPoints  = new LinkedList<Node>();
+     //   controlsPoints.add(controlPoint0);
+    //    controlsPoints.add(controlPoint1);
+    //    controlsPoints.add(controlPoint2);
         //controlsPoints.add(controlPoint3);
         //controlsPoints.add(controlPoint4);
         
-        Action patrol = new PatrolAction((GameObject)mainCharater, terrain,controlsPoints);
-        Condition timeDelay = new TimeDelay(3);
-        root.children.add(timeDelay);
-        root.children.add(patrol);
+    //    Action patrol = new PatrolAction((GameObject)mainCharater, terrain,controlsPoints);
+     //   Condition timeDelay = new TimeDelay(3);
+    //    root.children.add(timeDelay);
+    //    root.children.add(patrol);
         
-        BehaviorTree behaviorTree = new BehaviorTree(root);
+    //    BehaviorTree behaviorTree = new BehaviorTree(root);
         
-        AIComponent aiComponent = (AIComponent)ComponentFactory.getInstance().createComponent(ComponentContants.AI);
-        aiComponent.setBehaviorTree(behaviorTree);
-        mainCharater.addComponent(aiComponent);
+    //    AIComponent aiComponent = (AIComponent)ComponentFactory.getInstance().createComponent(ComponentContants.AI);
+    //    aiComponent.setBehaviorTree(behaviorTree);
+        //aiCharaters[index].addComponent(aiComponent);
         
 		//--------------------------------------
 		
@@ -215,7 +246,24 @@ public class WizScene extends GameWorldScene{
     		int numTileY = (int)(transform.getPosition().y / 36);
     		playerCurrentTile = new Vec2i(numTileX,numTileY);
             fogOfWar();
-        		
+        	if(levelState != null && levelState.getEnemies() != null)
+    		{
+    			List<WizCharacter>  enemies = levelState.getEnemies();
+    			for(WizCharacter enemy : enemies)
+    			{
+    				TransformComponent enemyTransform = (TransformComponent)enemy.getComponent(ComponentContants.transform);
+    				Vec2i enemyTile = terrain.coordinateToTile(enemyTransform.getPosition());
+    				TiledSpriteComponent tileComponent = (TiledSpriteComponent)enemy.getComponent(ComponentContants.tiled_sprite);
+    				if(terrain.getTile(enemyTile.x, enemyTile.y).getColor() == 3)
+    				{			
+    					tileComponent.setEnabled(false);
+    				}
+    				else
+    				{
+    					tileComponent.setEnabled(true);
+    				}
+    			}
+    		}
         }
         
 	}
@@ -224,9 +272,62 @@ public class WizScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
+		/*if(lightPos != null) {
+			TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+			if(lightPos.dist(transform.getPosition()) > 64)
+			{
+				dummylight = 0;
+			}
+		}*/
 		
+		if(activateLight && defaultDoFogOfWar == true)
+		{
+			currentTime += nanosSincePreviousTick;
+			
+			if(!activatedLigth)
+			{
+				doFogOfWar = false;
+				turnOnLights();	
+			}
+			
+		}
+		
+		if(currentTime > 1000000000)
+		{
+			currentSecond++;
+			currentTime= 0;
+			//System.out.println(currentSecond);
+			if( currentSecond > 5  )
+			{
+				currentSecond = 0;
+				currentTime= 0;
+				activateLight = false;
+				doFogOfWar = true;
+				activatedLigth = false;
+				fogOfWar();
+				if(levelState != null && levelState.getEnemies() != null)
+				{
+					List<WizCharacter>  enemies = levelState.getEnemies();
+					for(WizCharacter enemy : enemies)
+					{
+						TransformComponent enemyTransform = (TransformComponent)enemy.getComponent(ComponentContants.transform);
+						Vec2i enemyTile = terrain.coordinateToTile(enemyTransform.getPosition());
+						TiledSpriteComponent tileComponent = (TiledSpriteComponent)enemy.getComponent(ComponentContants.tiled_sprite);
+						if(terrain.getTile(enemyTile.x, enemyTile.y).getColor() == 3)
+						{			
+							tileComponent.setEnabled(false);
+						}
+						else
+						{
+							tileComponent.setEnabled(true);
+						}
+					}
+				}
+				return;
+			}
+		}
 	
-		if(doFogOfWar)
+		if(doFogOfWar )
 		{
 			TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
     		int numTileX = (int)(transform.getPosition().x / 32);
@@ -235,7 +336,24 @@ public class WizScene extends GameWorldScene{
 			{
 				playerCurrentTile = new Vec2i(numTileX,numTileY);
 				fogOfWar();
-				
+				if(levelState != null && levelState.getEnemies() != null)
+				{
+					List<WizCharacter>  enemies = levelState.getEnemies();
+					for(WizCharacter enemy : enemies)
+					{
+						TransformComponent enemyTransform = (TransformComponent)enemy.getComponent(ComponentContants.transform);
+						Vec2i enemyTile = terrain.coordinateToTile(enemyTransform.getPosition());
+						TiledSpriteComponent tileComponent = (TiledSpriteComponent)enemy.getComponent(ComponentContants.tiled_sprite);
+						if(terrain.getTile(enemyTile.x, enemyTile.y).getColor() == 3)
+						{			
+							tileComponent.setEnabled(false);
+						}
+						else
+						{
+							tileComponent.setEnabled(true);
+						}
+					}
+				}
 			}
 			
 			
@@ -244,7 +362,7 @@ public class WizScene extends GameWorldScene{
 	    CollisionComponent collision = (CollisionComponent)mainCharater.getComponent(ComponentContants.collision);
 		if(collision != null  && collision.isCollided() )
 		{
-			if(collision.getOtherCollider().getTag().equals(goal))
+			if(collision.getOtherCollider() != null && collision.getOtherCollider().getTag().equals(goal))
 			{
 				if(this.currentLevel == 0)
 				{
@@ -254,6 +372,21 @@ public class WizScene extends GameWorldScene{
 				{
 					((WizGame)this.myApplication).setActiveScreen("End");
 				}
+			}
+			if(collision.getOtherCollider() != null && collision.getOtherCollider().getTag().equals(ligth))
+			{
+				
+				if(dummylight == 0 )
+				{
+					lightPos = ((TransformComponent) collision.getOtherCollider().getComponent(ComponentContants.transform)).getPosition();
+					dummylight++;
+					activateLight = true;	
+				}
+				
+			}
+			if(collision.getOtherCollider() != null && collision.getOtherCollider().getTag().equals(enemy))
+			{
+				((WizGame)this.myApplication).setActiveScreen("dead");	
 			}
 			
 		}
@@ -283,7 +416,24 @@ public class WizScene extends GameWorldScene{
 
 			}
 		}
+	}
+	
+	private void turnOnLights()
+	{
 		
+		for (int i = 0; i < terrain.getNumTiles().x; i++) {
+			for (int j = 0; j < terrain.getNumTiles().y; j++) {
+					terrain.getTile(i, j).setColor(fogofWar[i][j]);
+			}
+		}
+		
+		List<WizCharacter>  enemies = levelState.getEnemies();
+		for(WizCharacter enemy : enemies)
+		{
+			TiledSpriteComponent tileComponent = (TiledSpriteComponent)enemy.getComponent(ComponentContants.tiled_sprite);
+			tileComponent.setEnabled(true);
+		}
+		activatedLigth = true;
 	}
 
 	public boolean isDoFogOfWar() {

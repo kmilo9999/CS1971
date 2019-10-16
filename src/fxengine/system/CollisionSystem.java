@@ -36,7 +36,7 @@ public class CollisionSystem extends BaseGameSystem{
 									// check collision
 									if (collisionComponent.getCollisionShape()
 											.isColliding(collisionComponent2.getCollisionShape())) {
-										System.out.println("COLLISION!");
+										System.out.println("COLLISION with "+ myGameObjects.get(j).getTag()+"!");
 										collisionComponent.setCollided(true);
 										collisionComponent.setColliderId(((GameObject)myGameObjects.get(j)).getId());
 										collisionComponent.setOtherCollider((GameObject)myGameObjects.get(j));
@@ -49,8 +49,17 @@ public class CollisionSystem extends BaseGameSystem{
 										
 										
 									}
+									/*else
+									{
+										System.out.println("no COLLISION with "+ myGameObjects.get(j).getTag()+"!");
+										collisionComponent.setCollided(false);
+										collisionComponent.setColliderId(null);
+										collisionComponent.setOtherCollider(null);
+									}*/
 
 								}
+								
+								
 							}
 
 						}

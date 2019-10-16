@@ -5,6 +5,7 @@ import java.util.List;
 import fxengine.components.Animation;
 import fxengine.components.AnimationComponent;
 import fxengine.components.AnimationControllerComponent;
+import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
@@ -28,11 +29,19 @@ public class WizControllableCharacter extends WizCharacter{
 			animationKeyControllers.bindAnimationToKey(keyCode, name);
 		});
 		
+	
+		
 		Component keyControllerComponent = ComponentFactory.getInstance()
 				.createComponent(ComponentContants.controllerKeyEvents);
 		
 		this.addComponent(animationKeyControllers);
 		this.addComponent(keyControllerComponent);
+		
+		CollisionComponent collisionCompomemt = (CollisionComponent)this.getComponent(ComponentContants.collision);
+		((CollisionComponent)collisionCompomemt).getHitList().add(WizScene.goal);
+		((CollisionComponent)collisionCompomemt).getHitList().add(WizScene.ligth);
+		((CollisionComponent)collisionCompomemt).getHitList().add(WizScene.enemy);
+		
 	}
 
 }

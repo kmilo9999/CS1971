@@ -80,7 +80,7 @@ public abstract class WizCharacter extends GameObject{
 		Component collisionCompomemt = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
 		((CollisionComponent) collisionCompomemt).setCollisionShape(myCollisionShape);
-		((CollisionComponent)collisionCompomemt).getHitList().add(WizScene.goal);
+	
 
 		this.addComponent(graphicsComponent);
 		this.addComponent(tranformComponent);
