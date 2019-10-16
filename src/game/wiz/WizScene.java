@@ -20,7 +20,7 @@ public class WizScene extends GameWorldScene{
 
 	GameTileMap terrain;
 	WizCharacter mainCharater;
-	WizCharacter[] aiCharaters;
+	
 	int numEnemiesPerLevel;
 	Vec2i playerCurrentTile = new Vec2i(0);
 	int[][] fogofWar;
@@ -72,7 +72,7 @@ public class WizScene extends GameWorldScene{
 			{
 				this.currentMapPath = "text/mytilemap.txt";	
 				numEnemiesPerLevel = 1;
-				aiCharaters = new WizCharacter[numEnemiesPerLevel];
+				
 			}
 			else
 			{
@@ -85,6 +85,7 @@ public class WizScene extends GameWorldScene{
 		{
 			if(defaultMap.isEmpty())
 			{
+				numEnemiesPerLevel = 1;
 				this.currentMapPath = "text/myTileMap2.txt";	
 			}
 			else
@@ -139,8 +140,19 @@ public class WizScene extends GameWorldScene{
 		{
 			List<Vec2d> positions = new ArrayList<>();
 			positions.add(new Vec2d(416,108));
-			levelState = new LevelState(numEnemiesPerLevel, positions, terrain);
-			
+			levelState = new Level1(numEnemiesPerLevel, positions, terrain);
+			levelState.initialize();
+			for(WizCharacter enemy: levelState.getEnemies())
+			{
+				this.myGameWorld.addGameObject(enemy, GameWorld.FrontLayer);
+			}
+		}
+		else if(currentLevel == 1)
+		{
+			List<Vec2d> positions = new ArrayList<>();
+			positions.add(new Vec2d(288,396));
+			levelState = new Level2(numEnemiesPerLevel, positions, terrain);
+			levelState.initialize();
 			for(WizCharacter enemy: levelState.getEnemies())
 			{
 				this.myGameWorld.addGameObject(enemy, GameWorld.FrontLayer);
@@ -279,6 +291,13 @@ public class WizScene extends GameWorldScene{
 				dummylight = 0;
 			}
 		}*/
+		TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+		Vec2i currenTile = terrain.coordinateToTile(transform.getPosition());
+		if(terrain.getTile(currenTile.x, currenTile.y).getColor() == 4)
+		{
+			activateLight = true;	
+		}
+		
 		
 		if(activateLight && defaultDoFogOfWar == true)
 		{
@@ -297,7 +316,7 @@ public class WizScene extends GameWorldScene{
 			currentSecond++;
 			currentTime= 0;
 			//System.out.println(currentSecond);
-			if( currentSecond > 5  )
+			if( currentSecond > 3  )
 			{
 				currentSecond = 0;
 				currentTime= 0;
@@ -329,9 +348,9 @@ public class WizScene extends GameWorldScene{
 	
 		if(doFogOfWar )
 		{
-			TransformComponent transform = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
-    		int numTileX = (int)(transform.getPosition().x / 32);
-    		int numTileY = (int)(transform.getPosition().y / 36);
+			TransformComponent transformHero = (TransformComponent)mainCharater.getComponent(ComponentContants.transform);
+    		int numTileX = (int)(transformHero.getPosition().x / 32);
+    		int numTileY = (int)(transformHero.getPosition().y / 36);
 			if(playerCurrentTile.x != numTileX  || playerCurrentTile.y != numTileY)
 			{
 				playerCurrentTile = new Vec2i(numTileX,numTileY);
@@ -373,17 +392,7 @@ public class WizScene extends GameWorldScene{
 					((WizGame)this.myApplication).setActiveScreen("End");
 				}
 			}
-			if(collision.getOtherCollider() != null && collision.getOtherCollider().getTag().equals(ligth))
-			{
-				
-				if(dummylight == 0 )
-				{
-					lightPos = ((TransformComponent) collision.getOtherCollider().getComponent(ComponentContants.transform)).getPosition();
-					dummylight++;
-					activateLight = true;	
-				}
-				
-			}
+			
 			if(collision.getOtherCollider() != null && collision.getOtherCollider().getTag().equals(enemy))
 			{
 				((WizGame)this.myApplication).setActiveScreen("dead");	

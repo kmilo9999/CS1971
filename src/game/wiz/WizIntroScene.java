@@ -9,11 +9,13 @@ import javafx.scene.input.KeyEvent;
 public class WizIntroScene extends GameWorldScene{
 
 	UIElement introLayout;
-	
-	public WizIntroScene(String name, GameApplication application) {
+	String myImagefilePath;
+	String myNexSceneStr;
+	public WizIntroScene(String name, GameApplication application, String imagePath, String nextScene) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
-		
+		myImagefilePath = imagePath;
+		myNexSceneStr = nextScene;
 	}
 	
 	@Override
@@ -21,7 +23,7 @@ public class WizIntroScene extends GameWorldScene{
 	{
 		//Initialize game world
 		super.initScene(); 
-		introLayout  = new UISprite("img/introInfo.png", 250, 150);
+		introLayout  = new UISprite(myImagefilePath, 250, 150);
 		this.addProp(introLayout);
 	}
 	
@@ -35,7 +37,7 @@ public class WizIntroScene extends GameWorldScene{
 	@Override
 	public void onKeyTyped(KeyEvent e) {
 		
-		((WizGame)this.myApplication).setActiveScreen("level1");
+		((WizGame)this.myApplication).setActiveScreen(myNexSceneStr);
 		
 	}
 	

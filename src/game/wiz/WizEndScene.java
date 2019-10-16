@@ -12,10 +12,14 @@ public class WizEndScene extends GameWorldScene{
 	double timeSinceLastUpdate = 0.0;
 	double totalSeconds = 0.0;
 	boolean blockInput = true;
+	String myimageFilePath;
+	String myNextLevel;
 	
-	public WizEndScene(String name, GameApplication application) {
+	public WizEndScene(String name, GameApplication application, String imageFilePath, String nextLevel) {
 		super(name, application);
 		// TODO Auto-generated constructor stub
+		myimageFilePath = imageFilePath ;
+		myNextLevel =nextLevel;
 	}
    
 	@Override
@@ -23,7 +27,7 @@ public class WizEndScene extends GameWorldScene{
 	{
 		//Initialize game world
 		super.initScene(); 
-		introLayout  = new UISprite("img/endInfo.png", 250, 150);
+		introLayout  = new UISprite(myimageFilePath, 250, 150);
 		this.addProp(introLayout);
 	}
 	
@@ -48,7 +52,13 @@ public class WizEndScene extends GameWorldScene{
 		
 		if(!blockInput)
 		{
-			myApplication.shutdown();	
+			if(myNextLevel.isEmpty())
+			{
+				myApplication.shutdown();	
+			}
+			((WizGame)this.myApplication).setActiveScreen(myNextLevel);
+				
+				
 		}
 		 
 		

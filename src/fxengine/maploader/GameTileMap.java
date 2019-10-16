@@ -29,8 +29,6 @@ public class GameTileMap {
 	private Vec2d myInitialPosition= new Vec2d(0);
 	private Vec2d myTileSize= new Vec2d(0);
 	private Vec2i myNumFrames= new Vec2i(0);
-	private int myWidth=0;
-	private int myHeight= 0;
 	private Vec2i myNumTiles = new Vec2i(0);
 	GameTile[][] myTileMap;
 	List<List<Integer>> intTileMap = new ArrayList<List<Integer>>(); 
@@ -51,8 +49,7 @@ public class GameTileMap {
 		this.myNumFrames = numFrames;
 		this.myTileSize = tileSize;
 		this.myTextureMapFilePath = textureMapFilePath;
-		this.myWidth = width;
-		this.myHeight = height;
+		
 		
 	}
 	
@@ -80,8 +77,9 @@ public class GameTileMap {
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
 
             try {
-				BufferedReader br = resource.getFileReaader();
+				BufferedReader br = resource.getFileReader();
 				String st; 
+				
 				while ((st = br.readLine()) != null)
 				{
 					
@@ -105,7 +103,7 @@ public class GameTileMap {
 				    }
 				    
 				    intTileMap.add(intLine);
-				    
+				
 					//System.out.println(st);
 				    
 				}
@@ -177,8 +175,7 @@ public class GameTileMap {
 					}
 					else {
 						
-						isStatic = tileColor == 1 || tileColor == 2 || 
-								tileColor == 4 ? true : false;
+						isStatic = tileColor == 1 || tileColor == 2 ? true : false;
 
 					}
 						
@@ -190,10 +187,7 @@ public class GameTileMap {
 					{
 						tile.setTag("GOAL");
 					}
-					if(intTileMap.get(j).get(i) == 4)
-					{
-						tile.setTag("LIGHT");
-					}
+				
 					
 					
 					tile.setColor(tileColor);
@@ -236,7 +230,7 @@ public class GameTileMap {
 			//new FileReader(getClass().getClassLoader().getResource(this.myFilePath).toString());
 
             try {
-				BufferedReader br = resource.getFileReaader();
+				BufferedReader br = resource.getFileReader();
 				String st; 
 				while ((st = br.readLine()) != null)
 				{

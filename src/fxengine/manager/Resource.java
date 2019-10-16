@@ -138,7 +138,7 @@ public class Resource {
 		// So far only supports Images
 	}
 
-	public BufferedReader getFileReaader() {
+	public BufferedReader getFileReader() {
 		return myFileText;
 	}
 

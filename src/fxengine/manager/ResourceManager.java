@@ -36,7 +36,12 @@ public class ResourceManager {
 		
 		Resource resource = new Resource(filePath, type);
 		resource.load();
-		myResources.put(filePath,resource);
+		if(resource.getType() != ResourceType.InternalTextFile
+				&& resource.getType() != ResourceType.ExternalTextFile)
+		{
+			myResources.put(filePath,resource);	
+		}
+		
 		
 		return resource;
 	}
