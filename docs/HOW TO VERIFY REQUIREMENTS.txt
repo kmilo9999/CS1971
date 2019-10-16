@@ -1,35 +1,26 @@
 ﻿
-
 Primary Engine Requirements
 
-- Your engine must be able to calculate MTVs in addition to normal collision calculations. 
-     Check the file fxengine.collision.AABCollideShape methods collisionCircle and collisionAABS
-     Check the file fxengine.collision.CircleCollisionShape methods collisionCircle and collisionAABS
-     The same logic is in the debugger
+ - Your engine must support A* pathfinding: fxengine.PathFinding.PathFinding . This class is used inside the GameTileMap class whenever a path from two nodes is requested
+ - Your engine must implement an AI library
+     [X] - If  using behavior trees, you must implement the following:
+         - Behavior Tree class : check class fxengine.behaviortree
+         - Selector class : fxengine.behaviortree.Selector
+         - Sequence class : fxengine.behaviortree.Sequence
+         - Action interface: fxengine.behaviortree.Action
+         - Condition interface: fxengine.behaviortree.Condition
 
 Primary Game Requirements
 
--  The TA debugger should be extended to display the respective MTVs for all collision pairs. TAs should quickly be able to verify that the correct MTV is being calculated.
-   Execute the debugger project inside the project workspace
-- One of the tile types should be passable.  One should be impassable : in the game there are walls and grass
-- The player-controlled unit should not be able to enter the impassable tiles. The unit should: play the game
-- Your game never crashes: I havent seen crashing so far
-
-Secondary Engine Requirements
-
-- Your engine must implement a procedural map generation algorithm (space partitioning or
-similar complexity) OR support level loading from a text file.: I do load from text file
-   Check file fxengine.maploader.GameTileMap
-   The game jar can load custom maps. Check the instructions file on how to do it.
-- Your engine must correctly suppport an animation behavior: Check the file fxengine.components.AnimationComponent
+  - The enemy unit should use your engine's AI framework. : chekc the class Level1 and level2, where the enemies are initialized.
+                                                         The behavior tree is initialized, and added to the AIComponent
+  - All AI tools included in the engine requirements should be used
+  - It must be possible to start a new game without restarting the program: if you die, you can restart the game pressing any key
+  - The game must meet at least two of the extra game requirements that weren't used last week: I have a switch that disables fog of war for 3 seconds
+                                                                                                I have 2 different enemies in the two maps.
+    
 
 
-Secondary Game Requirements
 
-- Your game must use a procedurally generated map OR a map loaded from a level file: 
-   Check file fxengine.maploader.GameTileMap
-   The game jar can load custom maps. Check the instructions file on how to do it.
-- Your game must include a sprite animation.: The main character has animation
-- Your game must meet at least two of the extra game requirements: I implemented fog of war and multi level.
 
 It took me a TON of time to get this far  :D. 

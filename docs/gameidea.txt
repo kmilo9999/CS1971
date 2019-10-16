@@ -1,0 +1,17 @@
+Game Idea
+
+I would like to work on a scape room 2d game, where the player needs to overcome a series of obstacle to go out of a place.
+There is a hall where some tiles activate tramps such as falling rocks, bullets. ALso there is a hall where the walls moves 
+shringking the size of the hall and smashing our player. etc
+
+Toy:
+
+It could be a hero on an indiana jones custome. 
+
+Engine:
+
+Implement particle effects, dynamic terrain and achivments.
+
+Gameplay:
+a top down game where the player controls a character using the keyboard. the hero is human and it will die with just one hit.
+he has two items, a shovel to mofify the terrain around him and a whip to attack enemies.

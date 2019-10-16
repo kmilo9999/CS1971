@@ -1,0 +1,81 @@
+[ ] - Playtesting
+[ ] - Primary
+[ ] - Secondary
+Total: -/4
+
+Retries used: NONE (2 extra retries remaining)
+
+[ ] - Attended a design check
+[ ] - Completed playtesting
+
+========================================
+
+Playtesting Requirements
+========================================
+[X] - Your game should have a map containing passable and impassable tiles
+[X] - Your game must have a unit that can be controlled by the player
+[X] - Your game must have an enemy unit that moves deterministically
+[X] - There must be a visible reaction when the player and enemy collide
+[X] - Your game must have a stationary item on the ground
+[] - There must be a (different) visible reaction when the player and item collide
+
+
+Primary Engine Requirements
+========================================
+[X] - Your engine must support A* pathfinding
+[X] - Your engine must implement an AI library
+    [X] - If  using behavior trees, you must implement the following:
+        [X] - Behavior Tree class
+        [X] - Selector class
+        [X] - Sequence class
+        [X] - Action interface
+        [X] - Condition interface
+    [ ] - If using GOAP, you must implement the following:
+        [ ] - Game State class
+        [ ] - Action class/interface
+        [ ] - Condition class/interface
+        [ ] - You should be able to search over the Action set using a starting Game State and a goal Condition using your engine's A* implementation (can use a heuristic of 0, or allow the game to define its own)
+
+Primary Game Requirements
+========================================
+[X] - The enemy unit should use your engine's AI framework.
+    [X] - All AI tools included in the engine requirements should be used
+    [X] - At least two distinct behaviors must be used and visible during gameplay
+[X] - It must be possible to start a new game without restarting the program
+
+
+Secondary Engine Requirements
+=======================================
+[ ] - Handin meets all primary engine requirements
+
+Secondary Game Requirements
+======================================
+[ ] - Handin meets all primary game requirements
+[X] - The enemy unit must move according to a path generated using A*
+[X] - The game must meet at least two of the extra game requirements that weren't used last week
+    [X] - List all four game requirements in your README and specify which ones are for tac3 and which are tac4
+
+
+Global Playtesting Requirements (you don't need to show how to verify these)
+======================================
+[X] - Eclipse project or ant build file
+[X] - No external dependencies
+[X] - Handin runs on department machines
+[X] - Handin runs 20+ UPS
+[ ] - Handin only crashes on edge cases
+
+Global Primary Requirements (you don't need to show how to verify these)
+======================================
+[X] - README
+    [X] - has a copy of the rubric
+    [X] - shows how to verify non-global requirements
+    [X] - documents known bugs
+    [X] - approximate hours to complete checkpoint
+[X] - INSTRUCTIONS file included
+[X] - Engine and game in separate packages
+[X] - Engine and game logically separated
+[X] - Engine code is well designed
+[X] - Game code is reasonably designed
+[ ] - Handin isn't permanent fixed size
+[ ] - Handin never crashes
+[ ] - Handin meets all playtesting requirements

@@ -7,3 +7,4 @@
        By default it will load a file inside the jar in the folder resource/text
 2. The intro scene will tell you what to do to move your character and the tile you need to look for.
 3. you move your character using the AWSD.
+4. follow the instructions on the intro scenes

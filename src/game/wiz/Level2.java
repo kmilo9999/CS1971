@@ -50,22 +50,19 @@ public class Level2 extends LevelState{
     		 animations.add(down);
     	    	
     		
-    		WizCharacter enemy= new WizAiCharacter("enemy"+i,"lucky", new Vec2d(288,396),animations);
-            System.out.println(myTerrain.coordinateToTile(new Vec2d(288,396)));
+    		WizCharacter enemy= new WizAiCharacter("enemy"+i,"lucky", myEnemiesInitialPositions.get(i),animations);
+            //System.out.println(myTerrain.coordinateToTile(new Vec2d(288,396)));
 			Composite root = new Sequence();
 
 			Node controlPoint0 = new Node(new Vec2i(11, 9));
 			Node controlPoint1 = new Node(new Vec2i(9, 9));
 			Node controlPoint2 = new Node(new Vec2i(11, 9));
-			// Node controlPoint2 = new Node(new Vec2i(2,10));
-			// Node controlPoint3 = new Node(new Vec2i(2,14));
-			// Node controlPoint4 = new Node(new Vec2i(3,13));
+			
 			Queue<Node> controlsPoints = new LinkedList<Node>();
 			controlsPoints.add(controlPoint0);
 			controlsPoints.add(controlPoint1);
 			controlsPoints.add(controlPoint2);
-			// controlsPoints.add(controlPoint3);
-			// controlsPoints.add(controlPoint4);
+			
 
 			Action patrol = new PatrolAction((GameObject) enemy, myTerrain, controlsPoints);
 			Condition timeDelay = new TimeDelay(3);
