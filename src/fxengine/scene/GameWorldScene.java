@@ -33,7 +33,7 @@ public class GameWorldScene extends BaseScene{
 	protected MouseEventSystem myMouseSystem = new MouseEventSystem();
 	protected KeyboardEventSystem myKeyBoardSystem = new KeyboardEventSystem();
 	protected BaseGameSystem myGhrapicsSystem = new GraphicsSystem();
-	protected BaseGameSystem myCollSystem = new CollisionSystem();
+	//protected BaseGameSystem myCollSystem = new CollisionSystem();
 	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
@@ -63,7 +63,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
-		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
+		//this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.AI, myAISystem);
@@ -77,7 +77,7 @@ public class GameWorldScene extends BaseScene{
 		camera.addComponent(cameraMouseControllerComponent);
 		camera.addComponent(cameraKeyControllerComponent);
 		
-		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
+		this.myGameWorld.setSceneCamera(camera);
 		///----------------------------------
 		
 		super.initScene();

@@ -43,10 +43,14 @@ public class AnimationComponent extends Component{
 			if(spriteAnimation != null)
 			{
 				myCurrentAnimation = myAnimations.get(this.myCurrentAnimationName);
-				spriteAnimation.setCurrentFrame(0);
-				spriteAnimation.setFramePosition(myCurrentAnimation.getTexturePosition());
-				spriteAnimation.setFrameSize(myCurrentAnimation.getFrameSize());
-				spriteAnimation.setNumFrames(myCurrentAnimation.getNumFrames());
+				if(myCurrentAnimation != null)
+				{
+					spriteAnimation.setCurrentFrame(0);
+					spriteAnimation.setFramePosition(myCurrentAnimation.getTexturePosition());
+					spriteAnimation.setFrameSize(myCurrentAnimation.getFrameSize());
+					spriteAnimation.setNumFrames(myCurrentAnimation.getNumFrames());	
+				}
+				
 			}	
 			
 			this.needsUpdate = false;

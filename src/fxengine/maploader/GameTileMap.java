@@ -4,23 +4,20 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import fxengine.math.Vec2d;
-import fxengine.math.Vec2i;
-import fxengine.objects.GameWorld;
-import fxengine.scene.GameWorldScene;
 import fxengine.PathFinding.Node;
 import fxengine.PathFinding.PathFinding;
 import fxengine.manager.Resource;
 import fxengine.manager.Resource.ResourceType;
 import fxengine.manager.ResourceManager;
-import fxengine.maploader.GameTile;
+import fxengine.math.Vec2d;
+import fxengine.math.Vec2i;
+import fxengine.objects.GameWorld;
+import fxengine.scene.GameWorldScene;
 
 public class GameTileMap {
   
@@ -119,27 +116,6 @@ public class GameTileMap {
 				e.printStackTrace();
 			}
 			  
-			String st; 
-			
-			/*while ((st = br.readLine()) != null)
-			{
-				
-				if(st.length() < minY  )
-				{
-					minY = st.length();
-				} 
-				
-				List<Integer> intLine = new ArrayList<Integer>(); 
-			    for(int i = 0 ; i < st.length();i++)
-			    {
-			    	intLine.add(st.charAt(i) - 97); 
-			    }
-			    
-			    intTileMap.add(intLine);
-			    
-				System.out.println(st);
-			    
-			}*/
 			
 			readFile = true; 
 				 
@@ -180,8 +156,6 @@ public class GameTileMap {
 					}
 						
 					
-					
-					
 					GameTile tile = new GameTile(tileId,myTextureMapFilePath,new Vec2d(xPos, yPos));
 					if(intTileMap.get(j).get(i) == 2)
 					{
@@ -220,7 +194,7 @@ public class GameTileMap {
 			}
 			intTileMap.clear();
 			
-			 FileReader fr;
+			 
 			 boolean readFile = false;
 			 int minY = 1000000;
 			 
@@ -263,8 +237,6 @@ public class GameTileMap {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			  
-			String st; 
 			
 			/*while ((st = br.readLine()) != null)
 			{

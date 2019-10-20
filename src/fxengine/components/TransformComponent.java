@@ -24,20 +24,7 @@ public class TransformComponent extends Component {
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-         if(this.myParent.hasComponent(ComponentContants.collision))
-         {
-        	 CollisionComponent collision = (CollisionComponent) this.myParent.getComponent(ComponentContants.collision);
-        	 if(collision != null)
-        	 {
-        		 if(!collision.isStatic() && collision.getCollisionInfo() != null)
-        		 {
-        		 
-        			 
-        		  // Vec2d mvt = collision.getCollisionInfo().mtv;
-        	      // this.myPosition.plus(mvt);
-        		 }
-        	}
-         }
+         
 	}
 
 	@Override

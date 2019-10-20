@@ -14,15 +14,19 @@ import fxengine.components.ComponentContants;
 import fxengine.math.Vec2d;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.GraphicsSystem;
+import fxengine.system.PhysicsSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Affine;
 
 public class GameWorld {
 
-	public static final int FrontLayer = 1;
+	public static final int CameraLayer = 99;
+	public static final int StaticObjectLayer = 3;
+	public static final int EnemyLayer = 2;
+	public static final int PlayerLayer = 1;
 	public static final int BackLayer = 0;
 	
-	private int numLayers =2; 
+	private int numLayers = 4; 
 	
 	private List<List<GameObject>> myGameObjects;
 	
@@ -52,6 +56,8 @@ public class GameWorld {
 	
 	public double deltax =0;
 	public double deltay =0;
+	
+	private GameObject mySceneCamera = null;
 	
 	//private boolean isClearingObjects = false;
 	
@@ -163,10 +169,15 @@ public class GameWorld {
 		}
 		
 		
-		
+		//update systems
 		for(Map.Entry<String,BaseGameSystem>  systemEntry: mySystems.entrySet())
 		{
-				systemEntry.getValue().update(nanosSincePreviousTick);
+			if(systemEntry.getKey().equals(ComponentContants.physics))
+			{
+				((PhysicsSystem)systemEntry.getValue()).setLayerGameObjects(myGameObjects);
+			}
+			
+			systemEntry.getValue().update(nanosSincePreviousTick);
 		}	
 		
 		
@@ -257,24 +268,18 @@ public class GameWorld {
 	
 	public void addGameObject(GameObject gameObject, int layer)
 	{
-		//GameObject tempGO = lookupGameObject(gameObject.getId());  
-		//if(tempGO == null)
-		//{
-			// a new game object
-			gameObject.setGameWorld(this);
-			gameObject.initialize();
-			List<GameObject> gameObjects = myGameObjects.get(layer); 
-			gameObject.setLayerOrder(layer);
-			gameObjects.add(gameObject);
-			numGameObjects++;
-			
-			for(Map.Entry<String,BaseGameSystem> systemEntry : mySystems.entrySet())
-			{
-				systemEntry.getValue().addGameObject(gameObject);
-			}
-			
-		//}
-		
+
+		// a new game object
+		gameObject.setGameWorld(this);
+		gameObject.initialize();
+		List<GameObject> gameObjects = myGameObjects.get(layer);
+		gameObject.setLayerOrder(layer);
+		gameObjects.add(gameObject);
+		numGameObjects++;
+
+		for (Map.Entry<String, BaseGameSystem> systemEntry : mySystems.entrySet()) {
+			systemEntry.getValue().addGameObject(gameObject);
+		}
 		
 	}
 	
@@ -320,7 +325,7 @@ public class GameWorld {
 		return null;
 	}
 	
-	public int countGameObject(String id) {
+	public int countGameObjects(String id) {
 		int count = 0;
 		for(List<GameObject> gameObjets:myGameObjects)
 		{
@@ -420,7 +425,7 @@ public class GameWorld {
 
 	public void addClonedGameObject(GameObject clone) {
 		// TODO Auto-generated method stub
-		int count = countGameObject(clone.getId());  
+		int count = countGameObjects(clone.getId());  
 		clone.setId(clone.getId() + (count+1));
 		// a new game object
 		clone.setGameWorld(this);
@@ -540,6 +545,26 @@ public class GameWorld {
 			{
 				this.removeGameObject(gameObject.getId());
 			}
+		}
+		
+	}
+
+	public GameObject getSceneCamera() {
+		return mySceneCamera;
+	}
+
+	public void setSceneCamera(GameObject sceneCamera) {
+		if(this.mySceneCamera == null & sceneCamera != null)
+		{
+			mySceneCamera = sceneCamera;
+			mySceneCamera.setGameWorld(this);
+			mySceneCamera.initialize();
+			mySceneCamera.setLayerOrder(CameraLayer);
+
+			for (Map.Entry<String, BaseGameSystem> systemEntry : mySystems.entrySet()) {
+				systemEntry.getValue().addGameObject(mySceneCamera);
+			}
+			this.mySceneCamera = sceneCamera;
 		}
 		
 	}

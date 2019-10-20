@@ -133,7 +133,7 @@ public class WizScene extends GameWorldScene{
 		}
 		
 		mainCharater = new WizControllableCharacter("wiz1","warrior", playerInitialPosition,animations);
-		this.myGameWorld.addGameObject(mainCharater, GameWorld.FrontLayer);
+		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 		
 		
 		if(currentLevel == 0)
@@ -144,7 +144,7 @@ public class WizScene extends GameWorldScene{
 			levelState.initialize();
 			for(WizCharacter enemy: levelState.getEnemies())
 			{
-				this.myGameWorld.addGameObject(enemy, GameWorld.FrontLayer);
+				this.myGameWorld.addGameObject(enemy, GameWorld.PlayerLayer);
 			}
 		}
 		else if(currentLevel == 1)
@@ -155,7 +155,7 @@ public class WizScene extends GameWorldScene{
 			levelState.initialize();
 			for(WizCharacter enemy: levelState.getEnemies())
 			{
-				this.myGameWorld.addGameObject(enemy, GameWorld.FrontLayer);
+				this.myGameWorld.addGameObject(enemy, GameWorld.PlayerLayer);
 			}
 		}
 		
