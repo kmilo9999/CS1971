@@ -13,6 +13,7 @@ import javafx.scene.input.ScrollEvent;
 public class GameApplication extends FXFrontEnd{
 	private List<BaseScene> myScenes = new ArrayList<BaseScene>();
 	private BaseScene currentScene;
+	private boolean firstFrame = true; 
 	
 	
 	public GameApplication(String title) {
@@ -24,7 +25,11 @@ public class GameApplication extends FXFrontEnd{
 	@Override
 	protected void onTick(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		
+		if(firstFrame)
+		{
+			firstFrame = !firstFrame;
+			return;
+		}
 		//verify new scene is set
 		if(!this.currentScene.isActive())
 		{
@@ -58,8 +63,6 @@ public class GameApplication extends FXFrontEnd{
 			
 			
 		}
-		
-		
 		
 		
 		this.currentScene.onTick(nanosSincePreviousTick);

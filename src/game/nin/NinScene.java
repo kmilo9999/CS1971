@@ -49,13 +49,13 @@ public class NinScene  extends GameWorldScene{
 		
 		mainCharater = new NinControllableCharacter("main", new Vec2d(50, 50),animations);
 		
-		aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
+		//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
 		
-		ground = new NinPlatform("ground1", new Vec2d(120, 50), "img/ground2.png");
+		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		
 		
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
-		this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
+		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
 	}
 	

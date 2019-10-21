@@ -5,6 +5,7 @@ import java.util.List;
 import fxengine.components.Animation;
 import fxengine.components.AnimationComponent;
 import fxengine.components.AnimationControllerComponent;
+import fxengine.components.AnimationNonControlledComponent;
 import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -20,6 +21,15 @@ public class NinControllableCharacter extends NinCharacter{
 	
 	@Override
 	public void initialize() {
+		
+		
+		//AnimationNonControlledComponent animationNonControlled = (AnimationNonControlledComponent)ComponentFactory.getInstance().createComponent(ComponentContants.AutoAnimation);
+		//Component aiMovementComponent = ComponentFactory.getInstance().createComponent(ComponentContants.AIMovement);
+		//this.addComponent(animationNonControlled);
+		//this.addComponent(aiMovementComponent);
+		
+		Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
+		this.addComponent(physicsComponent);
 		
 		super.initialize();
 		AnimationControllerComponent animationKeyControllers = (AnimationControllerComponent)ComponentFactory.getInstance().createComponent(ComponentContants.keyAnimationController);
