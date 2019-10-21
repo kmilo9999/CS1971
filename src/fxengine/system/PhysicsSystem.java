@@ -15,7 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class PhysicsSystem extends BaseGameSystem{
 
 	private List<List<GameObject>> myLayerGameObjects;
-	private static final Vec2d gravity = new Vec2d(0,0.01); 
+	private static final Vec2d gravity = new Vec2d(0,0.025); 
 	
 	private long start = 0, end = 0;
 	private final double  MS_PER_UPDATE = 1000000000.0 / 60.0;
