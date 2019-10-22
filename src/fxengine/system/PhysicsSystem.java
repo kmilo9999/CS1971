@@ -1,8 +1,10 @@
 package fxengine.system;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fxengine.collision.Collision;
+import fxengine.collision.PhysicsCollision;
 import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
@@ -22,6 +24,8 @@ public class PhysicsSystem extends BaseGameSystem{
 	private final double MAX_DELTA_TIME = 1.0;
 	private final double DESIRED_FRAME_RATE = 1000.0 / 60.0;
 	private final int MAX_PHYSICS_STEPS = 6;
+	
+	List<PhysicsCollision> myCollisions = new ArrayList<PhysicsCollision>(); 
 	
 	
 	@Override
@@ -47,6 +51,7 @@ public class PhysicsSystem extends BaseGameSystem{
 			 applyGravity();
 			 updateTransform(deltaTime);
 			 checkCollision(deltaTime);
+			 resolveCollisions(deltaTime);
 			 totalDeltaTime -= deltaTime;
 	         i++;
         }
@@ -70,6 +75,16 @@ public class PhysicsSystem extends BaseGameSystem{
 		//checkCollision(nanosSincePreviousTick);
 		//applyGravity();
 	    //updateTransform(nanosSincePreviousTick);
+	}
+
+	private void resolveCollisions(double deltaTime) {
+		// TODO Auto-generated method stub
+		for(PhysicsCollision pCollision:myCollisions )
+		{
+			pCollision.resolveCollision(deltaTime);
+		}
+		
+		myCollisions.clear();
 	}
 
 	private void updateTransform(double deltaTime) {
@@ -117,14 +132,15 @@ public class PhysicsSystem extends BaseGameSystem{
 						if (enemy.hasComponent(ComponentContants.collision)) {
 							CollisionComponent collisionComponent2 = (CollisionComponent) enemy
 									.getComponent(ComponentContants.collision);
-							collisionComponent.setCollided(false);
-							collisionComponent.setCollisionInfo(null);
+							//collisionComponent.setCollided(false);
+							//collisionComponent.setCollisionInfo(null);
 
 							if (collisionComponent.getCollisionShape()
 									.isColliding(collisionComponent2.getCollisionShape())) {
 								if (collisionComponent.getHitList().contains(enemy.getTag())) {
-									collisionComponent.setCollided(true);
-									this.resolveNonStaticCollision(collisionComponent, collisionComponent2);
+								
+									//collisionComponent.setCollided(true);
+									this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 								}
 							}
 
@@ -143,21 +159,22 @@ public class PhysicsSystem extends BaseGameSystem{
 							if (collisionComponent.getCollisionShape()
 									.isColliding(collisionComponent2.getCollisionShape())) {
 
-								collisionComponent.setCollided(true);
+								//collisionComponent.setCollided(true);
+								this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 								
-								Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
+								//Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
 								
-								TransformComponent transform = (TransformComponent) myGameObjects.get(i)
-										.getComponent(ComponentContants.transform);
-								transform.setPosition(transform.getPosition().plus(mvt));
-							}else
-							{
-								if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
-										&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
-								{
-									((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
-								}
-							}
+								//TransformComponent transform = (TransformComponent) myGameObjects.get(i)
+								//		.getComponent(ComponentContants.transform);
+								//transform.setPosition(transform.getPosition().plus(mvt));
+							}//else
+							//{
+							//	if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
+							//			&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
+							//	{
+							//		((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
+							//	}
+							//}
 						}
 
 					}
@@ -181,17 +198,21 @@ public class PhysicsSystem extends BaseGameSystem{
 		
 	}
 	
-   private void resolveNonStaticCollision(CollisionComponent collisionComponent, CollisionComponent other)
+   private void checkPhysicsCollision(CollisionComponent collisionComponent, CollisionComponent other)
    {
 		Vec2d mvt = other.getCollisionShape()
 				.colliding(collisionComponent.getCollisionShape()); 
 		if(mvt != null) 
 		{
-			Collision collisionInfoObject1 = new Collision(other.getParent(),mvt ,collisionComponent.getCollisionShape(),other.getCollisionShape());;
-			Collision collisionInfoObject2 = new Collision(collisionComponent.getParent(),mvt ,other.getCollisionShape(),collisionComponent.getCollisionShape());;
+			PhysicsCollision physicsCollision = new PhysicsCollision(collisionComponent.getParent(),
+					other.getParent(), mvt, collisionComponent.getCollisionShape(), other.getCollisionShape());
+			this.myCollisions.add(physicsCollision);
 			
-			collisionComponent.setCollisionInfo(collisionInfoObject1);
-			other.setCollisionInfo(collisionInfoObject2);
+			//Collision collisionInfoObject1 = new Collision(other.getParent(),mvt ,collisionComponent.getCollisionShape(),other.getCollisionShape());;
+			//Collision collisionInfoObject2 = new Collision(collisionComponent.getParent(),mvt ,other.getCollisionShape(),collisionComponent.getCollisionShape());;
+			
+			//collisionComponent.setCollisionInfo(collisionInfoObject1);
+			//other.setCollisionInfo(collisionInfoObject2);
 		}
 		
 		
