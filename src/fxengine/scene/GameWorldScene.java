@@ -235,6 +235,7 @@ public class GameWorldScene extends BaseScene{
 		}
 		
 		myKeyBoardSystem.onNotify(event);
+		super.onKeyPressed(ke);
 	}
 	
     public GameWorld getGameWorld() {

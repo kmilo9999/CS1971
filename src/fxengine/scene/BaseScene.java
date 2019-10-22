@@ -7,6 +7,7 @@ import fxengine.UISystem.UIElement;
 import fxengine.application.FXFrontEnd;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -115,7 +116,9 @@ public abstract class BaseScene {
 	 */
 	public void onKeyPressed(KeyEvent event) {
 		// TODO Auto-generated method stub
-	
+		 if (event.getCode() == KeyCode.ESCAPE) {
+			 myApplication.shutdown();
+		 } 
 	}
 	
 	/**

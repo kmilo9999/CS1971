@@ -9,6 +9,7 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
+import fxengine.components.PhysicsComponent;
 import fxengine.components.SpriteComponent;
 import fxengine.components.TiledSpriteComponent;
 import fxengine.components.TransformComponent;
@@ -38,15 +39,21 @@ public class NinPlatform extends GameObject{
 		 Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 		 ((TransformComponent) tranformComponent).setPosition(this.myInitialPosition);
 		 
-		 Component collisionComponemt = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
+		 Component collisionComponent = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
 		 CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
-		 ((CollisionComponent) collisionComponemt).setCollisionShape(myCollisionShape);
-		 ((CollisionComponent) collisionComponemt).setStatic(true);
+		 ((CollisionComponent) collisionComponent).setCollisionShape(myCollisionShape);
+		 ((CollisionComponent) collisionComponent).setStatic(true);
 		 
+		 Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
+		 ((PhysicsComponent) physicsComponent).setMass(1999999999);
+		 ((PhysicsComponent) physicsComponent).setRestitution(0.0);
+		 
+		 
+		 this.addComponent(physicsComponent);
 		 this.addComponent(graphicsComponent);
 		 this.addComponent(tranformComponent);
 		 this.addComponent(spriteComponent);
-		 this.addComponent(collisionComponemt);
+		 this.addComponent(collisionComponent);
 	     
 		 super.initialize();
 	}

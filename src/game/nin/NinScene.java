@@ -23,6 +23,7 @@ public class NinScene  extends GameWorldScene{
 	NinCharacter mainCharater;
 	NinCharacter aiCharater;
 	NinPlatform ground;
+	NinPlatform ground2;
 	
 	public NinScene(String name, GameApplication application) {
 		super(name, application);
@@ -52,11 +53,12 @@ public class NinScene  extends GameWorldScene{
 		//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
 		
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
-		
+		ground2 = new NinPlatform("ground2", new Vec2d(250, 250), "img/ground2.png");
 		
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
+		this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
 	}
 	
 	@Override

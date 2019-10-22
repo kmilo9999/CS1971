@@ -48,6 +48,16 @@ public class CollisionComponent extends Component{
 		
 		if(!isInitialized)
 		{
+			if(!this.myParent.getComponent(ComponentContants.transform).isInitialized())
+			{
+				this.myParent.getComponent(ComponentContants.transform).initialize();
+			}
+			
+			if(!this.myParent.getComponent(ComponentContants.graphics).isInitialized())
+			{
+				this.myParent.getComponent(ComponentContants.graphics).initialize();
+			}
+			
 			TransformComponent tranform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			GraphicsComponent graphics = (GraphicsComponent)this.myParent.getComponent(ComponentContants.graphics);
 			
@@ -152,6 +162,7 @@ public class CollisionComponent extends Component{
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
-
+	
+	
 
 }

@@ -15,11 +15,10 @@ import javafx.scene.canvas.GraphicsContext;
 public class PhysicsSystem extends BaseGameSystem{
 
 	private List<List<GameObject>> myLayerGameObjects;
-	private static final Vec2d gravity = new Vec2d(0,0.025); 
+	private static final Vec2d gravity = new Vec2d(0,0.01); 
 	
-	private long start = 0, end = 0;
-	private final double  MS_PER_UPDATE = 1000000000.0 / 60.0;
-	private double delta = 0;
+	private long start = 0;
+	
 	private final double MAX_DELTA_TIME = 1.0;
 	private final double DESIRED_FRAME_RATE = 1000.0 / 60.0;
 	private final int MAX_PHYSICS_STEPS = 6;
@@ -88,10 +87,13 @@ public class PhysicsSystem extends BaseGameSystem{
 		// TODO Auto-generated method stub
 		for (int i = 0; i < myGameObjects.size(); i++) 
 		{
-		
 			if (myGameObjects.get(i).hasComponent(ComponentContants.physics)) 
 			{
-				((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(gravity);
+				if(!((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).isOnStacticObject())
+				{
+					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(gravity);	
+				}
+									
 			}
 		}
 	}
@@ -142,11 +144,19 @@ public class PhysicsSystem extends BaseGameSystem{
 									.isColliding(collisionComponent2.getCollisionShape())) {
 
 								collisionComponent.setCollided(true);
+								
 								Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
+								
 								TransformComponent transform = (TransformComponent) myGameObjects.get(i)
 										.getComponent(ComponentContants.transform);
 								transform.setPosition(transform.getPosition().plus(mvt));
-
+							}else
+							{
+								if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
+										&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
+								{
+									((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
+								}
 							}
 						}
 
@@ -189,8 +199,36 @@ public class PhysicsSystem extends BaseGameSystem{
 
    private Vec2d resolveStaticCollision(CollisionComponent collisionComponent, CollisionComponent other)
    {
+	   
+	   //Vec2d velocityAfterCollision = resol 
 	   Vec2d mvt = other.getCollisionShape()
 				.colliding(collisionComponent.getCollisionShape()); 
+	   
+	   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
+			   && other.getParent().hasComponent(ComponentContants.physics))
+	   {
+		  PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
+		  PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
+		  
+		  Vec2d velocityAfterCollision =  physicsComponent.resolveVelocity(otherPhysicsComponent);
+		  Vec2d normalizedMvt = mvt.normalize();
+		  
+		  double sVelocityAfterCollision = normalizedMvt.dot(velocityAfterCollision);
+		  mvt = mvt.smult(sVelocityAfterCollision);
+		  physicsComponent.setVelocity(mvt);
+		  
+		  Vec2d impulse = physicsComponent.resolveImpulse(otherPhysicsComponent);
+		  physicsComponent.applyImpulse(impulse);
+		  
+		  if(other.isStatic() && normalizedMvt.equals(new Vec2d(0,-1)))
+		  {
+			  physicsComponent.setOnStacticObject(true);
+		  }else
+		  {
+			  physicsComponent.setOnStacticObject(false);
+		  }
+	   }
+	   
 	  /* if(mvt != null) 
 	   {
 		   Collision collisionInfoObject1 = new Collision(other.getParent(),mvt.smult(2) ,collisionComponent.getCollisionShape(),other.getCollisionShape());

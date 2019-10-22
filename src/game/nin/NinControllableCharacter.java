@@ -10,6 +10,7 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
+import fxengine.components.PhysicsComponent;
 import fxengine.math.Vec2d;
 
 public class NinControllableCharacter extends NinCharacter{
@@ -29,6 +30,8 @@ public class NinControllableCharacter extends NinCharacter{
 		//this.addComponent(aiMovementComponent);
 		
 		Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
+		((PhysicsComponent) physicsComponent).setRestitution(0.675);
+		
 		this.addComponent(physicsComponent);
 		
 		super.initialize();
