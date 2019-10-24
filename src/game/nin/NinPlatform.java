@@ -46,7 +46,7 @@ public class NinPlatform extends GameObject{
 		 
 		 Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
 		 ((PhysicsComponent) physicsComponent).setMass(1999999999);
-		 ((PhysicsComponent) physicsComponent).setRestitution(0.0);
+		 ((PhysicsComponent) physicsComponent).setRestitution(0.02);
 		 
 		 
 		 this.addComponent(physicsComponent);

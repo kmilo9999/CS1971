@@ -77,6 +77,17 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 				transform.setPosition(transform.getPosition().plus(rightVec.smult(speed)));	
 			}
 		}
+		
+		if(specialKeys[3])
+		{
+			//System.out.println("JUMP");
+			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
+			if(physicsComponent != null && physicsComponent.isOnStacticObject())
+			{
+				physicsComponent.applyImpulse(new Vec2d(0,-2.8));
+			}
+					
+		}
 
 	}
 

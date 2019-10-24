@@ -197,15 +197,19 @@ public class GameWorldScene extends BaseScene{
 		Event event;
 		if(ke.getCode() == KeyCode.SHIFT)
 		{
-			 event = new Event(EventsConstants.KeyReleased,"SHIFT");
+			 event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.SHIFT_KEY);
 		}
 		else if(ke.getCode() == KeyCode.CONTROL)
 		{
-			event = new Event(EventsConstants.KeyReleased,"CONTROL");
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.CONTROL_KEY);
 		}
 		else if(ke.getCode() == KeyCode.ALT)
 		{
-			event = new Event(EventsConstants.KeyReleased,"ALT");
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.ALT_KEY);
+		}
+		else if(ke.getCode() == KeyCode.SPACE)
+		{
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.SPACEBAR_KEY);
 		}
 		else
 		{
@@ -228,6 +232,10 @@ public class GameWorldScene extends BaseScene{
 		else if(ke.getCode() == KeyCode.ALT)
 		{
 			event = new Event(EventsConstants.KeyPressed,KeyboardEventSystem.ALT_KEY);
+		}
+		else if(ke.getCode() == KeyCode.SPACE)
+		{
+			event = new Event(EventsConstants.KeyPressed,KeyboardEventSystem.SPACEBAR_KEY);
 		}
 		else
 		{

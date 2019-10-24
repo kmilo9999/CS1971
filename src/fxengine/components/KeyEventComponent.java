@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class KeyEventComponent extends ObservableComponent{
 
 	protected boolean[] keys = new boolean[256];
-	protected boolean[] specialKeys = new boolean[3]; 
+	protected boolean[] specialKeys = new boolean[4]; 
 	
 	
 	public KeyEventComponent(String name) {
@@ -54,6 +54,9 @@ public class KeyEventComponent extends ObservableComponent{
 		} else if (value.equals(KeyboardEventSystem.ALT_KEY)) {
 			specialKeys[2] = false;
 		}
+		else if (value.equals(KeyboardEventSystem.SPACEBAR_KEY)) {
+			specialKeys[3] = false;
+		}
 	}
 
 	private final void onKeyPressed(String value) {
@@ -71,6 +74,9 @@ public class KeyEventComponent extends ObservableComponent{
 			specialKeys[1] = true;
 		} else if (value.equals(KeyboardEventSystem.ALT_KEY)) {
 			specialKeys[2] = true;
+		}
+		else if (value.equals(KeyboardEventSystem.SPACEBAR_KEY)) {
+			specialKeys[3] = true;
 		}
 	}
 

@@ -106,8 +106,8 @@ public class PhysicsComponent extends Component{
 			
 			transform.setPosition(position);
 			
-			this.myForce.smult(0);
-			this.myImpulse.smult(0);
+			this.myForce = this.myForce.smult(0);
+			this.myImpulse = this.myImpulse.smult(0);
 		}
 	}
 

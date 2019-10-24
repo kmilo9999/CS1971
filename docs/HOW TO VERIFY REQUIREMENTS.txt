@@ -1,26 +1,20 @@
 ﻿
 Primary Engine Requirements
 
- - Your engine must support A* pathfinding: fxengine.PathFinding.PathFinding . This class is used inside the GameTileMap class whenever a path from two nodes is requested
- - Your engine must implement an AI library
-     [X] - If  using behavior trees, you must implement the following:
-         - Behavior Tree class : check class fxengine.behaviortree
-         - Selector class : fxengine.behaviortree.Selector
-         - Sequence class : fxengine.behaviortree.Sequence
-         - Action interface: fxengine.behaviortree.Action
-         - Condition interface: fxengine.behaviortree.Condition
+ - Your engine must correctly implement a PhysicsBehavior that holds and updates mass, force, impulse, velocity, and restitution to generate a physically correct response to collisions
+    Check class: fxengine.components.PhysicsComponent: It has the physic attributes of gameobjects such as mass, velocit, restitution.
+    Check class: fxengine.collision.PhysicsCollision: It resolve the collisions betwwen objects usignt the COR
+ 
+ - Your engine should be able to handle static objects (other PhysicsBehaviors should collide with static objects, but static objects shouldn't accumulate force or impulse)
+    Check class: fxengine.system.PhysicsSystem::applyGravity() and fxengine.system.PhysicsSystem::applyImpulse() where I check if the object is static.
+
+
 
 Primary Game Requirements
+========================================
 
-  - The enemy unit should use your engine's AI framework. : chekc the class Level1 and level2, where the enemies are initialized.
-                                                         The behavior tree is initialized, and added to the AIComponent
-  - All AI tools included in the engine requirements should be used
-  - It must be possible to start a new game without restarting the program: if you die, you can restart the game pressing any key
-  - The game must meet at least two of the extra game requirements that weren't used last week: I have a switch that disables fog of war for 3 seconds
-                                                                                                I have 2 different enemies in the two maps.
-    
-
-
+  - The player should have a constant downward acceleration: The player starts in the air and falls due to gravity. If you press SPACE it will jump
+  - The player should be able to jump only when standing on a platform (double-jumping and wall-jumping are allowed): press SPACE on a platform. In mid air it wont jump.
 
 
 It took me a TON of time to get this far  :D. 

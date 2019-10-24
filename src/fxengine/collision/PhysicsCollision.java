@@ -3,6 +3,7 @@ package fxengine.collision;
 import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
+import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 
@@ -25,17 +26,60 @@ public class PhysicsCollision {
 		if(c1.isStatic() || c2.isStatic())
 		{
 			resolveStaticCollision(c1, c2);
+			
 		}
 		else
 		{
-			
+			resolveNonStaticCollision(c1,c2);
 		}
 	}
+	
+	private Vec2d resolveNonStaticCollision(CollisionComponent collisionComponent, CollisionComponent other)
+	{
+		  
+		   Vec2d mvt1 = other.getCollisionShape()
+					.colliding(collisionComponent.getCollisionShape());
+		   
+		   Vec2d mvt2 = other.getCollisionShape()
+					.colliding(collisionComponent.getCollisionShape()); 
+		   
+		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
+				   && other.getParent().hasComponent(ComponentContants.physics))
+		   {
+			   
+			   PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
+			   PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
+				  
+			   Vec2d velocityAfterCollision1 =  physicsComponent.resolveVelocity(otherPhysicsComponent);
+			   Vec2d normalizedMvt1 = mvt1.normalize();
+			   
+			   Vec2d velocityAfterCollision2 =  otherPhysicsComponent.resolveVelocity(physicsComponent);
+			   Vec2d normalizedMvt2 = mvt2.normalize();
+				  
+			   double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
+			   mvt1 = mvt1.smult(sVelocityAfterCollision1);
+			   physicsComponent.setVelocity(mvt1);
+				  
+			   double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
+			   mvt2 = mvt2.smult(sVelocityAfterCollision2);
+			   otherPhysicsComponent.setVelocity(mvt2);
+			   
+			   
+				  
+			   Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
+			   physicsComponent.applyImpulse(impulse1);
+			   
+			   Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
+			   physicsComponent.applyImpulse(impulse2);
+		   }
+		   
+		   return mvt1;
+	}
+	
 	
 	private Vec2d resolveStaticCollision(CollisionComponent collisionComponent, CollisionComponent other)
 	   {
 		   
-		   //Vec2d velocityAfterCollision = resol 
 		   Vec2d mvt = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape()); 
 		   
@@ -48,7 +92,7 @@ public class PhysicsCollision {
 			  Vec2d velocityAfterCollision =  physicsComponent.resolveVelocity(otherPhysicsComponent);
 			  Vec2d normalizedMvt = mvt.normalize();
 			  
-			  double sVelocityAfterCollision = normalizedMvt.dot(velocityAfterCollision);
+			  double sVelocityAfterCollision = velocityAfterCollision.dot(normalizedMvt);
 			  mvt = mvt.smult(sVelocityAfterCollision);
 			  physicsComponent.setVelocity(mvt);
 			  
@@ -65,14 +109,6 @@ public class PhysicsCollision {
 			  }
 		   }
 		   
-		  /* if(mvt != null) 
-		   {
-			   Collision collisionInfoObject1 = new Collision(other.getParent(),mvt.smult(2) ,collisionComponent.getCollisionShape(),other.getCollisionShape());
-			   Collision collisionInfoObject2 = new Collision(collisionComponent.getParent(),new Vec2d(0) ,other.getCollisionShape(),collisionComponent.getCollisionShape());
-				
-			   collisionComponent.setCollisionInfo(collisionInfoObject1);
-			   other.setCollisionInfo(collisionInfoObject2);
-		   }*/
 		   return mvt;
 	   }
 	

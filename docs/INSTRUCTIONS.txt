@@ -1,10 +1,2 @@
-1. execute the jar Java -jar wiz1.jar [yes/no] [absolut_path_to_map1] [absolut_path_to_map2]
-  - you can add 3 parameters:
-    -- "yes" to activate fog of war, "no" to disable fog of war  : default value is "no"
-    -- abosulte path to custom file map level 1. PLEASE create a 13x24 texfile where 0 indicates a non-block tile, 1 for walls and 2 for goal.
-       By default it will load a file inside the jar in the folder resource/text
-    -- abosulte path to custom file map level 2. PLEASE create a 13x24 texfile where 0 indicates a non-block tile, 1 for walls and 2 for goal.
-       By default it will load a file inside the jar in the folder resource/text
-2. The intro scene will tell you what to do to move your character and the tile you need to look for.
-3. you move your character using the AWSD.
-4. follow the instructions on the intro scenes
+1. execute the jar Java -jar Nin1.jar 
+2. you move your character using the AWS, and jump using SPACE BAR
