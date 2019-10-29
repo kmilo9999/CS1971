@@ -64,11 +64,11 @@ public class PhysicsCollision {
 			   Vec2d normalizedMvt2 = mvt2.normalize();
 				  
 			   double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
-			   mvt1 = mvt1.smult(sVelocityAfterCollision1);
+			   mvt1 = normalizedMvt1.smult(sVelocityAfterCollision1);
 			   physicsComponent.setVelocity(mvt1);
 				  
 			   double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
-			   mvt2 = mvt2.smult(sVelocityAfterCollision2);
+			   mvt2 = normalizedMvt1.smult(sVelocityAfterCollision2);
 			   otherPhysicsComponent.setVelocity(mvt2);
 			   
 			   
