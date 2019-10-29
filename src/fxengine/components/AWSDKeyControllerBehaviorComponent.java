@@ -34,12 +34,12 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 		if(keys[22])
 		{
 			
-			TransformComponent transform = (TransformComponent) this.myParent
-					.getComponent(ComponentContants.transform);
-			if(transform != null)
-			{
-				transform.setPosition(transform.getPosition().plus(upVec.smult(speed)));	
-			}
+			//TransformComponent transform = (TransformComponent) this.myParent
+			//		.getComponent(ComponentContants.transform);
+			//if(transform != null)
+			//{
+				//transform.setPosition(transform.getPosition().plus(upVec.smult(speed)));	
+			//}
 			
 
 		}
@@ -84,7 +84,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
 			if(physicsComponent != null && physicsComponent.isOnStacticObject())
 			{
-				physicsComponent.applyImpulse(new Vec2d(0,-2.8));
+				physicsComponent.applyImpulse(new Vec2d(0,-1.8));
 			}
 					
 		}

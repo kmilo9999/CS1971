@@ -223,8 +223,8 @@ public class PhysicsComponent extends Component{
 				double totalMass = myMass + otherPhysicsComponent.getMass();
 				double multipliedMass = myMass * otherPhysicsComponent.getMass();
 				double scaleFactor = (multipliedMass * (1 + COR)) / totalMass;
-				impulseVector = otherPhysicsComponent.getVelocity().minus(myVelocity)
-						.smult(scaleFactor);
+				impulseVector = otherPhysicsComponent.getVelocity().minus(myVelocity);
+				impulseVector = impulseVector.smult(scaleFactor);
 								
 			}
 			

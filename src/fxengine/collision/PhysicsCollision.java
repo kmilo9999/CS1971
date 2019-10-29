@@ -1,13 +1,20 @@
 package fxengine.collision;
 
+import java.util.Vector;
+
 import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
+import fxengine.system.PhysicsSystem;
 
 public class PhysicsCollision {
+	
+	private double maxImpulse = 25;
+	private double minImpulse = 1;
+	
 	public PhysicsCollision(GameObject go1, GameObject go2, Vec2d mvt, CollisionShape s1, CollisionShape s2)
 	{
 		this.object1  = go1;
@@ -65,12 +72,36 @@ public class PhysicsCollision {
 			   otherPhysicsComponent.setVelocity(mvt2);
 			   
 			   
-				  
+			   
 			   Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
-			   physicsComponent.applyImpulse(impulse1);
+			   System.out.println("impulse "+ impulse1 +"from: "+otherPhysicsComponent.getParent().getId()+" to "+ physicsComponent.getParent().getId());
+			   impulse1 = impulse1.pmult(PhysicsSystem.upVector); 
+			   if(!physicsComponent.isOnStacticObject())
+			   {
+				   physicsComponent.applyImpulse(impulse1);   
+			   }
+			   
 			   
 			   Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
-			   physicsComponent.applyImpulse(impulse2);
+			   System.out.println("impulse "+ impulse2 +"from: "+physicsComponent.getParent().getId()+" to "+ otherPhysicsComponent.getParent().getId());
+			   
+			   
+			   if(impulse2.mag() > 15)
+			   {
+				   double sqrMagnitud = impulse2.mag2();
+				   impulse2 =  impulse2.smult(0.25);
+			   }
+			   
+			   if(impulse2.mag() > 0.13 )
+			   {
+				   if(!otherPhysicsComponent.isOnStacticObject())
+				   {
+					   impulse2 = impulse2.pmult(PhysicsSystem.upVector); 
+					   otherPhysicsComponent.applyImpulse(impulse2);   
+				   }      
+			   }
+			   
+			   
 		   }
 		   
 		   return mvt1;

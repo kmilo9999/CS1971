@@ -24,6 +24,7 @@ public class PhysicsSystem extends BaseGameSystem{
 	private final double MAX_DELTA_TIME = 1.0;
 	private final double DESIRED_FRAME_RATE = 1000.0 / 60.0;
 	private final int MAX_PHYSICS_STEPS = 6;
+	public final static Vec2d upVector = new Vec2d(1,-1);
 	
 	List<PhysicsCollision> myCollisions = new ArrayList<PhysicsCollision>(); 
 	

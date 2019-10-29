@@ -50,13 +50,13 @@ public class NinScene  extends GameWorldScene{
 		animations.add(move);
 		
 		
-		mainCharater = new NinControllableCharacter("main", new Vec2d(50, 70),animations);
+		mainCharater = new NinControllableCharacter("mainCharacter", new Vec2d(50, 70),animations);
 		
 		//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
 		
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		ground2 = new NinPlatform("ground2", new Vec2d(220, 250), "img/ground2.png");
-		ball =  new NinElement("ball1", new Vec2d(50, 10), "img/tenisball.png",  2.9f, 1.7);
+		ball =  new NinElement("ball1", new Vec2d(50, 10), "img/tenisball.png",  2.9f, 5.28);
 		brick = new NinElement("brick1", new Vec2d(260, 70), "img/brick.png",  3.9f, 0.65);
 		
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
