@@ -47,34 +47,48 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 		if(keys[0])
 		{
 		
-			TransformComponent transform = (TransformComponent) this.myParent
+			/*TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
 			
 			if(transform != null)
 			{
 				transform.setPosition(transform.getPosition().plus(leftVec.smult(speed)));	
+			}*/
+			
+
+			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
+			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
+			{
+				physicsComponent.applyImpulse(new Vec2d(-1,0));
 			}
 		}
 		
 		if(keys[18])
 		{
 		
-			TransformComponent transform = (TransformComponent) this.myParent
+			/*TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
 			if(transform != null)
 			{
 				transform.setPosition(transform.getPosition().plus(downVec.smult(speed)));	
-			}
+			}*/
+			
 		}
 		
 		if(keys[3])
 		{
 		
-			TransformComponent transform = (TransformComponent) this.myParent
+			/*TransformComponent transform = (TransformComponent) this.myParent
 					.getComponent(ComponentContants.transform);
 			if(transform != null)
 			{
 				transform.setPosition(transform.getPosition().plus(rightVec.smult(speed)));	
+			}*/
+			
+			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
+			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
+			{
+				physicsComponent.applyImpulse(new Vec2d(1,0));
 			}
 		}
 		
@@ -82,9 +96,9 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 		{
 			//System.out.println("JUMP");
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
-			if(physicsComponent != null && physicsComponent.isOnStacticObject())
+			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
 			{
-				physicsComponent.applyImpulse(new Vec2d(0,-1.8));
+				physicsComponent.applyImpulse(new Vec2d(0,-2.9));
 			}
 					
 		}

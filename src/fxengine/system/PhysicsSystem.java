@@ -17,7 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class PhysicsSystem extends BaseGameSystem{
 
 	private List<List<GameObject>> myLayerGameObjects;
-	private static final Vec2d gravity = new Vec2d(0,0.08); 
+	public static final Vec2d gravity = new Vec2d(0,0.08); 
 	
 	private long start = 0;
 	
@@ -110,11 +110,17 @@ public class PhysicsSystem extends BaseGameSystem{
 					myGameObjects.get(i).getLayerOrder() == GameWorld.EnemyLayer) &&
 					myGameObjects.get(i).hasComponent(ComponentContants.physics)) 
 			{
-				if(!((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).isOnStacticObject())
+				if(((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).isOnStacticObject())
 				{
-					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(gravity);	
+					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).setGravityMultiplier(0.02);
 				}
-									
+				else
+				{
+					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).setGravityMultiplier(1);
+				}
+					
+				((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(
+						 gravity.smult(((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).getGravityMultiplier()));
 			}
 		}
 	}
@@ -208,6 +214,59 @@ public class PhysicsSystem extends BaseGameSystem{
 		}
 		
 		
+		List<GameObject> enemyLayer = myLayerGameObjects.get(GameWorld.EnemyLayer);
+		for (GameObject enemy : enemyLayer)
+		{
+			CollisionComponent collisionComponent = (CollisionComponent) enemy
+					.getComponent(ComponentContants.collision);
+			
+			List<GameObject> staticObjectsLayer = myLayerGameObjects.get(GameWorld.StaticObjectLayer);
+			for (GameObject staticObject : staticObjectsLayer) {
+				Vec2d collDirection = null;
+				if (staticObject.hasComponent(ComponentContants.collision)) {
+					CollisionComponent collisionComponent2 = (CollisionComponent) staticObject
+							.getComponent(ComponentContants.collision);
+					// collisionComponent.setCollided(false);
+					// collisionComponent.setCollisionInfo(null);
+
+					if (collisionComponent.getCollisionShape()
+							.isColliding(collisionComponent2.getCollisionShape())) {
+
+						//collisionComponent.setCollided(true);
+						Vec2d mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						if(mvt != null)
+						{
+							collDirection  = mvt.normalize();
+							
+						}
+						//Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
+						
+						//TransformComponent transform = (TransformComponent) myGameObjects.get(i)
+						//		.getComponent(ComponentContants.transform);
+						//transform.setPosition(transform.getPosition().plus(mvt));
+					}
+					//else
+					//{
+					//	if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
+					//			&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
+					//	{
+					//		((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
+					//	}
+					//}
+				}
+				
+				/*if(collDirection == null || collDirection.dot(new Vec2d(0,1)) == 0)
+				{
+					if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
+						&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject()) 
+					{
+						((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
+					}
+				}*/
+
+			}
+		}
+		
 		
 		
 	}
@@ -242,49 +301,6 @@ public class PhysicsSystem extends BaseGameSystem{
 		}
 		
 		return mvt;
-   }
-
-   private Vec2d resolveStaticCollision(CollisionComponent collisionComponent, CollisionComponent other)
-   {
-	   
-	   //Vec2d velocityAfterCollision = resol 
-	   Vec2d mvt = other.getCollisionShape()
-				.colliding(collisionComponent.getCollisionShape()); 
-	   
-	   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
-			   && other.getParent().hasComponent(ComponentContants.physics))
-	   {
-		  PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
-		  PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
-		  
-		  Vec2d velocityAfterCollision =  physicsComponent.resolveVelocity(otherPhysicsComponent);
-		  Vec2d normalizedMvt = mvt.normalize();
-		  
-		  double sVelocityAfterCollision = normalizedMvt.dot(velocityAfterCollision);
-		  mvt = mvt.smult(sVelocityAfterCollision);
-		  physicsComponent.setVelocity(mvt);
-		  
-		  Vec2d impulse = physicsComponent.resolveImpulse(otherPhysicsComponent);
-		  physicsComponent.applyImpulse(impulse);
-		  
-		  if(other.isStatic() && normalizedMvt.equals(new Vec2d(0,-1)))
-		  {
-			  physicsComponent.setOnStacticObject(true);
-		  }else
-		  {
-			  physicsComponent.setOnStacticObject(false);
-		  }
-	   }
-	   
-	  /* if(mvt != null) 
-	   {
-		   Collision collisionInfoObject1 = new Collision(other.getParent(),mvt.smult(2) ,collisionComponent.getCollisionShape(),other.getCollisionShape());
-		   Collision collisionInfoObject2 = new Collision(collisionComponent.getParent(),new Vec2d(0) ,other.getCollisionShape(),collisionComponent.getCollisionShape());
-			
-		   collisionComponent.setCollisionInfo(collisionInfoObject1);
-		   other.setCollisionInfo(collisionInfoObject2);
-	   }*/
-	   return mvt;
    }
 
 	public List<List<GameObject>> getLayerGameObjects() {

@@ -16,6 +16,8 @@ public class PhysicsComponent extends Component{
 	
 	private CollisionShape myCollisionShape;
 	
+	private double gravityMultiplier = 1;
+	
 	private boolean onStacticObject = false;
 	
 	public PhysicsComponent(String name) {
@@ -71,8 +73,8 @@ public class PhysicsComponent extends Component{
 			this.myImpulse = this.myImpulse.sdiv(this.myMass);
 			
 			
-			//this.myVelocity = this.myVelocity.plus(this.myForce.plus(this.myImpulse)); 
-			this.myVelocity = this.myVelocity.plus(this.myForce);
+			this.myVelocity = this.myVelocity.plus(this.myForce.plus(this.myImpulse)); 
+			//this.myVelocity = this.myVelocity.plus(this.myForce);
 			
 			Vec2d position = transform.getPosition();
 			
@@ -250,6 +252,14 @@ public class PhysicsComponent extends Component{
 
 	public void setOnStacticObject(boolean onStacticObject) {
 		this.onStacticObject = onStacticObject;
+	}
+
+	public double getGravityMultiplier() {
+		return gravityMultiplier;
+	}
+
+	public void setGravityMultiplier(double gravityMultiplier) {
+		this.gravityMultiplier = gravityMultiplier;
 	}
 
 
