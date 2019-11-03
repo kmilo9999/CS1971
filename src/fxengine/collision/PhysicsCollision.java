@@ -50,68 +50,81 @@ public class PhysicsCollision {
 		   Vec2d mvt2 = collisionComponent.getCollisionShape()
 					.colliding(other.getCollisionShape()); 
 		   
+		   Vec2d normalizedMvt1 = mvt1.normalize();
+		   Vec2d normalizedMvt2 = mvt2.normalize();
+		   
+		   
+		   
 		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
 				   && other.getParent().hasComponent(ComponentContants.physics))
 		   {
 			   
+			   
+			   
 			   PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
 			   PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
-				  
-			   Vec2d velocityAfterCollision1 =  physicsComponent.resolveVelocity(otherPhysicsComponent);
-			   Vec2d normalizedMvt1 = mvt1.normalize();
-			   
-			   Vec2d velocityAfterCollision2 =  otherPhysicsComponent.resolveVelocity(physicsComponent);
-			   Vec2d normalizedMvt2 = mvt2.normalize();
-				  
-			   double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
-			   double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
-			   mvt1 = normalizedMvt1.smult(sVelocityAfterCollision1);
-			   mvt2 = normalizedMvt2.smult(sVelocityAfterCollision2);
-			   
-			   physicsComponent.setVelocity(mvt2);
-			   otherPhysicsComponent.setVelocity(mvt1);
 			   
 			   
-			   
-			   Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
-			   //System.out.println("impulse "+ impulse1 +"from: "+otherPhysicsComponent.getParent().getId()+" to "+ physicsComponent.getParent().getId());
-			   //impulse1 = impulse1.pmult(PhysicsSystem.upVector); 
-			   //if(!physicsComponent.isOnStacticObject())
-			   //{
-				   physicsComponent.applyImpulse(impulse1);   
-			   //}
-			   
-			   
-			   Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
-			   //System.out.println("impulse "+ impulse2 +"from: "+physicsComponent.getParent().getId()+" to "+ otherPhysicsComponent.getParent().getId());
-			   
-			   //Vec2d accCausedVelocity = PhysicsSystem.gravity.smult(deltaTime);
-			   //double velocityOnlyGravity = accCausedVelocity.dot(normalizedMvt2);
-			  // System.out.println("velocityOnlyGravity " + velocityOnlyGravity);
-			   //System.out.println("otherPhysicsComponent.velocity " + otherPhysicsComponent.getVelocity().mag());
-			   /*if(otherPhysicsComponent.getVelocity().mag() < velocityOnlyGravity )	
-			   {
-				   Vec2d newVelocity = otherPhysicsComponent.getVelocity().plus(
-						   accCausedVelocity.smult(otherPhysicsComponent.getRestitution()));
-				   
-				   otherPhysicsComponent.setVelocity(newVelocity.normalize().smult(velocityOnlyGravity));
-				   System.out.println("REST COLLISION");
-				   
-			   }*/
-			   
-			   /*if(impulse2.mag() > 15)
-			   {
-				   double sqrMagnitud = impulse2.mag2();
-				   impulse2 =  impulse2.smult(0.25);
-			   }*/
-			   
-			   //if(impulse2.mag() > 0.13 )
-			   
-			if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y < 0) {
-				return mvt1;
-		    }
-			//impulse2 = impulse2.pmult(PhysicsSystem.upVector);
-			otherPhysicsComponent.applyImpulse(impulse2);
+				if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
+				{
+					return resolveStaticCollision(collisionComponent, other, deltaTime);
+				}
+				
+				else
+				{
+					Vec2d velocityAfterCollision1 = physicsComponent.resolveVelocity(otherPhysicsComponent);
+	
+					Vec2d velocityAfterCollision2 = otherPhysicsComponent.resolveVelocity(physicsComponent);
+	
+					double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
+					double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
+					mvt1 = normalizedMvt1.smult(sVelocityAfterCollision1);
+					mvt2 = normalizedMvt2.smult(sVelocityAfterCollision2);
+	
+					physicsComponent.setVelocity(mvt2);
+					otherPhysicsComponent.setVelocity(mvt1);
+	
+					Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
+					// System.out.println("impulse "+ impulse1 +"from:
+					// "+otherPhysicsComponent.getParent().getId()+" to "+
+					// physicsComponent.getParent().getId());
+					// impulse1 = impulse1.pmult(PhysicsSystem.upVector);
+					// if(!physicsComponent.isOnStacticObject())
+					// {
+					physicsComponent.applyImpulse(impulse1);
+					// }
+	
+					Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
+					// System.out.println("impulse "+ impulse2 +"from:
+					// "+physicsComponent.getParent().getId()+" to "+
+					// otherPhysicsComponent.getParent().getId());
+	
+					// Vec2d accCausedVelocity = PhysicsSystem.gravity.smult(deltaTime);
+					// double velocityOnlyGravity = accCausedVelocity.dot(normalizedMvt2);
+					// System.out.println("velocityOnlyGravity " + velocityOnlyGravity);
+					// System.out.println("otherPhysicsComponent.velocity " +
+					// otherPhysicsComponent.getVelocity().mag());
+					/*
+					 * if(otherPhysicsComponent.getVelocity().mag() < velocityOnlyGravity ) { Vec2d
+					 * newVelocity = otherPhysicsComponent.getVelocity().plus(
+					 * accCausedVelocity.smult(otherPhysicsComponent.getRestitution()));
+					 * 
+					 * otherPhysicsComponent.setVelocity(newVelocity.normalize().smult(
+					 * velocityOnlyGravity)); System.out.println("REST COLLISION");
+					 * 
+					 * }
+					 */
+	
+					/*
+					 * if(impulse2.mag() > 15) { double sqrMagnitud = impulse2.mag2(); impulse2 =
+					 * impulse2.smult(0.25); }
+					 */
+	
+					// if(impulse2.mag() > 0.13 )
+					//impulse2 = impulse2.pmult(PhysicsSystem.upVector);
+					otherPhysicsComponent.applyImpulse(impulse2);
+					
+				}
 			   
 		   }
 		   
@@ -143,8 +156,7 @@ public class PhysicsCollision {
 			  System.out.println("impulse "+impulse);
 			  physicsComponent.applyImpulse(impulse);
 			  
-			  if(  
-					  other.isStatic() && normalizedMvt.y < 0 )
+			  if(  normalizedMvt.y < 0 )
 			  {
 				  physicsComponent.setOnStacticObject(true);
 			  }else
