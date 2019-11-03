@@ -98,7 +98,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
 			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
 			{
-				physicsComponent.applyImpulse(new Vec2d(0,-2.9));
+				physicsComponent.applyImpulse(new Vec2d(0,-3.9));
 			}
 					
 		}

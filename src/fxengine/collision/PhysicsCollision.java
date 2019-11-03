@@ -12,9 +12,6 @@ import fxengine.system.PhysicsSystem;
 
 public class PhysicsCollision {
 	
-	private double maxImpulse = 25;
-	private double minImpulse = 1;
-	
 	public PhysicsCollision(GameObject go1, GameObject go2, Vec2d mvt, CollisionShape s1, CollisionShape s2)
 	{
 		this.object1  = go1;
@@ -30,15 +27,21 @@ public class PhysicsCollision {
 		CollisionComponent c1 = (CollisionComponent)object1.getComponent(ComponentContants.collision);
 		CollisionComponent c2 = (CollisionComponent)object2.getComponent(ComponentContants.collision);
 		
-		if(c1.isStatic() || c2.isStatic())
+		if(c1.getCollisionShape()
+				.isColliding(c2.getCollisionShape()))
 		{
-			resolveStaticCollision(c1, c2, deltaTime);
-			
+			if(c1.isStatic() || c2.isStatic())
+			{
+				resolveStaticCollision(c1, c2, deltaTime);
+				
+			}
+			else
+			{
+				resolveNonStaticCollision(c1,c2, deltaTime);
+			}
 		}
-		else
-		{
-			resolveNonStaticCollision(c1,c2, deltaTime);
-		}
+		
+		
 	}
 	
 	private Vec2d resolveNonStaticCollision(CollisionComponent collisionComponent, CollisionComponent other, double deltaTime)
@@ -148,12 +151,12 @@ public class PhysicsCollision {
 			  Vec2d normalizedMvt = mvt.normalize();
 			  
 			  double sVelocityAfterCollision = velocityAfterCollision.dot(normalizedMvt);
-			  mvt = normalizedMvt.smult(0);
+			  mvt = normalizedMvt.smult(sVelocityAfterCollision);
 			  physicsComponent.setVelocity(mvt);
 			  
 			  
 			  Vec2d impulse = physicsComponent.resolveImpulse(otherPhysicsComponent);
-			  System.out.println("impulse "+impulse);
+			  //System.out.println("impulse "+impulse);
 			  physicsComponent.applyImpulse(impulse);
 			  
 			  if(  normalizedMvt.y < 0 )

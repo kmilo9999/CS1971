@@ -17,7 +17,8 @@ import javafx.scene.canvas.GraphicsContext;
 public class PhysicsSystem extends BaseGameSystem{
 
 	private List<List<GameObject>> myLayerGameObjects;
-	public static final Vec2d gravity = new Vec2d(0,0.08); 
+	public static final Vec2d down = new Vec2d(0,1);
+	public static final double gravityConstant = 0.08;
 	
 	private long start = 0;
 	
@@ -112,15 +113,15 @@ public class PhysicsSystem extends BaseGameSystem{
 			{
 				if(((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).isOnStacticObject())
 				{
-					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).setGravityMultiplier(0.02);
+					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).setGravityMultiplier(0.0);
 				}
 				else
 				{
 					((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).setGravityMultiplier(1);
 				}
 					
-				((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(
-						 gravity.smult(((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).getGravityMultiplier()));
+				/*((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).applyForce(
+						 gravity.smult(((PhysicsComponent)myGameObjects.get(i).getComponent(ComponentContants.physics)).getGravityMultiplier()));*/
 			}
 		}
 	}
@@ -137,6 +138,7 @@ public class PhysicsSystem extends BaseGameSystem{
 
 		}
 		
+		//check collisions between player layer and other layers
 		for(GameObject playerLayer:myLayerGameObjects.get(GameWorld.PlayerLayer))
 		{
 			
@@ -213,12 +215,35 @@ public class PhysicsSystem extends BaseGameSystem{
 			}
 		}
 		
-		
+		//check collisions between enemies
 		List<GameObject> enemyLayer = myLayerGameObjects.get(GameWorld.EnemyLayer);
 		for (GameObject enemy : enemyLayer)
 		{
 			CollisionComponent collisionComponent = (CollisionComponent) enemy
 					.getComponent(ComponentContants.collision);
+			Vec2d mvt = null;
+
+			for (GameObject otherEnemy : enemyLayer) {
+				if (enemy.hasComponent(ComponentContants.collision)) {
+					CollisionComponent collisionComponent2 = (CollisionComponent) otherEnemy
+							.getComponent(ComponentContants.collision);
+					Vec2d collDirection = null;
+					if (collisionComponent.getCollisionShape()
+							.isColliding(collisionComponent2.getCollisionShape())) {
+						
+						
+							mvt = this.checkPhysicsCollision(collisionComponent2, collisionComponent);
+							if(mvt != null)
+							{
+								collDirection  = mvt.normalize();
+								
+							}
+						
+					}
+
+				}
+			}
+			
 			
 			List<GameObject> staticObjectsLayer = myLayerGameObjects.get(GameWorld.StaticObjectLayer);
 			for (GameObject staticObject : staticObjectsLayer) {
@@ -233,38 +258,24 @@ public class PhysicsSystem extends BaseGameSystem{
 							.isColliding(collisionComponent2.getCollisionShape())) {
 
 						//collisionComponent.setCollided(true);
-						Vec2d mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
-						if(mvt != null)
-						{
-							collDirection  = mvt.normalize();
-							
-						}
-						//Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
-						
-						//TransformComponent transform = (TransformComponent) myGameObjects.get(i)
-						//		.getComponent(ComponentContants.transform);
-						//transform.setPosition(transform.getPosition().plus(mvt));
+					    mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+					
 					}
-					//else
-					//{
-					//	if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
-					//			&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
-					//	{
-					//		((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
-					//	}
-					//}
+					
 				}
-				
-				/*if(collDirection == null || collDirection.dot(new Vec2d(0,1)) == 0)
-				{
-					if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
-						&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject()) 
-					{
-						((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
-					}
-				}*/
 
 			}
+			
+			if(mvt == null)
+			{
+				if(((PhysicsComponent)enemy
+						.getComponent(ComponentContants.physics)).getGravityMultiplier() == 0)
+				{
+					((PhysicsComponent)enemy
+							.getComponent(ComponentContants.physics)).setGravityMultiplier(1);
+				}
+			}
+		
 		}
 		
 		

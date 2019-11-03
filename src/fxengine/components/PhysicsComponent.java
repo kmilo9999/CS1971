@@ -2,6 +2,7 @@ package fxengine.components;
 
 import fxengine.collision.CollisionShape;
 import fxengine.math.Vec2d;
+import fxengine.system.PhysicsSystem;
 import javafx.scene.canvas.GraphicsContext;
 
 public class PhysicsComponent extends Component{
@@ -69,6 +70,7 @@ public class PhysicsComponent extends Component{
 		{
 			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			
+			//this.myForce = this.myForce.plus(PhysicsSystem.down.smult(PhysicsSystem.gravityConstant)).smult(gravityMultiplier); 
 			this.myForce = this.myForce.smult(milliseconds).sdiv(this.myMass);
 			this.myImpulse = this.myImpulse.sdiv(this.myMass);
 			
@@ -95,7 +97,18 @@ public class PhysicsComponent extends Component{
 		{
 			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			
+			 
 			this.myForce = this.myForce.smult(deltaTime).sdiv(this.myMass);
+			if(this.myParent.hasComponent(ComponentContants.collision))			
+			{
+				if(!((CollisionComponent)this.myParent.getComponent(ComponentContants.collision)).isStatic()
+						&& (!isOnStacticObject()))
+				{
+					this.myForce = this.myForce.plus(PhysicsSystem.down.smult(PhysicsSystem.gravityConstant)).smult(gravityMultiplier);
+				}
+			}
+			
+			
 			this.myImpulse = this.myImpulse.sdiv(this.myMass);
 			
 			
