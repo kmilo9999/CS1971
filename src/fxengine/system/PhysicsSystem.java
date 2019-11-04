@@ -224,24 +224,29 @@ public class PhysicsSystem extends BaseGameSystem{
 			Vec2d mvt = null;
 
 			for (GameObject otherEnemy : enemyLayer) {
-				if (enemy.hasComponent(ComponentContants.collision)) {
-					CollisionComponent collisionComponent2 = (CollisionComponent) otherEnemy
-							.getComponent(ComponentContants.collision);
-					Vec2d collDirection = null;
-					if (collisionComponent.getCollisionShape()
-							.isColliding(collisionComponent2.getCollisionShape())) {
-						
-						
-							mvt = this.checkPhysicsCollision(collisionComponent2, collisionComponent);
-							if(mvt != null)
-							{
-								collDirection  = mvt.normalize();
-								
-							}
-						
-					}
+				if(enemy.getId() != otherEnemy.getId())
+				{
+					if (otherEnemy.hasComponent(ComponentContants.collision)) {
+						CollisionComponent collisionComponent2 = (CollisionComponent) otherEnemy
+								.getComponent(ComponentContants.collision);
+						Vec2d collDirection = null;
+						if (collisionComponent.getCollisionShape()
+								.isColliding(collisionComponent2.getCollisionShape())) {
+							
+							
+								mvt = this.checkPhysicsCollision(collisionComponent2, collisionComponent);
+								if(mvt != null)
+								{
+									collDirection  = mvt.normalize();
+									
+								}
+							
+						}
 
+					}
 				}
+				
+			
 			}
 			
 			
@@ -251,13 +256,10 @@ public class PhysicsSystem extends BaseGameSystem{
 				if (staticObject.hasComponent(ComponentContants.collision)) {
 					CollisionComponent collisionComponent2 = (CollisionComponent) staticObject
 							.getComponent(ComponentContants.collision);
-					// collisionComponent.setCollided(false);
-					// collisionComponent.setCollisionInfo(null);
+					
 
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
-
-						//collisionComponent.setCollided(true);
 					    mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 					
 					}
@@ -272,7 +274,8 @@ public class PhysicsSystem extends BaseGameSystem{
 						.getComponent(ComponentContants.physics)).getGravityMultiplier() == 0)
 				{
 					((PhysicsComponent)enemy
-							.getComponent(ComponentContants.physics)).setGravityMultiplier(1);
+							.getComponent(ComponentContants.physics)).setOnStacticObject(false);
+					
 				}
 			}
 		

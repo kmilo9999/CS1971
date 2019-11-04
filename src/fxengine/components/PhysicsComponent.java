@@ -30,6 +30,13 @@ public class PhysicsComponent extends Component{
 		this.myForce =  new Vec2d(0);
 	}
 
+	public void resetComponent()
+	{
+      this.myVelocity = new Vec2d(0);
+	  this.myImpulse =new Vec2d(0) ; 
+	  this.myForce =  new Vec2d(0);
+	}
+	
 	@Override
 	public Component clone() {
 		// TODO Auto-generated method stub
@@ -227,7 +234,7 @@ public class PhysicsComponent extends Component{
 			{
 				double scaleFactor = myMass * (1 + COR);
 				//double scaleFactor = other.getMass() * (1 + COR);
-				impulseVector = other.getVelocity().minus(myVelocity);
+				impulseVector = myVelocity;
 				impulseVector = impulseVector.smult(scaleFactor);
 				//impulseVector = new Vec2d(0);
 				//impulseVector = myVelocity.minus(other.getVelocity()).smult(scaleFactor);
