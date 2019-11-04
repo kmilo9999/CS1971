@@ -26,6 +26,7 @@ public class PhysicsSystem extends BaseGameSystem{
 	private final double DESIRED_FRAME_RATE = 1000.0 / 60.0;
 	private final int MAX_PHYSICS_STEPS = 6;
 	public final static Vec2d upVector = new Vec2d(1,-1);
+	private boolean restart = false;
 	
 	List<PhysicsCollision> myCollisions = new ArrayList<PhysicsCollision>(); 
 	
@@ -38,8 +39,9 @@ public class PhysicsSystem extends BaseGameSystem{
 
 	public void resetPhysicsSystem()
 	{
-		start = System.currentTimeMillis();
-		myCollisions.clear();
+		restart = true;
+		//start = System.currentTimeMillis();
+		//myCollisions.clear();
 	}
 	
 	@Override
@@ -65,12 +67,26 @@ public class PhysicsSystem extends BaseGameSystem{
 		int i = 0;
 		while ( totalDeltaTime > 0.0  && i < MAX_PHYSICS_STEPS)
         {
+			
+			if(restart)
+			{
+				start = System.currentTimeMillis();
+				myCollisions.clear();
+				restart = false;
+				break;
+			}
 			 double deltaTime = Math.min( totalDeltaTime, MAX_DELTA_TIME );
 			 applyGravity();
 			
 			 updateTransform(deltaTime);
-			 checkCollision(deltaTime);
-			 resolveCollisions(deltaTime);
+			 int j = 0;
+			 while(j < 10)
+			 {
+				 checkCollision(deltaTime);
+				 resolveCollisions(deltaTime);
+				 j++;
+			 }
+			
 			 
 			 totalDeltaTime -= deltaTime;
 	         i++;

@@ -72,28 +72,7 @@ public class PhysicsComponent extends Component{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		double milliseconds = nanosSincePreviousTick / 1000000;
-		if(this.myParent.hasComponent(ComponentContants.transform))
-		{
-			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
-			
-			//this.myForce = this.myForce.plus(PhysicsSystem.down.smult(PhysicsSystem.gravityConstant)).smult(gravityMultiplier); 
-			this.myForce = this.myForce.smult(milliseconds).sdiv(this.myMass);
-			this.myImpulse = this.myImpulse.sdiv(this.myMass);
-			
-			
-			this.myVelocity = this.myVelocity.plus(this.myForce.plus(this.myImpulse)); 
-			//this.myVelocity = this.myVelocity.plus(this.myForce);
-			
-			Vec2d position = transform.getPosition();
-			
-			position = position.plus(this.myVelocity.smult(milliseconds));
-			
-			transform.setPosition(position);
-			
-			this.myForce.smult(0);
-			this.myImpulse.smult(0);
-		}
+		
 	}
 	
 	public void lateTick(double deltaTime)
@@ -104,7 +83,11 @@ public class PhysicsComponent extends Component{
 		{
 			TransformComponent transform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			
-			 
+			if(Double.isNaN(this.myVelocity.x) || Double.isNaN(this.myVelocity.y) )
+			{
+				System.out.println("ERROR VEL");
+			}
+			
 			this.myForce = this.myForce.smult(deltaTime).sdiv(this.myMass);
 			if(this.myParent.hasComponent(ComponentContants.collision))			
 			{

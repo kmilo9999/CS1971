@@ -50,6 +50,12 @@ public class PhysicsCollision {
 		   Vec2d mvt1 = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape());
 		   
+		   
+			if(Double.isNaN(mvt1.x) || Double.isNaN(mvt1.y) )
+			{
+				System.out.println("ERROR");
+			}
+		   
 		   Vec2d currentPosition1 = 
 					  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
 					  .getPosition();
@@ -63,7 +69,18 @@ public class PhysicsCollision {
 			   
 		   
 		   Vec2d mvt2 = collisionComponent.getCollisionShape()
-					.colliding(other.getCollisionShape()); 
+					.colliding(other.getCollisionShape());
+		   
+		   if(mvt1.isZero() && mvt2.isZero())
+		   {
+			   return null;
+		   }
+		   
+		   
+			if(Double.isNaN(mvt2.x) || Double.isNaN(mvt2.y) )
+			{
+				System.out.println("ERROR");
+			}
 		   
 		   Vec2d currentPosition2 = 
 					  ((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
@@ -78,6 +95,16 @@ public class PhysicsCollision {
 		   Vec2d normalizedMvt1 = mvt1.normalize();
 		   Vec2d normalizedMvt2 = mvt2.normalize();
 		   
+		   if(Double.isNaN(normalizedMvt1.x) || Double.isNaN(normalizedMvt1.y) )
+			{
+				System.out.println("ERROR");
+			}
+		   
+		   
+		   if(Double.isNaN(normalizedMvt2.x) || Double.isNaN(normalizedMvt2.y) )
+			{
+				System.out.println("ERROR");
+			}
 		   
 		   
 		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
@@ -89,8 +116,7 @@ public class PhysicsCollision {
 			   PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
 			   PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
 			   
-			   
-				if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
+			   if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
 				{
 					return resolveStaticCollision(collisionComponent, other, deltaTime);
 				}
@@ -119,6 +145,7 @@ public class PhysicsCollision {
 					otherPhysicsComponent.applyImpulse(impulse2);
 					
 				}
+				
 			   
 		   }
 		   
@@ -131,6 +158,11 @@ public class PhysicsCollision {
 		   
 		  Vec2d mvt = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape()); 
+		  
+		  if(mvt.isZero() )
+		   {
+			   return null;
+		   }
 		  
 		  Vec2d currentPosition = 
 				  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))

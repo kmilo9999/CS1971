@@ -78,8 +78,8 @@ public class NinScene  extends GameWorldScene{
 		
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		ground2 = new NinPlatform("ground2", new Vec2d(220, 250), "img/ground2.png");
-		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  1.25f, 1.25);
-		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 1.27);
+		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.9f, 0.2);
+		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
 		
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
