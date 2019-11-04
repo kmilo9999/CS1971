@@ -11,6 +11,7 @@ import fxengine.components.PhysicsComponent;
 import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
+import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
 import fxengine.system.PhysicsSystem;
@@ -18,7 +19,9 @@ import fxengine.system.PhysicsSystem;
 
 
 public class NinScene  extends GameWorldScene{
+	
 	private ResetButton myResetButton;
+    
 	
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
@@ -29,6 +32,8 @@ public class NinScene  extends GameWorldScene{
 	NinPlatform ground2;
 	NinElement ball;
 	NinElement brick;
+	
+	NinBackground backgroundImage;
 	
 	Vec2d ninCharacterInitPos = new Vec2d(50, 0);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
@@ -56,9 +61,14 @@ public class NinScene  extends GameWorldScene{
 	{
 		
 		myResetButton = new ResetButton("img/reset.png",this,700, 70);
+		
+		
 		addProp(myResetButton);
 		 // Initialize game world
 		super.initScene();
+		
+		
+		
 		
 		
 		//characters
@@ -76,11 +86,14 @@ public class NinScene  extends GameWorldScene{
 		
 		//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
 		
+		backgroundImage = new NinBackground("sky");
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		ground2 = new NinPlatform("ground2", new Vec2d(220, 250), "img/ground2.png");
 		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.9f, 0.2);
 		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
 		
+		
+		this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
