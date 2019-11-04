@@ -36,6 +36,12 @@ public class PhysicsSystem extends BaseGameSystem{
 		start = System.currentTimeMillis();
 	}
 
+	public void resetPhysicsSystem()
+	{
+		start = System.currentTimeMillis();
+		myCollisions.clear();
+	}
+	
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		

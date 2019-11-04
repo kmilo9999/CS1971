@@ -13,6 +13,7 @@ import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
+import fxengine.system.PhysicsSystem;
 
 
 
@@ -78,14 +79,14 @@ public class NinScene  extends GameWorldScene{
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		ground2 = new NinPlatform("ground2", new Vec2d(220, 250), "img/ground2.png");
 		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  1.25f, 1.25);
-		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 1.17);
+		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 1.27);
 		
 		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
 		this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
 	    this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
-		//this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
+		this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
 		
 	}
 	
@@ -116,7 +117,7 @@ public class NinScene  extends GameWorldScene{
 	
 	public void onResetScene()
 	{
-	  
+		((PhysicsSystem)myPhysicsSystem).resetPhysicsSystem();
 		((PhysicsComponent)mainCharater.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).setPosition(ninCharacterInitPos);
 		

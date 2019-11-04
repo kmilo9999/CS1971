@@ -50,8 +50,30 @@ public class PhysicsCollision {
 		   Vec2d mvt1 = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape());
 		   
+		   Vec2d currentPosition1 = 
+					  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+					  .getPosition();
+
+		   currentPosition1 = currentPosition1.plus(mvt1.smult(0.5));
+			  
+			  
+		  //move away half vector
+			((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+			  .setPosition(currentPosition1);
+			   
+		   
 		   Vec2d mvt2 = collisionComponent.getCollisionShape()
 					.colliding(other.getCollisionShape()); 
+		   
+		   Vec2d currentPosition2 = 
+					  ((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
+					  .getPosition();
+		   currentPosition2 = currentPosition2.plus(mvt2.smult(0.5));
+		   
+		   //move away half vector
+			((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
+			  .setPosition(currentPosition2);
+		   
 		   
 		   Vec2d normalizedMvt1 = mvt1.normalize();
 		   Vec2d normalizedMvt2 = mvt2.normalize();
@@ -109,6 +131,16 @@ public class PhysicsCollision {
 		   
 		  Vec2d mvt = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape()); 
+		  
+		  Vec2d currentPosition = 
+				  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+				  .getPosition();
+
+		  currentPosition = currentPosition.plus(mtv.smult(0.5));
+		  
+		  //move away half vector
+		  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+		  .setPosition(currentPosition);;
 		   
 		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
 				   && other.getParent().hasComponent(ComponentContants.physics))
@@ -150,7 +182,7 @@ public class PhysicsCollision {
 				  
 				  Vec2d impulse = physicsComponent.resolveImpulse(otherPhysicsComponent);
 				  //System.out.println("impulse "+impulse);
-				  physicsComponent.applyImpulse(impulse.smult(0.55));
+				  physicsComponent.applyImpulse(impulse);
 				  physicsComponent.setOnStacticObject(false);
 			  }
 			  else

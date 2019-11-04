@@ -111,7 +111,7 @@ public class PhysicsComponent extends Component{
 				if(!((CollisionComponent)this.myParent.getComponent(ComponentContants.collision)).isStatic()
 						&& (!isOnStacticObject()))
 				{
-					this.myForce = this.myForce.plus(PhysicsSystem.down.smult(PhysicsSystem.gravityConstant)).smult(gravityMultiplier);
+					this.myForce = this.myForce.plus(PhysicsSystem.down.smult(PhysicsSystem.gravityConstant * myMass)).smult(gravityMultiplier);
 				}
 			}
 			
