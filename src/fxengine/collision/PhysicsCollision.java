@@ -189,7 +189,7 @@ public class PhysicsCollision {
 			  {
 				  Vec2d velocityAfterCollision =  physicsComponent.resolveVelocity(otherPhysicsComponent);
 				  double sVelocityAfterCollision = velocityAfterCollision.dot(normalizedMvt);
-				  mvt = normalizedMvt.smult(0);
+				  mvt = normalizedMvt.smult(sVelocityAfterCollision);
 				  physicsComponent.setVelocity(mvt);
 				  
 				  
@@ -200,8 +200,8 @@ public class PhysicsCollision {
 			  }else if (normalizedMvt.x !=0 &&  normalizedMvt.y == 0 )
 			  {
 				  Vec2d velocityAfterCollision =  physicsComponent.resolveVelocity(otherPhysicsComponent);
-				  //double sVelocityAfterCollision = velocityAfterCollision.dot(normalizedMvt);
-				  //mvt = normalizedMvt.smult(sVelocityAfterCollision);
+				  double sVelocityAfterCollision = velocityAfterCollision.dot(normalizedMvt);
+				  mvt = normalizedMvt.smult(sVelocityAfterCollision);
 				  physicsComponent.setVelocity(mvt);
 				  
 				  /*Vec2d pos = ((TransformComponent)collisionComponent.getParent()

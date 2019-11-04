@@ -244,14 +244,16 @@ public class PhysicsSystem extends BaseGameSystem{
 			CollisionComponent collisionComponent = (CollisionComponent) enemy
 					.getComponent(ComponentContants.collision);
 			Vec2d mvt = null;
-
+			
+			boolean collisionFromBelow = false;
+			Vec2d collDirection = null;
 			for (GameObject otherEnemy : enemyLayer) {
 				if(enemy.getId() != otherEnemy.getId())
 				{
 					if (otherEnemy.hasComponent(ComponentContants.collision)) {
 						CollisionComponent collisionComponent2 = (CollisionComponent) otherEnemy
 								.getComponent(ComponentContants.collision);
-						Vec2d collDirection = null;
+						
 						if (collisionComponent.getCollisionShape()
 								.isColliding(collisionComponent2.getCollisionShape())) {
 							
@@ -260,7 +262,10 @@ public class PhysicsSystem extends BaseGameSystem{
 								if(mvt != null)
 								{
 									collDirection  = mvt.normalize();
-									
+									if(collDirection.dot(new Vec2d(0,1)) == 0)
+									{
+										collisionFromBelow = true;
+									}
 								}
 							
 						}
@@ -274,7 +279,7 @@ public class PhysicsSystem extends BaseGameSystem{
 			
 			List<GameObject> staticObjectsLayer = myLayerGameObjects.get(GameWorld.StaticObjectLayer);
 			for (GameObject staticObject : staticObjectsLayer) {
-				Vec2d collDirection = null;
+				//Vec2d collDirection = null;
 				if (staticObject.hasComponent(ComponentContants.collision)) {
 					CollisionComponent collisionComponent2 = (CollisionComponent) staticObject
 							.getComponent(ComponentContants.collision);
@@ -283,6 +288,15 @@ public class PhysicsSystem extends BaseGameSystem{
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
 					    mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						if(mvt != null)
+						{
+							collDirection  = mvt.normalize();
+							if(collDirection.dot(new Vec2d(0,1)) == 0)
+							{
+								collisionFromBelow = true;
+							}
+						}
+					
 					
 					}
 					
@@ -290,7 +304,7 @@ public class PhysicsSystem extends BaseGameSystem{
 
 			}
 			
-			if(mvt == null)
+			if(mvt == null || !collisionFromBelow)
 			{
 				if(((PhysicsComponent)enemy
 						.getComponent(ComponentContants.physics)).getGravityMultiplier() == 0)

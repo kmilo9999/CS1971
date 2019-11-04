@@ -30,8 +30,8 @@ public class NinControllableCharacter extends NinCharacter{
 		//this.addComponent(aiMovementComponent);
 		
 		Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
-		((PhysicsComponent) physicsComponent).setRestitution(0.58);
-		((PhysicsComponent) physicsComponent).setMass(1.5f);
+		((PhysicsComponent) physicsComponent).setRestitution(0.38);
+		((PhysicsComponent) physicsComponent).setMass(1.f);
 		
 		this.addComponent(physicsComponent);
 		

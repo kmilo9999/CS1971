@@ -88,7 +88,7 @@ public class NinScene  extends GameWorldScene{
 		
 		backgroundImage = new NinBackground("sky");
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
-		ground2 = new NinPlatform("ground2", new Vec2d(220, 250), "img/ground2.png");
+		ground2 = new NinPlatform("ground2", new Vec2d(250, 250), "img/ground2.png");
 		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.9f, 0.2);
 		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
 		
