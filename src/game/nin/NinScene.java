@@ -39,7 +39,7 @@ public class NinScene  extends GameWorldScene{
 	
 	NinBackground backgroundImage;
 	
-	Vec2d ninCharacterInitPos = new Vec2d(300, 190);
+	Vec2d ninCharacterInitPos = new Vec2d(50, 100);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
 	Vec2d ninBrickInitPos = new Vec2d(105, 40);
 	Vec2d ninSpringInitPos = new Vec2d(350, 180);
