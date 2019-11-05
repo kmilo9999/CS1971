@@ -15,8 +15,9 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	private Vec2d leftVec = new Vec2d(-1,0);
 	
 	private double speed = 0.85;
-	private double maxImpulse = 0.010; 
+	private double maxImpulse = 0.0025; 
 	private double currentImpulse = 0;
+	private boolean jumped = false;
 	
 	public AWSDKeyControllerBehaviorComponent(String name) {
 		super(name);
@@ -106,20 +107,27 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			}
 		}
 		
-		if(specialKeys[3])
+		if(specialKeys[3] && !jumped)
 		{
-			//System.out.println("JUMP");
-			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
-			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
-			{
-				physicsComponent.applyImpulse(new Vec2d(0,-2.5));
+
+			// System.out.println("JUMP");
+			PhysicsComponent physicsComponent = (PhysicsComponent) this.myParent
+					.getComponent(ComponentContants.physics);
+			if (physicsComponent != null && physicsComponent.isOnStacticObject()) {
+				physicsComponent.applyImpulse(new Vec2d(0, -2.5));
+				jumped = true;
 			}
+			
 					
 		}
 
 		if(!keys[3] && !keys[0])
 		{
 			currentImpulse = 0;
+		}
+		if(!specialKeys[3] && jumped )
+		{
+			jumped = false;
 		}
 	}
 
