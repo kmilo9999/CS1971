@@ -138,10 +138,10 @@ public class NinScene  extends GameWorldScene{
 		((TransformComponent)brick.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
 		
 		((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
+		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrick2InitPos);
 		
 		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
+		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninSpringInitPos);
 	}
 	
 }
