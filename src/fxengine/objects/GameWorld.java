@@ -26,7 +26,7 @@ public class GameWorld {
 	public static final int PlayerLayer = 1;
 	public static final int BackLayer = 0;
 	
-	private int numLayers = 4; 
+	public int numLayers = 4; 
 	
 	private List<List<GameObject>> myGameObjects;
 	

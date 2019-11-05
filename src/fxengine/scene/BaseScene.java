@@ -5,6 +5,7 @@ import java.util.List;
 
 import fxengine.UISystem.UIElement;
 import fxengine.application.FXFrontEnd;
+import fxengine.datamanagement.Serializable;
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -19,7 +20,7 @@ import javafx.scene.input.ScrollEvent;
  * @author cdiaz8
  */
 
-public abstract class BaseScene {
+public abstract class BaseScene extends Serializable{
 	
 	protected List<UIElement> props = new ArrayList<UIElement>();
 	protected FXFrontEnd myApplication;

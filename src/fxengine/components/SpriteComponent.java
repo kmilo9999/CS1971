@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
 import fxengine.manager.Resource;
@@ -193,6 +195,23 @@ public class SpriteComponent extends Component {
 
 	public void setMySpriteYCoordinates(double mySpriteYCoordinates) {
 		this.mySpriteYCoordinates = mySpriteYCoordinates;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		Element sprite = doc.createElement("SpriteComponent");
+		Element filePath = doc.createElement("filePath");
+		filePath.setAttribute("String", this.myFilePath);
+		sprite.appendChild(filePath);
+		return sprite;
+		
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

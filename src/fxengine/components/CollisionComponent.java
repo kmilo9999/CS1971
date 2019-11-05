@@ -4,6 +4,8 @@ package fxengine.components;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.w3c.dom.Element;
+
 import fxengine.collision.Collision;
 import fxengine.collision.CollisionConstants;
 import fxengine.collision.CollisionShape;
@@ -171,6 +173,27 @@ public class CollisionComponent extends Component{
 
 	public void setSpring(boolean isSpring) {
 		this.isSpring = isSpring;
+	}
+
+	@Override
+	public Element saveState() {
+		
+		Element collision = doc.createElement("CollisionComponent");
+		Element isStatic = doc.createElement("isStatic");
+		isStatic.setAttribute("boolean", ""+this.isStatic);
+		Element isSpring = doc.createElement("isSpring");
+		isSpring.setAttribute("boolean", ""+this.isSpring);
+		
+		collision.appendChild(isStatic);
+		
+		collision.appendChild(isSpring);
+		return collision;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -2,6 +2,8 @@ package fxengine.components;
 
 import java.util.Map;
 
+import org.w3c.dom.Element;
+
 import fxengine.UISystem.UIConstants;
 import fxengine.manager.Resource;
 import fxengine.math.Vec2d;
@@ -191,6 +193,18 @@ public class TerrainComponent extends Component{
 
 	public void setMyTextureCoordinates(Map<Integer, Vec2d> myTextureCoordinates) {
 		this.myTextureCoordinates = myTextureCoordinates;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

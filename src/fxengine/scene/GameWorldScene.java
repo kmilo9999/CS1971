@@ -2,6 +2,10 @@ package fxengine.scene;
 
 
 
+import java.util.List;
+
+import org.w3c.dom.Element;
+
 import fxengine.application.GameApplication;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -270,6 +274,37 @@ public class GameWorldScene extends BaseScene{
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		Element scene = doc.createElement("GameWorldScene");
+		scene.setAttribute("name", this.mySceneName);
+		for(int i =0; i< this.myGameWorld.numLayers ; i++)
+		{
+			List<GameObject> gameObjectsPerLayer =this.myGameWorld.getGameObjectsByLayer(i); 
+			if(!gameObjectsPerLayer.isEmpty())
+			{
+				for(GameObject gameObject:gameObjectsPerLayer)
+				{
+					Element gameObjectState = gameObject.saveState();
+					scene.appendChild(gameObjectState);
+				}
+					
+			}	
+		}
+		
+		
+		doc.appendChild(scene);
+		
+		
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
 	}
 
 	

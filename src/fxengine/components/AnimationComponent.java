@@ -3,6 +3,8 @@ package fxengine.components;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Element;
+
 import javafx.scene.canvas.GraphicsContext;
 
 public class AnimationComponent extends Component{
@@ -148,6 +150,18 @@ public class AnimationComponent extends Component{
 
 	public void setMyCurrentFrame(int myCurrentFrame) {
 		this.myCurrentFrame = myCurrentFrame;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

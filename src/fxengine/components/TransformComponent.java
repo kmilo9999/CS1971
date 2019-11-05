@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
@@ -68,6 +70,22 @@ public class TransformComponent extends Component {
 		Component clone = ComponentFactory.getInstance().createComponent(this.myName);
 		clone.myParent = this.myParent;
 		return clone;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		Element transform = doc.createElement("TransformComponent");
+		Element position = doc.createElement("position");
+		position.setAttribute("Vec2d", this.myPosition.x + " " +this.myPosition.y + " " +this.myPosition.y);
+		transform.appendChild(position);
+		return transform;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

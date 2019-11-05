@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.collision.CollisionShape;
 import fxengine.math.Vec2d;
 import fxengine.system.PhysicsSystem;
@@ -263,6 +265,27 @@ public class PhysicsComponent extends Component{
 
 	public void setGravityMultiplier(double gravityMultiplier) {
 		this.gravityMultiplier = gravityMultiplier;
+	}
+
+	@Override
+	public Element saveState() {
+		Element physics = doc.createElement("PhysicsComponent");
+		Element mass = doc.createElement("mass");
+		mass.setAttribute("float", ""+myMass);
+		Element restitution = doc.createElement("restitution");
+		restitution.setAttribute("double", ""+myRestitution);
+		
+		physics.appendChild(mass);
+		
+		physics.appendChild(restitution);
+		return physics;
+		
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

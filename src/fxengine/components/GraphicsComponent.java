@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.UISystem.UIConstants;
 import fxengine.graphics.ShapeConstants;
 import fxengine.math.Vec2d;
@@ -358,6 +360,19 @@ public class GraphicsComponent extends Component{
 	    return acceptedValues;
 	         
    }
+
+	@Override
+	public Element saveState() {
+		Element graphics = doc.createElement("GraphicsComponent");
+		
+		return graphics;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }

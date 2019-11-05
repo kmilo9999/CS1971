@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import org.w3c.dom.Element;
+
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
@@ -163,6 +165,18 @@ public class AIMovementComponent extends Component{
 			//at least has one point to go to
 			myPathUpdated = true;
 		}
+		
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
 		
 	}
 

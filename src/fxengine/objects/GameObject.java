@@ -3,9 +3,12 @@ package fxengine.objects;
 import java.util.HashMap;
 import java.util.Map;
 
-import fxengine.components.Component;
+import org.w3c.dom.Element;
 
-public class GameObject {
+import fxengine.components.Component;
+import fxengine.datamanagement.Serializable;
+
+public class GameObject extends Serializable{
 
 	private GameWorld myGameWorld;
 	
@@ -141,5 +144,32 @@ public class GameObject {
 
 	public void setMarkForDestoryed(boolean markForDestoryed) {
 		this.markForDestoryed = markForDestoryed;
+	}
+
+	@Override
+	public Element saveState() {
+		
+		Element gameObject = doc.createElement("GameObject");
+		gameObject.setAttribute("name", ""+this.getId());
+		
+		if(!myComponents.isEmpty())
+		{
+			Element components = doc.createElement("Components");
+			for (Map.Entry<String,Component> entry : myComponents.entrySet())  
+			{
+				Element componentElement = entry.getValue().saveState();
+				components.appendChild(componentElement);
+			}	
+			gameObject.appendChild(components);	
+		}
+		
+		return gameObject;
+		
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 }

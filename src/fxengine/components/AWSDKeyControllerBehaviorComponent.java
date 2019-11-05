@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
@@ -199,5 +201,22 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 		Component clone = ComponentFactory.getInstance().createComponent(this.myName);
 		clone.myParent =this.myParent;
 		return clone;
+	}
+	
+	
+	@Override
+	public Element saveState() {
+		
+		Element awsdKey = doc.createElement("AWSDKeyControllerBehaviorComponent");
+		awsdKey.setAttribute("speed",""+ this.speed);
+		awsdKey.setAttribute("maxImpulse",""+ this.maxImpulse);
+		return awsdKey;
+		
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		 
 	}
 }

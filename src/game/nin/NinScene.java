@@ -3,6 +3,8 @@ package game.nin;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import fxengine.application.GameApplication;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
@@ -143,5 +145,6 @@ public class NinScene  extends GameWorldScene{
 		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninSpringInitPos);
 	}
+	
 	
 }

@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
@@ -66,6 +68,18 @@ public class ControllerBehaviourComponent extends Component{
 	public Component clone() {
 		// TODO Auto-generated method stub
 		return new ControllerBehaviourComponent(this.myName);
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

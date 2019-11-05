@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.objects.GameObject;
@@ -113,6 +115,18 @@ public class KeyEventComponent extends ObservableComponent{
 	public boolean getSpecialKeyState(int keycode)
 	{
 		return specialKeys[keycode];
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

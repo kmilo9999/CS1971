@@ -3,6 +3,8 @@ package fxengine.components;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Element;
+
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -112,6 +114,18 @@ public class AnimationNonControlledComponent extends Component{
 
 	public void setCurrentDirection(Vec2d currentDirection) {
 		this.myCurrentDirection = currentDirection;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
