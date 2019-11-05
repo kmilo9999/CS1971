@@ -61,6 +61,10 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			{
 				physicsComponent.applyImpulse(new Vec2d(-1,0));
 			}
+			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
+			{
+				physicsComponent.applyImpulse(new Vec2d(-0.10,0));
+			}
 		}
 		
 		if(keys[18])
@@ -90,6 +94,10 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			{
 				physicsComponent.applyImpulse(new Vec2d(1,0));
 			}
+			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
+			{
+				physicsComponent.applyImpulse(new Vec2d(0.10,0));
+			}
 		}
 		
 		if(specialKeys[3])
@@ -98,7 +106,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
 			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
 			{
-				physicsComponent.applyImpulse(new Vec2d(0,-4.5));
+				physicsComponent.applyImpulse(new Vec2d(0,-2.5));
 			}
 					
 		}

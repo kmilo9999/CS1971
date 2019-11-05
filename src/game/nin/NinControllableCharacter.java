@@ -13,47 +13,33 @@ import fxengine.components.ComponentFactory;
 import fxengine.components.PhysicsComponent;
 import fxengine.math.Vec2d;
 
-public class NinControllableCharacter extends NinCharacter{
+public class NinControllableCharacter extends NinElement{
 
-	public NinControllableCharacter(String id, Vec2d initialPosition, List<Animation> animations) {
-		super(id, initialPosition, animations);
+	public NinControllableCharacter(String id, Vec2d initialPosition,String filePath, float mass, double restitution) {
+		super(id, initialPosition,  filePath,  mass , restitution);
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void initialize() {
 		
-		
+		super.initialize();
 		//AnimationNonControlledComponent animationNonControlled = (AnimationNonControlledComponent)ComponentFactory.getInstance().createComponent(ComponentContants.AutoAnimation);
 		//Component aiMovementComponent = ComponentFactory.getInstance().createComponent(ComponentContants.AIMovement);
 		//this.addComponent(animationNonControlled);
 		//this.addComponent(aiMovementComponent);
 		
-		Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
+		/*Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
 		((PhysicsComponent) physicsComponent).setRestitution(0.38);
 		((PhysicsComponent) physicsComponent).setMass(1.f);
 		
-		this.addComponent(physicsComponent);
-		
-		super.initialize();
-		AnimationControllerComponent animationKeyControllers = (AnimationControllerComponent)ComponentFactory.getInstance().createComponent(ComponentContants.keyAnimationController);
-		AnimationComponent animationComponent = (AnimationComponent)this.getComponent(ComponentContants.animation);
-		
-		animationComponent.getAnimations().forEach((name,animation)->{
-			if(!name.isEmpty())
-			{
-				int keyCode = Integer.parseInt(name);
-				animationKeyControllers.bindAnimationToKey(keyCode, name);	
-			}
-			
-		});
+		this.addComponent(physicsComponent);*/
 		
 	
-		
+		this.setTag("character");
 		Component keyControllerComponent = ComponentFactory.getInstance()
 				.createComponent(ComponentContants.controllerKeyEvents);
 		
-		this.addComponent(animationKeyControllers);
 		this.addComponent(keyControllerComponent);
 		
 		CollisionComponent collisionCompomemt = (CollisionComponent)this.getComponent(ComponentContants.collision);

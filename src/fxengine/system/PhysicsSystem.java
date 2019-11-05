@@ -304,7 +304,7 @@ public class PhysicsSystem extends BaseGameSystem{
 
 			}
 			
-			if(mvt == null || !collisionFromBelow)
+			if(mvt == null )
 			{
 				if(((PhysicsComponent)enemy
 						.getComponent(ComponentContants.physics)).getGravityMultiplier() == 0)
