@@ -28,6 +28,8 @@ public class CollisionComponent extends Component{
 	private Collision myCollisionInfo;
 	
 	private boolean isStatic = false;
+	
+	private boolean isSpring = false;
 
 	public CollisionComponent(String name) {
 		super(name);
@@ -161,6 +163,14 @@ public class CollisionComponent extends Component{
 
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
+	}
+
+	public boolean isSpring() {
+		return isSpring;
+	}
+
+	public void setSpring(boolean isSpring) {
+		this.isSpring = isSpring;
 	}
 	
 	

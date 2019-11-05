@@ -15,7 +15,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	private Vec2d leftVec = new Vec2d(-1,0);
 	
 	private double speed = 0.85;
-	private double maxImpulse = 0.0025; 
+	private double maxImpulse = 0.009; 
 	private double currentImpulse = 0;
 	private boolean jumped = false;
 	

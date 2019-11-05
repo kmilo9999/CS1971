@@ -35,6 +35,7 @@ public class PhysicsCollision {
 				resolveStaticCollision(c1, c2, deltaTime);
 				
 			}
+			
 			else
 			{
 				resolveNonStaticCollision(c1,c2, deltaTime);
@@ -44,17 +45,10 @@ public class PhysicsCollision {
 		
 	}
 	
-	private Vec2d resolveNonStaticCollision(CollisionComponent collisionComponent, CollisionComponent other, double deltaTime)
-	{
+	private Vec2d resolveSpringCollision(CollisionComponent collisionComponent, CollisionComponent other, double deltaTime) {
 		  
 		   Vec2d mvt1 = other.getCollisionShape()
 					.colliding(collisionComponent.getCollisionShape());
-		   
-		   
-			if(Double.isNaN(mvt1.x) || Double.isNaN(mvt1.y) )
-			{
-				System.out.println("ERROR");
-			}
 		   
 		   Vec2d currentPosition1 = 
 					  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
@@ -77,10 +71,114 @@ public class PhysicsCollision {
 		   }
 		   
 		   
-			if(Double.isNaN(mvt2.x) || Double.isNaN(mvt2.y) )
-			{
-				System.out.println("ERROR");
-			}
+		   Vec2d currentPosition2 = 
+					  ((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
+					  .getPosition();
+		   currentPosition2 = currentPosition2.plus(mvt2.smult(0.5));
+		   
+		   //move away half vector
+			((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
+			  .setPosition(currentPosition2);
+		   
+		   
+		   Vec2d normalizedMvt1 = mvt1.normalize();
+		   Vec2d normalizedMvt2 = mvt2.normalize();
+		   
+		   
+		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
+				   && other.getParent().hasComponent(ComponentContants.physics))
+		   {
+			   
+			   
+			   
+			   PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
+			   PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
+			   
+			   //if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
+			   if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0)
+				{
+
+					Vec2d velocityAfterCollision1 = physicsComponent.resolveVelocity(otherPhysicsComponent);
+	
+					Vec2d velocityAfterCollision2 = otherPhysicsComponent.resolveVelocity(physicsComponent);
+	
+					double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
+					double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
+					mvt1 = normalizedMvt1.smult(sVelocityAfterCollision1);
+					mvt2 = normalizedMvt2.smult(sVelocityAfterCollision2);
+	
+					physicsComponent.setVelocity(mvt2);
+					//otherPhysicsComponent.setVelocity(mvt1);
+	
+					Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
+					
+					physicsComponent.applyImpulse(impulse1);
+					
+	
+					//Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
+				
+					//otherPhysicsComponent.applyImpulse(impulse2);
+				}
+				
+				else
+				{
+					Vec2d velocityAfterCollision1 = physicsComponent.resolveVelocity(otherPhysicsComponent);
+	
+					Vec2d velocityAfterCollision2 = otherPhysicsComponent.resolveVelocity(physicsComponent);
+	
+					double sVelocityAfterCollision1 = velocityAfterCollision1.dot(normalizedMvt1);
+					double sVelocityAfterCollision2 = velocityAfterCollision2.dot(normalizedMvt2);
+					mvt1 = normalizedMvt1.smult(sVelocityAfterCollision1);
+					mvt2 = normalizedMvt2.smult(sVelocityAfterCollision2);
+	
+					physicsComponent.setVelocity(mvt2);
+					otherPhysicsComponent.setVelocity(mvt1);
+	
+					Vec2d impulse1 = physicsComponent.resolveImpulse(otherPhysicsComponent);
+					
+					physicsComponent.applyImpulse(impulse1);
+					
+	
+					Vec2d impulse2 = otherPhysicsComponent.resolveImpulse(physicsComponent);
+				
+					otherPhysicsComponent.applyImpulse(impulse2);
+					
+				}
+				
+			   
+		   }
+		   
+		   return mvt1;
+		
+	}
+
+
+	private Vec2d resolveNonStaticCollision(CollisionComponent collisionComponent, CollisionComponent other, double deltaTime)
+	{
+		  
+		   Vec2d mvt1 = other.getCollisionShape()
+					.colliding(collisionComponent.getCollisionShape());
+		   
+		   Vec2d currentPosition1 = 
+					  ((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+					  .getPosition();
+
+		   currentPosition1 = currentPosition1.plus(mvt1.smult(0.5));
+			  
+			  
+		  //move away half vector
+			((TransformComponent)collisionComponent.getParent().getComponent(ComponentContants.transform))
+			  .setPosition(currentPosition1);
+			   
+		   
+		   Vec2d mvt2 = collisionComponent.getCollisionShape()
+					.colliding(other.getCollisionShape());
+		   
+		   if(mvt1.isZero() && mvt2.isZero())
+		   {
+			   return null;
+		   }
+		   
 		   
 		   Vec2d currentPosition2 = 
 					  ((TransformComponent)other.getParent().getComponent(ComponentContants.transform))
@@ -95,17 +193,6 @@ public class PhysicsCollision {
 		   Vec2d normalizedMvt1 = mvt1.normalize();
 		   Vec2d normalizedMvt2 = mvt2.normalize();
 		   
-		   if(Double.isNaN(normalizedMvt1.x) || Double.isNaN(normalizedMvt1.y) )
-			{
-				System.out.println("ERROR");
-			}
-		   
-		   
-		   if(Double.isNaN(normalizedMvt2.x) || Double.isNaN(normalizedMvt2.y) )
-			{
-				System.out.println("ERROR");
-			}
-		   
 		   
 		   if(collisionComponent.getParent().hasComponent(ComponentContants.physics)
 				   && other.getParent().hasComponent(ComponentContants.physics))
@@ -116,9 +203,18 @@ public class PhysicsCollision {
 			   PhysicsComponent physicsComponent = (PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics); 
 			   PhysicsComponent otherPhysicsComponent = (PhysicsComponent)other.getParent().getComponent(ComponentContants.physics);
 			   
-			   if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
+			   //if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0) 
+			    if (otherPhysicsComponent.isOnStacticObject() && normalizedMvt2.y > 0)
 				{
-					return resolveStaticCollision(collisionComponent, other, deltaTime);
+			    	if(other.isSpring())
+			    	{
+			    		return resolveSpringCollision(collisionComponent, other, deltaTime);
+			    	}
+			    	else
+			    	{
+			    		return resolveStaticCollision(collisionComponent, other, deltaTime);	
+			    	}
+					
 				}
 				
 				else

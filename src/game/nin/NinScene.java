@@ -30,14 +30,21 @@ public class NinScene  extends GameWorldScene{
 	NinCharacter aiCharater;
 	NinPlatform ground;
 	NinPlatform ground2;
+	NinPlatform ground3;
 	NinElement ball;
 	NinElement brick;
+	NinElement brick2;
+	NinElement spring;
+	NinElement carrot;
 	
 	NinBackground backgroundImage;
 	
-	Vec2d ninCharacterInitPos = new Vec2d(50, 0);
+	Vec2d ninCharacterInitPos = new Vec2d(300, 190);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
 	Vec2d ninBrickInitPos = new Vec2d(105, 40);
+	Vec2d ninSpringInitPos = new Vec2d(350, 180);
+	Vec2d ninCarrotInitPos = new Vec2d(520, 120);
+	Vec2d ninBrick2InitPos = new Vec2d(350, 220);	
 
     List<Animation> animations;
 	
@@ -89,8 +96,12 @@ public class NinScene  extends GameWorldScene{
 		backgroundImage = new NinBackground("sky");
 		ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
 		ground2 = new NinPlatform("ground2", new Vec2d(270, 250), "img/ground2.png");
+		ground3 = new NinPlatform("ground3", new Vec2d(500, 150), "img/ground2.png");
 		ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.5f, 0.55);
 		brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
+		brick2 = new NinElement("brick2",ninBrick2InitPos , "img/otherBrick.png",  1.50f, 0.27);
+		carrot = new NinElement("carrot",ninCarrotInitPos , "img/carrot.png",  1.50f, 0.0);
+		spring = new NinSpring("spring1",ninSpringInitPos , "img/spring.png",  0.50f, 0.3);
 		
 		
 		this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
@@ -98,33 +109,19 @@ public class NinScene  extends GameWorldScene{
 		//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
 		this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
+		this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
 	    this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
+	    this.myGameWorld.addGameObject(brick2, GameWorld.EnemyLayer);
 		this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
+		this.myGameWorld.addGameObject(carrot, GameWorld.EnemyLayer);
+		this.myGameWorld.addGameObject(spring, GameWorld.EnemyLayer);
 		
 	}
 	
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-	  //Logic Here
-	  /*if(mainCharater.hasComponent(ComponentContants.collision))
-	  {
-		  CollisionComponent collisionComponent = (CollisionComponent) mainCharater.getComponent(ComponentContants.collision);
-		  
-		  if(collisionComponent.isCollided() &&  collisionComponent.getCollisionInfo()!= null)
-		  {
-			  if(collisionComponent.getCollisionInfo().other.getTag() == ENEMY)
-			  {
-				  System.out.println("COLLIDE IN SCENE");  
-				  TransformComponent mainCharacterTransform = (TransformComponent) mainCharater.getComponent(ComponentContants.transform);
-				  Vec2d mvt = collisionComponent.getCollisionInfo().mtv.smult(50);
-				  
-				  mainCharacterTransform.setPosition(mainCharacterTransform.getPosition().plus(mvt));
-			  }
-			  
-		  }
-	  }*/
-		  
+	  
 	  super.onTick(nanosSincePreviousTick);	
 	}
 	
@@ -139,6 +136,12 @@ public class NinScene  extends GameWorldScene{
 		
 		((PhysicsComponent)brick.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)brick.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
+		
+		((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
+		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
+		
+		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
+		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
 	}
 	
 }

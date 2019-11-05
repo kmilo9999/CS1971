@@ -19,6 +19,7 @@ public class PhysicsSystem extends BaseGameSystem{
 	private List<List<GameObject>> myLayerGameObjects;
 	public static final Vec2d down = new Vec2d(0,1);
 	public static final double gravityConstant = 0.08;
+	public static final String spring = "SPRING";
 	
 	private long start = 0;
 	
@@ -179,6 +180,7 @@ public class PhysicsSystem extends BaseGameSystem{
 
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
+
 						if (collisionComponent.getHitList().contains(enemy.getTag())) {
 						
 							//collisionComponent.setCollided(true);
@@ -320,6 +322,8 @@ public class PhysicsSystem extends BaseGameSystem{
 		
 		
 	}
+
+	
 
 	@Override
 	public void draw(GraphicsContext graphicsCx) {
