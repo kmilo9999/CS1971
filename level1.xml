@@ -23,7 +23,7 @@
                 <filePath String="img/bunny.png"/>
             </SpriteComponent>
             <TransformComponent>
-                <position Vec2d="50.0 218.00454436277553 218.00454436277553"/>
+                <position Vec2d="50.0 217.92818439039436 217.92818439039436"/>
             </TransformComponent>
             <PhysicsComponent>
                 <mass float="1.0"/>
@@ -42,7 +42,7 @@
                 <filePath String="img/otherBrick.png"/>
             </SpriteComponent>
             <TransformComponent>
-                <position Vec2d="105.0 218.00048839935977 218.00048839935977"/>
+                <position Vec2d="105.0 218.0046680987426 218.0046680987426"/>
             </TransformComponent>
             <PhysicsComponent>
                 <mass float="1.5"/>
@@ -61,7 +61,7 @@
                 <filePath String="img/otherBrick.png"/>
             </SpriteComponent>
             <TransformComponent>
-                <position Vec2d="350.0 218.00198606895293 218.00198606895293"/>
+                <position Vec2d="350.0 217.9980846775407 217.9980846775407"/>
             </TransformComponent>
             <PhysicsComponent>
                 <mass float="1.5"/>
@@ -80,7 +80,7 @@
                 <filePath String="img/tenisball.png"/>
             </SpriteComponent>
             <TransformComponent>
-                <position Vec2d="105.0 185.9852973698433 185.9852973698433"/>
+                <position Vec2d="105.0 185.99704343536231 185.99704343536231"/>
             </TransformComponent>
             <PhysicsComponent>
                 <mass float="0.5"/>
@@ -118,7 +118,7 @@
                 <filePath String="img/spring.png"/>
             </SpriteComponent>
             <TransformComponent>
-                <position Vec2d="350.0 185.9173237471682 185.9173237471682"/>
+                <position Vec2d="350.0 185.82361772939313 185.82361772939313"/>
             </TransformComponent>
             <PhysicsComponent>
                 <mass float="0.5"/>

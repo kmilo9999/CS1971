@@ -12,12 +12,16 @@ import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
 import fxengine.components.TransformComponent;
+import fxengine.event.Event;
+import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.scene.GameWorldScene;
 import fxengine.system.PhysicsSystem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 
@@ -25,7 +29,7 @@ public class NinScene  extends GameWorldScene{
 	
 	private ResetButton myResetButton;
 	private SaveButton mySaveButton;
-    private UISprite myFiledSavedMessage;
+    public UISprite myFiledSavedMessage;
 	
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
@@ -51,6 +55,12 @@ public class NinScene  extends GameWorldScene{
 	Vec2d ninBrick2InitPos = new Vec2d(350, 220);	
 
     List<Animation> animations;
+    
+    public boolean isShowing = false;
+    long countShowing = 0;
+    int currentSeconds =0;
+    
+    boolean showing;
 	
 	public NinScene(String name, GameApplication application) {
 		super(name, application);
@@ -73,7 +83,8 @@ public class NinScene  extends GameWorldScene{
 		
 		myResetButton = new ResetButton("img/reset.png",this,750, 70);
 		mySaveButton =  new SaveButton("img/save.png", this,750, 120);
-		myFiledSavedMessage =  new UISprite("img/filesaved.png",500, 120);
+	//	myFiledSavedMessage =  new UISprite("img/filesaved.png",350, 190);
+		myFiledSavedMessage =  new UISprite("img/filesaved.png",1000, 1000);
 		
 		addProp(myResetButton);
 		addProp(mySaveButton);
@@ -128,7 +139,23 @@ public class NinScene  extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-	  
+	  if(isShowing)
+	  {
+		  countShowing+= nanosSincePreviousTick;
+		  if(countShowing >= 1000000000)
+		  {
+			  currentSeconds++;
+			  countShowing = 0;
+		  }
+				  
+		  if(currentSeconds > 2)
+		  {
+			  myFiledSavedMessage.setPosition(new Vec2d(1000, 1000)) ;
+			  currentSeconds = 0;
+			  countShowing = 0;
+			  isShowing = false;
+		  }
+	  }
 	  super.onTick(nanosSincePreviousTick);	
 	}
 	
@@ -154,5 +181,21 @@ public class NinScene  extends GameWorldScene{
 		((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
 	}
 	
+	
+	@Override
+	public void onKeyTyped(KeyEvent e) {
+		
+		//String character = e.getCharacter() ;
+		//if(character.equals("g"))
+		//{
+         
+		//}
+		
+		
+		super.onKeyTyped(e);
+		// TODO Auto-generated method stub
+		
+		
+	}
 	
 }

@@ -53,6 +53,18 @@ public abstract class BaseScene extends Serializable{
     	this.props.add(prop);	
     }
     
+    public void removeProp(UIElement prop)
+    {
+    	for(UIElement child: this.props)
+    	{
+    		if(child.equals(prop))
+    		{
+    			this.props.remove(prop);		
+    		}
+    		
+    	}
+    		
+    }
     
 	/**
 	 * Called at a regular interval set by {@link #setTickFrequency(long)}. Use to update any state
