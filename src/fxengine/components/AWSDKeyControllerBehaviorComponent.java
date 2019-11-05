@@ -15,6 +15,8 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	private Vec2d leftVec = new Vec2d(-1,0);
 	
 	private double speed = 0.85;
+	private double maxImpulse = 0.010; 
+	private double currentImpulse = 0;
 	
 	public AWSDKeyControllerBehaviorComponent(String name) {
 		super(name);
@@ -63,7 +65,9 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			}
 			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
 			{
-				physicsComponent.applyImpulse(new Vec2d(-0.10,0));
+				currentImpulse += 0.0025;
+				double totalImpulse = Math.min(maxImpulse, currentImpulse);
+				physicsComponent.applyImpulse(new Vec2d(-totalImpulse,0));
 			}
 		}
 		
@@ -96,7 +100,9 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			}
 			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
 			{
-				physicsComponent.applyImpulse(new Vec2d(0.10,0));
+				currentImpulse += 0.0025;
+				double totalImpulse = Math.min(maxImpulse, currentImpulse);
+				physicsComponent.applyImpulse(new Vec2d(totalImpulse,0));
 			}
 		}
 		
@@ -111,6 +117,10 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 					
 		}
 
+		if(!keys[3] && !keys[0])
+		{
+			currentImpulse = 0;
+		}
 	}
 
 	@Override
