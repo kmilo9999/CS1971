@@ -4,6 +4,8 @@ package game.tic;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import fxengine.UISystem.Label;
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
@@ -443,6 +445,18 @@ public class TicPlayScene extends BaseScene{
 
 	public void setCurrentState(String currentState) {
 		this.myCurrentState = currentState;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

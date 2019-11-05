@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
+import fxengine.UISystem.UISprite;
 import fxengine.application.GameApplication;
 import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
@@ -23,7 +24,8 @@ import fxengine.system.PhysicsSystem;
 public class NinScene  extends GameWorldScene{
 	
 	private ResetButton myResetButton;
-    
+	private SaveButton mySaveButton;
+    private UISprite myFiledSavedMessage;
 	
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
@@ -69,10 +71,13 @@ public class NinScene  extends GameWorldScene{
 	public void initScene() 
 	{
 		
-		myResetButton = new ResetButton("img/reset.png",this,700, 70);
-		
+		myResetButton = new ResetButton("img/reset.png",this,750, 70);
+		mySaveButton =  new SaveButton("img/save.png", this,750, 120);
+		myFiledSavedMessage =  new UISprite("img/filesaved.png",500, 120);
 		
 		addProp(myResetButton);
+		addProp(mySaveButton);
+		addProp(myFiledSavedMessage);
 		 // Initialize game world
 		super.initScene();
 		
@@ -144,6 +149,9 @@ public class NinScene  extends GameWorldScene{
 		
 		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninSpringInitPos);
+		
+		((PhysicsComponent)carrot.getComponent(ComponentContants.physics)).resetComponent();
+		((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
 	}
 	
 	

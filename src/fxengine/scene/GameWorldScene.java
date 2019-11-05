@@ -2,7 +2,18 @@ package fxengine.scene;
 
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Element;
 
@@ -298,6 +309,29 @@ public class GameWorldScene extends BaseScene{
 		
 		doc.appendChild(scene);
 		
+		 Transformer tr;
+		try {
+			tr = TransformerFactory.newInstance().newTransformer();
+			 tr.setOutputProperty(OutputKeys.INDENT, "yes");
+	         tr.setOutputProperty(OutputKeys.METHOD, "xml");
+	         tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	         tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
+	         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	         
+	         // send DOM to file
+	         tr.transform(new DOMSource(doc), 
+	                              new StreamResult(new FileOutputStream(this.mySceneName+".xml")));
+		} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 		
 		return null;
 	}
