@@ -55,6 +55,7 @@ public class NinScene  extends GameWorldScene{
 	Vec2d ninCarrotInitPos = new Vec2d(520, 120);
 	Vec2d ninBrick2InitPos = new Vec2d(350, 220);	
 
+	Vec2d ninIntroPos = new Vec2d(250, 100);
     
     
     public boolean isShowing = false;
@@ -74,6 +75,7 @@ public class NinScene  extends GameWorldScene{
 			levelFileName = loadFile;
 			showIntro = false;
 			loadingFromFile = true;
+			ninIntroPos = new Vec2d(1500, 100);
 		}
 	}
 	
@@ -85,7 +87,7 @@ public class NinScene  extends GameWorldScene{
 		mySaveButton =  new SaveButton("img/save.png", this,750, 120);
 	//	myFiledSavedMessage =  new UISprite("img/filesaved.png",350, 190);
 		myFiledSavedMessage =  new UISprite("img/filesaved.png",1000, 1000);
-		myIntroMessage = new UISprite("img/introNinInfo.png",250, 100);
+		myIntroMessage = new UISprite("img/introNinInfo.png",ninIntroPos.x, ninIntroPos.y);
 				
 		addProp(myResetButton);
 		addProp(mySaveButton);

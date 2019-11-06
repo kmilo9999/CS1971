@@ -69,10 +69,19 @@ public class GameObject extends Serializable{
 							   go.addComponent(component);
 							   
 						   }
-						   
+						  
 						  
 					   }
 					 
+				   }
+				   if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "Component")
+				   {
+					   NamedNodeMap massMap = tempNode.getAttributes();
+						 Node massAttr = massMap.item(0);
+						 String massStr = massAttr.getNodeValue();
+						 go.setTag(massStr);
+					   
 				   }
 				  
 				}
@@ -210,6 +219,8 @@ public class GameObject extends Serializable{
 		Element gameObject = doc.createElement("GameObject");
 		gameObject.setAttribute("name", ""+this.getId());
 		
+		
+		
 		if(!myComponents.isEmpty())
 		{
 			Element components = doc.createElement("Components");
@@ -219,6 +230,13 @@ public class GameObject extends Serializable{
 				components.appendChild(componentElement);
 			}	
 			gameObject.appendChild(components);	
+		}
+		
+		if(this.myTag != "")
+		{
+			Element tag = doc.createElement("Tag");
+			tag.setAttribute("name", this.myTag);
+			gameObject.appendChild(tag);
 		}
 		
 		return gameObject;

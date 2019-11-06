@@ -2,6 +2,7 @@ package fxengine.components;
 
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -189,6 +190,14 @@ public class CollisionComponent extends Component{
 		Element isSpring = doc.createElement("isSpring");
 		isSpring.setAttribute("boolean", ""+this.isSpring);
 		
+		Iterator<String> itr = myHitList.iterator();
+		while(itr.hasNext()){
+			  
+			Element hitElement = doc.createElement("hitElement");
+			hitElement.setAttribute("name", (String)itr.next());
+			collision.appendChild(hitElement);
+		}
+		
 		collision.appendChild(isStatic);
 		
 		collision.appendChild(isSpring);
@@ -215,7 +224,7 @@ public class CollisionComponent extends Component{
 					
 				 }
 				 
-				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+				 else if(tempNode.getNodeType() == Node.ELEMENT_NODE
 							&&  tempNode.getNodeName() == "isSpring")
 				 {
 					 
@@ -223,6 +232,16 @@ public class CollisionComponent extends Component{
 					 Node nodeAttr = nodeMap.item(0);
 					 String nodeStr = nodeAttr.getNodeValue();
 					 this.isSpring = Boolean.parseBoolean(nodeStr);
+				 }
+				 
+				 else if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "hitElement")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.myHitList.add(nodeStr);
 				 }
 			 }
 		

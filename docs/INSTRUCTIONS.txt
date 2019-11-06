@@ -1,2 +1,4 @@
-1. execute the jar Java -jar Nin1.jar 
+1. execute the jar Java -jar nin2.jar 
 2. you move your character using the AWS, and jump using SPACE BAR
+3. To load a previosly saved file execute the jar  
+   java -jar nin2.jar "Absolute_Path_To_file"
