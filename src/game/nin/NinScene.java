@@ -30,6 +30,7 @@ public class NinScene  extends GameWorldScene{
 	private ResetButton myResetButton;
 	private SaveButton mySaveButton;
     public UISprite myFiledSavedMessage;
+    public UISprite myIntroMessage;
 	
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
@@ -61,6 +62,7 @@ public class NinScene  extends GameWorldScene{
     int currentSeconds =0;
     
     boolean showing;
+    boolean showIntro = true;
     
     boolean loadingFromFile;
 	String levelFileName;
@@ -70,6 +72,7 @@ public class NinScene  extends GameWorldScene{
 		if(!loadFile.isEmpty())
 		{
 			levelFileName = loadFile;
+			showIntro = false;
 			loadingFromFile = true;
 		}
 	}
@@ -82,10 +85,13 @@ public class NinScene  extends GameWorldScene{
 		mySaveButton =  new SaveButton("img/save.png", this,750, 120);
 	//	myFiledSavedMessage =  new UISprite("img/filesaved.png",350, 190);
 		myFiledSavedMessage =  new UISprite("img/filesaved.png",1000, 1000);
-		
+		myIntroMessage = new UISprite("img/introNinInfo.png",250, 100);
+				
 		addProp(myResetButton);
 		addProp(mySaveButton);
 		addProp(myFiledSavedMessage);
+		addProp(myIntroMessage);
+		
 		 // Initialize game world
 		super.initScene();
 		
@@ -147,6 +153,7 @@ public class NinScene  extends GameWorldScene{
 			  isShowing = false;
 		  }
 	  }
+	  
 	  super.onTick(nanosSincePreviousTick);	
 	}
 	
@@ -172,5 +179,19 @@ public class NinScene  extends GameWorldScene{
 		((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
 	}
 	
+	@Override
+	public void onKeyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(showIntro)
+		{
+			myIntroMessage.setPosition(new Vec2d(1500, 1000));
+			showIntro = false;	
+		}
+		
+		super.onKeyTyped(e);
+		
+		
+		
+	}
 	
 }
