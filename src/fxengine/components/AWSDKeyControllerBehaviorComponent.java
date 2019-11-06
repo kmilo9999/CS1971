@@ -1,6 +1,9 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
@@ -16,8 +19,8 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	private Vec2d rightVec = new Vec2d(1,0);
 	private Vec2d leftVec = new Vec2d(-1,0);
 	
-	private double speed = 0.85;
-	private double maxImpulse = 0.009; 
+	private double mySpeed = 0.85;
+	private double myMaxImpulse = 0.009; 
 	private double currentImpulse = 0;
 	private boolean jumped = false;
 	
@@ -69,7 +72,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
 			{
 				currentImpulse += 0.0025;
-				double totalImpulse = Math.min(maxImpulse, currentImpulse);
+				double totalImpulse = Math.min(myMaxImpulse, currentImpulse);
 				physicsComponent.applyImpulse(new Vec2d(-totalImpulse,0));
 			}
 		}
@@ -104,7 +107,7 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			else if(physicsComponent != null && !physicsComponent.isOnStacticObject() )
 			{
 				currentImpulse += 0.0025;
-				double totalImpulse = Math.min(maxImpulse, currentImpulse);
+				double totalImpulse = Math.min(myMaxImpulse, currentImpulse);
 				physicsComponent.applyImpulse(new Vec2d(totalImpulse,0));
 			}
 		}
@@ -207,16 +210,70 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	@Override
 	public Element saveState() {
 		
-		Element awsdKey = doc.createElement("AWSDKeyControllerBehaviorComponent");
-		awsdKey.setAttribute("speed",""+ this.speed);
-		awsdKey.setAttribute("maxImpulse",""+ this.maxImpulse);
+
+		Element awsdKey = doc.createElement("Component");
+		awsdKey.setAttribute("name", this.myName);
+		
+		Element speedNode = doc.createElement("speed");
+		speedNode.setAttribute("float",""+ this.mySpeed);
+		Element maxImpulseNode  = doc.createElement("maxImpulse");
+		maxImpulseNode.setAttribute("float",""+ this.myMaxImpulse);
+		
+		awsdKey.appendChild(speedNode);
+		awsdKey.appendChild(maxImpulseNode);
+		
 		return awsdKey;
 		
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
-		 
+		if (node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			 for (int index = 0; index < nodeList.getLength(); index++) 
+			 {
+				Node tempNode = nodeList.item(index);
+			
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "speed")
+				 {
+					 NamedNodeMap nodeMap = tempNode.getAttributes();		 
+					 Node posNode = nodeMap.item(0);
+					 String posStr = posNode.getNodeValue();
+					 this.mySpeed = Double.parseDouble(posStr);
+				 }
+				
+				 else if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "maxImpulse")
+				 {
+					 NamedNodeMap nodeMap = tempNode.getAttributes();		 
+					 Node posNode = nodeMap.item(0);
+					 String maxImpulseStr = posNode.getNodeValue();
+					 this.myMaxImpulse = Double.parseDouble(maxImpulseStr);
+				}
+				
+				
+				/*NodeList nodeList = node.getChildNodes();
+				
+				Node maxImpulseNode = nodeList.item(0);
+				NamedNodeMap maxImpulseMap = maxImpulseNode.getAttributes();
+				Node maxImpulseAttr = maxImpulseMap.item(0);
+				String maxImpulseStr = maxImpulseAttr.getNodeValue();
+			
+				Node speedNode = nodeList.item(2);
+				NamedNodeMap speedMap = speedNode.getAttributes();
+				Node speedAttr = speedMap.item(0);
+				String speedStr = speedAttr.getNodeValue();
+			
+				this.myMaxImpulse = Double.parseDouble(maxImpulseStr);
+				this.mySpeed = Double.parseDouble(speedStr);*/
+				
+			}
+			
+			
+			
+			
+		}
 	}
 }

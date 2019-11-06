@@ -1,6 +1,7 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -77,7 +78,7 @@ public class ControllerBehaviourComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

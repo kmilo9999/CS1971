@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -159,7 +160,7 @@ public class AnimationComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

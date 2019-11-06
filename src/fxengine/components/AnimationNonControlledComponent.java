@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.math.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
@@ -123,7 +124,7 @@ public class AnimationNonControlledComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

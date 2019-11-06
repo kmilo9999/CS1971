@@ -2,8 +2,10 @@ package fxengine.scene;
 
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.transform.OutputKeys;
@@ -15,7 +17,12 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import fxengine.application.GameApplication;
 import fxengine.components.Component;
@@ -54,7 +61,7 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	protected BaseGameSystem myAISystem = new AiSystem();
 	
-	
+	protected String myFileToLoad;
 
 	public GameWorldScene(String name, GameApplication application) {
 		super(name, application);
@@ -294,16 +301,21 @@ public class GameWorldScene extends BaseScene{
 		scene.setAttribute("name", this.mySceneName);
 		for(int i =0; i< this.myGameWorld.numLayers ; i++)
 		{
-			List<GameObject> gameObjectsPerLayer =this.myGameWorld.getGameObjectsByLayer(i); 
+			List<GameObject> gameObjectsPerLayer =this.myGameWorld.getGameObjectsByLayer(i);
+			
 			if(!gameObjectsPerLayer.isEmpty())
 			{
+				Element layer = doc.createElement("Layer");
+				layer.setAttribute("order", "" +i);
+				
 				for(GameObject gameObject:gameObjectsPerLayer)
 				{
 					Element gameObjectState = gameObject.saveState();
-					scene.appendChild(gameObjectState);
+					layer.appendChild(gameObjectState);
 				}
-					
+				scene.appendChild(layer);
 			}	
+			
 		}
 		
 		
@@ -315,16 +327,12 @@ public class GameWorldScene extends BaseScene{
 			 tr.setOutputProperty(OutputKeys.INDENT, "yes");
 	         tr.setOutputProperty(OutputKeys.METHOD, "xml");
 	         tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	         tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
 	         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 	         
 	         // send DOM to file
 	         tr.transform(new DOMSource(doc), 
-	                              new StreamResult(new FileOutputStream(this.mySceneName+".xml")));
+	                              new StreamResult(new File(this.mySceneName+".xml")));
 		} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
@@ -336,9 +344,75 @@ public class GameWorldScene extends BaseScene{
 		return null;
 	}
 
-	@Override
-	public void loadState() {
+	
+	public void loadState(String filepath) {
 		// TODO Auto-generated method stub
+		myFileToLoad = filepath;
+		
+		Document doc;
+		try {
+			doc = docBuilder.parse(myFileToLoad);
+			doc.getDocumentElement().normalize();
+			
+			NodeList nodeList = doc.getChildNodes();
+			
+			if(nodeList.getLength() > 0)
+			{
+				Node tempNode = nodeList.item(0);
+				this.loadState(tempNode);	
+			}
+			System.out.println(filepath+" Loaded completed");
+			
+		} catch (SAXException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
+		if (node.hasChildNodes()) {
+			  
+			NodeList nodeList = node.getChildNodes();
+			 for (int count = 0; count < nodeList.getLength(); count++) {
+
+					Node tempNode = nodeList.item(count);
+					// make sure it's element node.
+					if (tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "Layer") {
+						
+						NamedNodeMap nodeMap = tempNode.getAttributes();
+						Node layerOrder = nodeMap.item(0);
+						String layerNumber = layerOrder.getNodeValue();
+						int layerInt = Integer.parseInt(layerNumber);
+						
+						NodeList layerList = tempNode.getChildNodes();
+						
+						
+						 for (int i = 0; i < layerList.getLength(); i++) {
+						     Node gameObjectTag = layerList.item(i);
+						     if(gameObjectTag.getNodeType() == Node.ELEMENT_NODE 
+						    		 && gameObjectTag.getNodeName() == "GameObject")
+						     {
+						    	 GameObject go = GameObject.buildGameObject(gameObjectTag);
+						    	 System.out.println("GameObject " + go.getId()+" completed");
+						    	 
+								 this.myGameWorld.addGameObject(go, layerInt);	 
+						     }
+							 
+						 }
+						
+						
+						
+						//this.myGameWorld.addGameObject(go, 0);
+					}
+			 }
+			
+		}
+		
 	}
 
 	

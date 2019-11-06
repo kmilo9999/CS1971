@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.UISystem.Label;
 import fxengine.UISystem.Layout;
@@ -454,7 +455,7 @@ public class TicPlayScene extends BaseScene{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

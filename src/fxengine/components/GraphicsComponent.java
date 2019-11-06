@@ -1,6 +1,9 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.UISystem.UIConstants;
 import fxengine.graphics.ShapeConstants;
@@ -363,14 +366,15 @@ public class GraphicsComponent extends Component{
 
 	@Override
 	public Element saveState() {
-		Element graphics = doc.createElement("GraphicsComponent");
 		
+		Element graphics = doc.createElement("Component");
+		graphics.setAttribute("name", this.myName);
+			
 		return graphics;
 	}
 
 	@Override
-	public void loadState() {
-		// TODO Auto-generated method stub
+	public void loadState(Node node) {
 		
 	}
 

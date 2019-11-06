@@ -3,6 +3,7 @@ package fxengine.components;
 import java.util.Map;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.UISystem.UIConstants;
 import fxengine.manager.Resource;
@@ -202,7 +203,7 @@ public class TerrainComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

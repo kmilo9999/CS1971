@@ -1,6 +1,7 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
@@ -124,7 +125,7 @@ public class KeyEventComponent extends ObservableComponent{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

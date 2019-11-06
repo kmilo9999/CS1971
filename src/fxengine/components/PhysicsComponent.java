@@ -1,6 +1,9 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.collision.CollisionShape;
 import fxengine.math.Vec2d;
@@ -269,7 +272,10 @@ public class PhysicsComponent extends Component{
 
 	@Override
 	public Element saveState() {
-		Element physics = doc.createElement("PhysicsComponent");
+	
+		Element physics = doc.createElement("Component");
+		physics.setAttribute("name", this.myName);
+	
 		Element mass = doc.createElement("mass");
 		mass.setAttribute("float", ""+myMass);
 		Element restitution = doc.createElement("restitution");
@@ -283,9 +289,38 @@ public class PhysicsComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
-		// TODO Auto-generated method stub
-		
+	public void loadState(Node node) {
+
+		if (node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			 for (int index = 0; index < nodeList.getLength(); index++) 
+			 {
+				 Node tempNode = nodeList.item(index);
+				   
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "mass")
+				 {
+					 
+					 NamedNodeMap massMap = tempNode.getAttributes();
+					 Node massAttr = massMap.item(0);
+					 String massStr = massAttr.getNodeValue();
+					 this.myMass = Float.parseFloat(massStr);
+					
+				 }
+				 
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "restitution")
+				 {
+					 
+					 NamedNodeMap resMap = tempNode.getAttributes();
+					 Node resAttr = resMap.item(0);
+					 String resStr = resAttr.getNodeValue();
+					 this.myRestitution = Double.parseDouble(resStr);
+				 }
+			
+			 }
+			
+		}
 	}
 
 

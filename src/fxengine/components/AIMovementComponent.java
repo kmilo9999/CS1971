@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Queue;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -175,7 +176,7 @@ public class AIMovementComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

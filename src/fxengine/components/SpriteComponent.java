@@ -1,6 +1,9 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
@@ -200,7 +203,9 @@ public class SpriteComponent extends Component {
 	@Override
 	public Element saveState() {
 		// TODO Auto-generated method stub
-		Element sprite = doc.createElement("SpriteComponent");
+		Element sprite = doc.createElement("Component");
+		sprite.setAttribute("name", this.myName);
+		
 		Element filePath = doc.createElement("filePath");
 		filePath.setAttribute("String", this.myFilePath);
 		sprite.appendChild(filePath);
@@ -209,8 +214,28 @@ public class SpriteComponent extends Component {
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
+		
+			if (node.hasChildNodes()) {
+				NodeList nodeList = node.getChildNodes();
+				 for (int index = 0; index < nodeList.getLength(); index++) 
+				 {
+					 Node tempNode = nodeList.item(index);
+					   
+					   if(tempNode.getNodeType() == Node.ELEMENT_NODE
+								&&  tempNode.getNodeName() == "filePath")
+					   {
+						   NamedNodeMap nodeMap = tempNode.getAttributes();		 
+						   Node posNode = nodeMap.item(0);
+						   String posStr = posNode.getNodeValue();
+						   this.myFilePath = posStr;
+					   }
+			}
+			
+			
+			
+	  }
 		
 	}
 

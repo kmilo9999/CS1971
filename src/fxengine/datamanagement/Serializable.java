@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 
 public abstract class Serializable {
@@ -33,6 +34,6 @@ public abstract class Serializable {
 	
 	public abstract Element saveState();
 	
-	public abstract void loadState();
+	public abstract void loadState(Node node);
 	
 }

@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.collision.Collision;
 import fxengine.collision.CollisionConstants;
@@ -178,7 +181,9 @@ public class CollisionComponent extends Component{
 	@Override
 	public Element saveState() {
 		
-		Element collision = doc.createElement("CollisionComponent");
+		Element collision = doc.createElement("Component");
+		collision.setAttribute("name", this.myName);
+		
 		Element isStatic = doc.createElement("isStatic");
 		isStatic.setAttribute("boolean", ""+this.isStatic);
 		Element isSpring = doc.createElement("isSpring");
@@ -191,9 +196,37 @@ public class CollisionComponent extends Component{
 	}
 
 	@Override
-	public void loadState() {
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
+		if (node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			 for (int index = 0; index < nodeList.getLength(); index++) 
+			 {
+				 Node tempNode = nodeList.item(index);
+				   
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "isStatic")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.isStatic = Boolean.parseBoolean(nodeStr);
+					
+				 }
+				 
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "isSpring")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.isSpring = Boolean.parseBoolean(nodeStr);
+				 }
+			 }
 		
+		}
 	}
 	
 	

@@ -1,6 +1,9 @@
 package fxengine.components;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
@@ -74,18 +77,42 @@ public class TransformComponent extends Component {
 
 	@Override
 	public Element saveState() {
-		// TODO Auto-generated method stub
-		Element transform = doc.createElement("TransformComponent");
+		
+		Element transform = doc.createElement("Component");
+		transform.setAttribute("name", this.myName);
+		
 		Element position = doc.createElement("position");
-		position.setAttribute("Vec2d", this.myPosition.x + " " +this.myPosition.y + " " +this.myPosition.y);
+		position.setAttribute("Vec2d", this.myPosition.x + " " +this.myPosition.y);
 		transform.appendChild(position);
 		return transform;
 	}
 
+	
 	@Override
-	public void loadState() {
-		// TODO Auto-generated method stub
+	public void loadState(Node node) {
+
+		if (node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			 for (int index = 0; index < nodeList.getLength(); index++) 
+			 {
+				 Node tempNode = nodeList.item(index);
+				   
+				   if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "position")
+				   {
+					   NamedNodeMap nodeMap = tempNode.getAttributes();		 
+						Node posNode = nodeMap.item(0);
+						String posStr = posNode.getNodeValue();
+						String[] arrOfStr = posStr.split(" ");
+						Vec2d pos = new Vec2d(Double.parseDouble(arrOfStr[0]),Double.parseDouble(arrOfStr[1]));
+						this.setPosition(pos);
+				   }
+			 }
+			
+			
+			
 		
+		}
 	}
 
 }
