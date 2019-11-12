@@ -1,5 +1,8 @@
 package debugger.support.interfaces;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import debugger.collisions.AABShape;
 import debugger.collisions.CircleShape;
 import debugger.collisions.PolygonShape;
@@ -22,6 +25,8 @@ public abstract class Week5Reqs implements CollisionFunctions {
 	public abstract Vec2f collision(PolygonShape s1, CircleShape s2);
 	public abstract Vec2f collision(PolygonShape s1, Vec2f s2);
 	public abstract Vec2f collision(PolygonShape s1, PolygonShape s2);
+	
+	
 	
 	public final float raycast(AABShape s1, Ray s2) {
 		return -1;

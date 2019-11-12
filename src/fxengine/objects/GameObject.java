@@ -75,12 +75,12 @@ public class GameObject extends Serializable{
 					 
 				   }
 				   if(tempNode.getNodeType() == Node.ELEMENT_NODE
-							&&  tempNode.getNodeName() == "Component")
+							&&  tempNode.getNodeName() == "Tag")
 				   {
 					   NamedNodeMap massMap = tempNode.getAttributes();
-						 Node massAttr = massMap.item(0);
-						 String massStr = massAttr.getNodeValue();
-						 go.setTag(massStr);
+					   Node massAttr = massMap.item(0);
+					   String massStr = massAttr.getNodeValue();
+					   go.setTag(massStr);
 					   
 				   }
 				  
