@@ -23,6 +23,7 @@ import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.raycasting.Ray;
+import fxengine.raycasting.RayCastingTest;
 import fxengine.scene.GameWorldScene;
 import fxengine.system.PhysicsSystem;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,7 +53,7 @@ public class NinScene  extends GameWorldScene{
 	NinElement spring;
 	NinElement carrot;
 	UILine rayLine;
-	UILine ray;
+	Ray ray;
 	
 	NinBackground backgroundImage;
 	
@@ -78,7 +79,7 @@ public class NinScene  extends GameWorldScene{
     
 	boolean showRay = false;
 	boolean fired = false;
-	int bulletTime = 3;
+	int bulletTime = 1;
 	long bulletTimer = 0;
 	
 	List<NinProjectile> projectiles = new ArrayList<NinProjectile>();
@@ -140,9 +141,8 @@ public class NinScene  extends GameWorldScene{
 			spring = new NinSpring("spring1",ninSpringInitPos , "img/spring.png",  0.50f, 0.3);
 			
 			
-			//this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
+			this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
 			this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
-			//this.myGameWorld.addGameObject(aiCharater, GameWorld.EnemyLayer);
 			this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
 			this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
 			this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
@@ -158,8 +158,34 @@ public class NinScene  extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-	  if(fired)
-	  {
+	  //if(fired)
+	  //{
+	//	  System.out.println("IS FIRED");
+    	  if(ray != null)
+		  {
+			  
+	//		  System.out.println("RAY IS READY TO CHECK");
+			  List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.EnemyLayer);
+			  for(GameObject gameObject: gameObjects)
+			  {
+				 if(gameObject.hasComponent(ComponentContants.collision))
+				 {
+					 CollisionComponent collision = (CollisionComponent)gameObject.getComponent(ComponentContants.collision);
+					 if(collision.getCollisionShape().raycast(ray) > 0)
+					 {
+						 System.out.println("RAY COLLISIOn");
+						 PhysicsComponent physicsCmponent = (PhysicsComponent)gameObject.getComponent(ComponentContants.physics);
+						 physicsCmponent.applyImpulse(ray.getDirection());
+						 rayLine.setColor(UIConstants.GOLD);
+						 break;
+					 }
+				 }				 
+				 
+			  }
+	//		  ray = null;
+		 }
+		  
+		  
 		  bulletTimer += nanosSincePreviousTick;
 		  if(bulletTimer >= 1000000000)
 		  {
@@ -168,10 +194,12 @@ public class NinScene  extends GameWorldScene{
 		  }
 		  if(bulletTime <= 0)
 		  {
-			  bulletTime = 3;
+			
+			  bulletTime = 1;
+			  rayLine.setColor(UIConstants.RED);
 			  fired = false;
 		  }
-	  }
+	  //}
 	  
 	  Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
 	  Vec2d characterSize = new Vec2d(
@@ -232,11 +260,12 @@ public class NinScene  extends GameWorldScene{
 		((PhysicsComponent)mainCharater.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).setPosition(ninCharacterInitPos);
 		
-		((PhysicsComponent)ball.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)ball.getComponent(ComponentContants.transform)).setPosition(ninBallInitPos);
-		
 		((PhysicsComponent)brick.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)brick.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
+		
+		
+		((PhysicsComponent)ball.getComponent(ComponentContants.physics)).resetComponent();
+		((TransformComponent)ball.getComponent(ComponentContants.transform)).setPosition(ninBallInitPos);
 		
 		((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrick2InitPos);
@@ -279,15 +308,23 @@ public class NinScene  extends GameWorldScene{
 		//	numProjectiles++;
 			
 			//Ray ray = new Ray(characterPosition,new Vec2d(1,0));
-			
-			
-			
+		 	Vec2d characterSize = new Vec2d(
+						((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getWidth(),
+						((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getHeight());
+
+		 	Vec2d coodinatesToGame = new Vec2d(characterPosition.x + (characterSize.x * 0.5),
+                    characterPosition.y + (characterSize.y * 0.5)); 
+		 	
+		 	
+		 	ray = new Ray(coodinatesToGame, new Vec2d(0.5,0));
 			showRay = true;
 		}
 		
-		if(ke.getCode() == KeyCode.F && showRay && !fired) {
-			System.out.println("FIRE");
+		if(ke.getCode() == KeyCode.F && showRay ) {
+			
 			fired = true; 
+			//Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
+			//ray = new Ray(characterPosition, new Vec2d(10,0));
 			
 		}
 		super.onKeyPressed(ke);
@@ -299,20 +336,16 @@ public class NinScene  extends GameWorldScene{
 		if(ke.getCode() == KeyCode.SPACE)
 		{
           // fire projectile
+			//fired = false;
 			showRay = false;
+			ray = null;
+			//rayLine.setColor(UIConstants.RED);
 		}
 		
 
 		
 		super.onKeyReleased(ke);
 	}
-	
-	@Override
-	public void onDraw(GraphicsContext graphicsContext)
-	{
-		super.onDraw(graphicsContext);
-	//	ray.onDraw(graphicsContext);
-		
-	}
+
 	
 }

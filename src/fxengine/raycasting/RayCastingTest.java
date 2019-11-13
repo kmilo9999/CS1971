@@ -5,13 +5,14 @@ import java.util.List;
 
 import fxengine.collision.AABCollideShape;
 import fxengine.collision.CircleCollisionShape;
+import fxengine.collision.CollisionShape;
 import fxengine.collision.PolygonColliderShape;
 import fxengine.math.Vec2d;
 
 public class RayCastingTest {
 
 	private static final double MAXIMUM_RANGE = 1000000.0f;
-	
+		
 	public static double raycast(AABCollideShape aabShape, Ray ray)
 	{
 		final class Edge
