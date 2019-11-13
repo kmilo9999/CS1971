@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
  */
 public class Line extends Shape{
 
-	private Vec2d myInitPos;
+	private Vec2d myStartPos;
 	private Vec2d myEndPos;
 	private double myLineWidth = 3.0;
 	
@@ -50,7 +50,7 @@ public class Line extends Shape{
 		// TODO Auto-generated method stub
 		graphicsCx.setLineWidth(myLineWidth);
 		graphicsCx.setStroke(myColor);
-		graphicsCx.strokeLine(this.myInitPos.x,this.myInitPos.y,this.myEndPos.x,this.myEndPos.y);
+		graphicsCx.strokeLine(this.myStartPos.x,this.myStartPos.y,this.myEndPos.x,this.myEndPos.y);
 		
 	}
 
@@ -68,10 +68,30 @@ public class Line extends Shape{
 	
 	private void initPositions(double x1, double y1, double x2, double y2)
 	{
-		this.myInitPos = new Vec2d(x1,y1);
+		this.myStartPos = new Vec2d(x1,y1);
 		this.myEndPos = new Vec2d(x2,y2);
 		//center of the line
-		myPosition = myEndPos.minus(myInitPos).sdiv(2);
+		myPosition = myEndPos.minus(myStartPos).sdiv(2);
+	}
+
+
+	public Vec2d geStartPos() {
+		return myStartPos;
+	}
+
+
+	public void setStartPos(Vec2d startPos) {
+		this.myStartPos = startPos;
+	}
+
+
+	public Vec2d getEndPos() {
+		return myEndPos;
+	}
+
+
+	public void setEndPos(Vec2d endPos) {
+		this.myEndPos = endPos;
 	}
 
 

@@ -131,6 +131,11 @@ public class GameObject extends Serializable{
 	}
 	
 	
+	public void onTick(long nanosSincePreviousTick)
+	{
+		
+	}
+	
 	public void addComponent(Component component)
 	{
 		component.setParent(this);

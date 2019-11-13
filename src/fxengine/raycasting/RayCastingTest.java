@@ -10,9 +10,9 @@ import fxengine.math.Vec2d;
 
 public class RayCastingTest {
 
-	private final double MAXIMUM_RANGE = 1000000.0f;
+	private static final double MAXIMUM_RANGE = 1000000.0f;
 	
-	public double raycast(AABCollideShape aabShape, Ray ray)
+	public static double raycast(AABCollideShape aabShape, Ray ray)
 	{
 		final class Edge
 		{
@@ -75,7 +75,7 @@ public class RayCastingTest {
 	}
 	
 	
-	public double raycast(CircleCollisionShape ccShape, Ray ray) {
+	public static double raycast(CircleCollisionShape ccShape, Ray ray) {
 		
 		if(ccShape.getCenter().dist(ray.getSource()) > ccShape.getRadius())
 		{
@@ -122,7 +122,7 @@ public class RayCastingTest {
 		}
 	}
 	
-	public double raycast(PolygonColliderShape plgShape, Ray ray) {
+	public static double raycast(PolygonColliderShape plgShape, Ray ray) {
 		
 		
 		double min = MAXIMUM_RANGE;

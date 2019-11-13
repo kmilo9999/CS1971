@@ -41,6 +41,7 @@ import fxengine.system.GraphicsSystem;
 import fxengine.system.KeyboardEventSystem;
 import fxengine.system.MouseEventSystem;
 import fxengine.system.PhysicsSystem;
+import fxengine.system.TickableSystem;
 import fxengine.system.TransformSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -60,6 +61,7 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	protected BaseGameSystem myAISystem = new AiSystem();
+	protected BaseGameSystem myTickableSystem = new TickableSystem();
 	
 	protected String myFileToLoad;
 
@@ -81,6 +83,7 @@ public class GameWorldScene extends BaseScene{
 		
 		this.mySceneCleared = true;
 		this.mySceneInitializing = true;
+		this.myGameWorld.addSystem(ComponentContants.tickable, myTickableSystem);
 		this.myGameWorld.addSystem(ComponentContants.transform, myTransformSystem);
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
@@ -89,6 +92,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.AI, myAISystem);
+		
 		
 		this.myGameWorld.initialize();
 		

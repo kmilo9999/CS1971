@@ -14,10 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 
-	private Vec2d upVec = new Vec2d(0,-1);
-	private Vec2d downVec = new Vec2d(0,1);
-	private Vec2d rightVec = new Vec2d(1,0);
-	private Vec2d leftVec = new Vec2d(-1,0);
 	
 	private double mySpeed = 0.85;
 	private double myMaxImpulse = 0.009; 
@@ -39,30 +35,22 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
-		if(keys[22])
+		if(keys[22] && !jumped)
 		{
-			
-			//TransformComponent transform = (TransformComponent) this.myParent
-			//		.getComponent(ComponentContants.transform);
-			//if(transform != null)
-			//{
-				//transform.setPosition(transform.getPosition().plus(upVec.smult(speed)));	
-			//}
-			
+	
 
+			PhysicsComponent physicsComponent = (PhysicsComponent) this.myParent
+					.getComponent(ComponentContants.physics);
+			if (physicsComponent != null && physicsComponent.isOnStacticObject()) {
+				physicsComponent.applyImpulse(new Vec2d(0, -2.5));
+				jumped = true;
+			}
+			
 		}
 		
 		if(keys[0])
 		{
 		
-			/*TransformComponent transform = (TransformComponent) this.myParent
-					.getComponent(ComponentContants.transform);
-			
-			if(transform != null)
-			{
-				transform.setPosition(transform.getPosition().plus(leftVec.smult(speed)));	
-			}*/
-			
 
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
 			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
@@ -79,25 +67,12 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 		
 		if(keys[18])
 		{
-		
-			/*TransformComponent transform = (TransformComponent) this.myParent
-					.getComponent(ComponentContants.transform);
-			if(transform != null)
-			{
-				transform.setPosition(transform.getPosition().plus(downVec.smult(speed)));	
-			}*/
 			
 		}
 		
 		if(keys[3])
 		{
 		
-			/*TransformComponent transform = (TransformComponent) this.myParent
-					.getComponent(ComponentContants.transform);
-			if(transform != null)
-			{
-				transform.setPosition(transform.getPosition().plus(rightVec.smult(speed)));	
-			}*/
 			
 			PhysicsComponent physicsComponent = (PhysicsComponent)this.myParent.getComponent(ComponentContants.physics);
 			if(physicsComponent != null && physicsComponent.isOnStacticObject() )
@@ -112,25 +87,13 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			}
 		}
 		
-		if(specialKeys[3] && !jumped)
-		{
-
-			// System.out.println("JUMP");
-			PhysicsComponent physicsComponent = (PhysicsComponent) this.myParent
-					.getComponent(ComponentContants.physics);
-			if (physicsComponent != null && physicsComponent.isOnStacticObject()) {
-				physicsComponent.applyImpulse(new Vec2d(0, -2.5));
-				jumped = true;
-			}
-			
-					
-		}
 
 		if(!keys[3] && !keys[0])
 		{
 			currentImpulse = 0;
 		}
-		if(!specialKeys[3] && jumped )
+		
+		if(!keys[22] && jumped )
 		{
 			jumped = false;
 		}
