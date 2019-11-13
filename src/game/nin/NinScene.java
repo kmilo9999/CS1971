@@ -36,26 +36,27 @@ public class NinScene  extends GameWorldScene{
 	
 	private ResetButton myResetButton;
 	private SaveButton mySaveButton;
+	private LoadButton myLoadButton;
+	
     public UISprite myFiledSavedMessage;
     public UISprite myIntroMessage;
 	
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
 	
-	NinControllableCharacter mainCharater;
-	NinCharacter aiCharater;
-	NinPlatform ground;
-	NinPlatform ground2;
-	NinPlatform ground3;
-	NinElement ball;
-	NinElement brick;
-	NinElement brick2;
-	NinElement spring;
-	NinElement carrot;
+	GameObject mainCharater;
+	GameObject ground;
+	GameObject ground2;
+	GameObject ground3;
+	GameObject ball;
+	GameObject brick;
+	GameObject brick2;
+	GameObject spring;
+	GameObject carrot;
 	UILine rayLine;
 	Ray ray;
 	
-	NinBackground backgroundImage;
+	GameObject backgroundImage;
 	
 	Vec2d ninCharacterInitPos = new Vec2d(50, 100);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
@@ -120,6 +121,36 @@ public class NinScene  extends GameWorldScene{
 		if(loadingFromFile)
 		{
 			this.loadState(levelFileName);
+			
+			mainCharater = this.myGameWorld.getGameObjectsByLayer(GameWorld.PlayerLayer).get(0);
+			
+			List<GameObject> enemies = this.myGameWorld.getGameObjectsByLayer(GameWorld.EnemyLayer); 
+            for(GameObject go:enemies)
+            {
+            	if(go.getId().equals("ball1") )
+            	{
+            		ball = go;	
+            	}
+            	else if(go.getId().equals("brick1"))
+            	{
+            		brick = go;			
+            	}
+            	else if(go.getId().equals("brick2"))
+            	{
+            		brick2 = go;	
+            	}
+            	else if(go.getId().equals("carrot"))
+            	{
+            		carrot = go;
+            	}
+            	else if(go.getId().equals("spring1"))
+            	{
+            		spring = go;	
+            	}
+    			
+    				
+            }
+		    
 		}
 		else
 		{
@@ -131,8 +162,8 @@ public class NinScene  extends GameWorldScene{
 			//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
 			
 			backgroundImage = new NinBackground("sky");
-			ground = new NinPlatform("ground1", new Vec2d(50, 250), "img/ground2.png");
-			ground2 = new NinPlatform("ground2", new Vec2d(270, 250), "img/ground2.png");
+			ground = new NinPlatform("ground1", new Vec2d(30, 250), "img/ground2.png");
+			ground2 = new NinPlatform("ground2", new Vec2d(300, 250), "img/ground2.png");
 			ground3 = new NinPlatform("ground3", new Vec2d(500, 150), "img/ground2.png");
 			ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.5f, 0.55);
 			brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
@@ -173,7 +204,6 @@ public class NinScene  extends GameWorldScene{
 					 CollisionComponent collision = (CollisionComponent)gameObject.getComponent(ComponentContants.collision);
 					 if(collision.getCollisionShape().raycast(ray) > 0)
 					 {
-						 System.out.println("RAY COLLISIOn");
 						 PhysicsComponent physicsCmponent = (PhysicsComponent)gameObject.getComponent(ComponentContants.physics);
 						 physicsCmponent.applyImpulse(ray.getDirection());
 						 rayLine.setColor(UIConstants.GOLD);
@@ -201,34 +231,29 @@ public class NinScene  extends GameWorldScene{
 		  }
 	  //}
 	  
-	  Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
-	  Vec2d characterSize = new Vec2d(
-							((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getWidth(),
-							((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getHeight());
-	
-	  Vec2d coodinatesToGame = this.myGameWorld.gameToScreenTransform(new Vec2d(characterPosition.x + characterSize.x * 0.5,
-                         characterPosition.y + characterSize.y * 0.5)); 
-	  
-	  rayLine.setStartPos(coodinatesToGame);
-	  if(showRay)
+	  if(mainCharater != null)
 	  {
-		  rayLine.setEndPos(new Vec2d(rayLine.geStartPos().x + 25, rayLine.geStartPos().y));  
-	  }
-	  else
-	  {
-		  rayLine.setEndPos(coodinatesToGame);
-	  }
-	  
-	  
-	  
-	  for(NinProjectile projectile:projectiles)
-	  {
-		  if(projectile.isDestroy())
-		  {
-			  this.myGameWorld.removeGameObject(projectile.getId());  
-		  }
+		  Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
+		  Vec2d characterSize = new Vec2d(
+								((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getWidth(),
+								((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getHeight());
+		
+		  Vec2d coodinatesToGame = this.myGameWorld.gameToScreenTransform(new Vec2d(characterPosition.x + characterSize.x * 0.5,
+	                         characterPosition.y + characterSize.y * 0.5)); 
 		  
+		  rayLine.setStartPos(coodinatesToGame);
+		  if(showRay)
+		  {
+			  rayLine.setEndPos(new Vec2d(rayLine.geStartPos().x + 25, rayLine.geStartPos().y));  
+		  }
+		  else
+		  {
+			  rayLine.setEndPos(coodinatesToGame);
+		  }  
 	  }
+	  
+	  
+	  
 	
 	  if(isShowing)
 	  {
@@ -247,9 +272,6 @@ public class NinScene  extends GameWorldScene{
 			  isShowing = false;
 		  }
 	  }
-	  
-	  
-	  
 	  
 	  super.onTick(nanosSincePreviousTick);	
 	}

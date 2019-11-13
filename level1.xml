@@ -11,6 +11,7 @@
                 </Component>
                 <Component name="GRAPHICS"/>
             </Components>
+            <Tag name=""/>
         </GameObject>
     </Layer>
     <Layer order="1">
@@ -29,7 +30,7 @@
                     <filePath String="img/bunny.png"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="176.56987223186007 154.00854601900252"/>
+                    <position Vec2d="338.2379281618456 217.970073121632"/>
                 </Component>
                 <Component name="PHYSICS">
                     <mass float="1.0"/>
@@ -51,7 +52,7 @@
                     <filePath String="img/otherBrick.png"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="165.07156398338896 218.00524242236662"/>
+                    <position Vec2d="147.39684453668528 218.0000000000001"/>
                 </Component>
                 <Component name="PHYSICS">
                     <mass float="1.5"/>
@@ -71,7 +72,7 @@
                     <filePath String="img/otherBrick.png"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="350.0 218.002185584764"/>
+                    <position Vec2d="885.4564921222094 17212.53790428467"/>
                 </Component>
                 <Component name="PHYSICS">
                     <mass float="1.5"/>
@@ -91,7 +92,7 @@
                     <filePath String="img/tenisball.png"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="191.25517395473491 186.00669757594795"/>
+                    <position Vec2d="178.92507798912322 186.00000000000017"/>
                 </Component>
                 <Component name="PHYSICS">
                     <mass float="0.5"/>
@@ -131,7 +132,7 @@
                     <filePath String="img/spring.png"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="350.0 185.91377655040876"/>
+                    <position Vec2d="521.2352463251198 1274.4545072405185"/>
                 </Component>
                 <Component name="PHYSICS">
                     <mass float="0.5"/>
@@ -150,7 +151,7 @@
                     <isSpring boolean="false"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="50.0 250.0"/>
+                    <position Vec2d="30.0 250.0"/>
                 </Component>
                 <Component name="SPRITE">
                     <filePath String="img/ground2.png"/>
@@ -161,6 +162,7 @@
                 </Component>
                 <Component name="GRAPHICS"/>
             </Components>
+            <Tag name=""/>
         </GameObject>
         <GameObject name="ground2">
             <Components>
@@ -169,7 +171,7 @@
                     <isSpring boolean="false"/>
                 </Component>
                 <Component name="TRANSFORM">
-                    <position Vec2d="270.0 250.0"/>
+                    <position Vec2d="300.0 250.0"/>
                 </Component>
                 <Component name="SPRITE">
                     <filePath String="img/ground2.png"/>
@@ -180,6 +182,7 @@
                 </Component>
                 <Component name="GRAPHICS"/>
             </Components>
+            <Tag name=""/>
         </GameObject>
         <GameObject name="ground3">
             <Components>
@@ -199,6 +202,7 @@
                 </Component>
                 <Component name="GRAPHICS"/>
             </Components>
+            <Tag name=""/>
         </GameObject>
     </Layer>
 </GameWorldScene>
