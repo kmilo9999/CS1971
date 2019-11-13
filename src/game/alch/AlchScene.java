@@ -105,7 +105,7 @@ public class AlchScene extends GameWorldScene{
 		camera.addComponent(cameraMouseControllerComponent);
 		camera.addComponent(cameraKeyControllerComponent);
 		
-		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
+		this.myGameWorld.addGameObject(camera, GameWorld.PlayerLayer);
 		///----------------------------------
 		
 		GameObject gameObject2 = new GameObject("alch_elem2");
@@ -130,7 +130,7 @@ public class AlchScene extends GameWorldScene{
 		gameObject2.addComponent(collisionComponemt2);
 		gameObject2.addComponent(mySprite2);
 		
-		this.myGameWorld.addGameObject(gameObject2, GameWorld.FrontLayer);
+		this.myGameWorld.addGameObject(gameObject2, GameWorld.PlayerLayer);
 		numCircles++;
 	}
 	
@@ -139,7 +139,7 @@ public class AlchScene extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-		List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.FrontLayer);
+		List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.PlayerLayer);
 	    for(GameObject gameObject:gameObjects)
 	    {
 	       //if(!gameObject.isMarkForDestoryed())
@@ -261,7 +261,7 @@ public class AlchScene extends GameWorldScene{
 		alchGameObject.addComponent(collisionCompoment);
 		alchGameObject.addComponent(spriteComponent);
 		
-		this.myGameWorld.addGameObject(alchGameObject, GameWorld.FrontLayer);
+		this.myGameWorld.addGameObject(alchGameObject, GameWorld.PlayerLayer);
 		
 		return alchGameObject;
 	}
@@ -358,7 +358,7 @@ public class AlchScene extends GameWorldScene{
 		alchGameObject.addComponent(collisionCompoment);
 		
 		
-		this.myGameWorld.addDirtyGameObject(alchGameObject, GameWorld.FrontLayer);
+		this.myGameWorld.addDirtyGameObject(alchGameObject, GameWorld.PlayerLayer);
 		
 		return alchGameObject;
 	}

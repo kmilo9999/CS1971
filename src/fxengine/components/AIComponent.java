@@ -1,5 +1,8 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import fxengine.behaviortree.BehaviorTree;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -51,6 +54,18 @@ public class AIComponent extends Component{
 
 	public void setBehaviorTree(BehaviorTree behaviorTree) {
 		this.myBehaviorTree = behaviorTree;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

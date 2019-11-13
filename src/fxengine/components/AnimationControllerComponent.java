@@ -121,7 +121,7 @@ public class AnimationControllerComponent extends KeyEventComponent{
 	private void keyReleased(String value) {
 		// TODO Auto-generated method stub
 	
-		if(!myCurrentAnimationName.isEmpty())
+		if(myCurrentAnimationName != null &&  !myCurrentAnimationName.isEmpty())
 		{
 			 //stop animation
 			this.myCurrentAnimationName = "";

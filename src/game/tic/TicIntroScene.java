@@ -1,5 +1,8 @@
 package game.tic;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import fxengine.UISystem.Label;
 import fxengine.UISystem.Layout;
 import fxengine.UISystem.UIConstants;
@@ -54,6 +57,20 @@ public class TicIntroScene extends BaseScene{
 	public void onMouseClicked(MouseEvent e) {
 		
 		((TicGame)this.myApplication).setActiveScreen("playboard");
+	}
+
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

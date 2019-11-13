@@ -113,6 +113,11 @@ public class ComponentFactory {
 			return new AIComponent(componentName);
 		}
 		
+		else if(componentName.equals(ComponentContants.physics))
+		{
+			return new PhysicsComponent(componentName);
+		}
+		
 		return null;
 	}
 }

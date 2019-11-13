@@ -2,6 +2,7 @@ package fxengine.components;
 
 public class ComponentContants {
  
+	public static final String tickable = "TICK";
 	public static final String graphics = "GRAPHICS";
 	public static final String controllerMouseEvents = "CONTROLLER_MOUSE_EVENTS";
 	public static final String controllerKeyEvents = "CONTROLLER_KEY_EVENTS";

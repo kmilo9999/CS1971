@@ -1,7 +1,11 @@
 package fxengine.collision;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fxengine.math.Vec2d;
+import fxengine.raycasting.Ray;
 
 public class AABCollideShape extends CollisionShape {
 	
@@ -234,6 +238,68 @@ public class AABCollideShape extends CollisionShape {
 			return s2;
 		}
 		return null;
+	}
+
+	@Override
+	public double raycast(Ray ray) {
+		final class Edge
+		{
+		  Vec2d p1;
+		  Vec2d p2;
+		  Edge(Vec2d p1, Vec2d p2){
+			  this.p1 = p1;
+			  this.p2 = p2;
+		  };	
+		}
+		
+		Vec2d p0 = getTopLeft();
+		Vec2d p3 = new Vec2d(getTopLeft().x , getTopLeft().y + getSize().y);
+		Vec2d p2 = new Vec2d(getTopLeft().x + getSize().x ,getTopLeft().y + getSize().y);
+		Vec2d p1 = new Vec2d(getTopLeft().x + getSize().x ,getTopLeft().y);
+		
+		
+		
+		List<Edge> edges = new ArrayList<Edge>();
+		edges.add(new Edge(p0,p1));
+		edges.add(new Edge(p1,p2));
+		edges.add(new Edge(p2,p3));
+		edges.add(new Edge(p3,p0));
+		
+		double min = MAXIMUM_RANGE;
+		
+		for(int i = 0; i < edges.size()  ; i++)
+		{
+			
+			Vec2d m = edges.get(i).p2.minus(edges.get(i).p1).normalize();
+			Vec2d n = new Vec2d(-m.y,m.x).normalize();
+					
+			Vec2d d1 = edges.get(i).p1.minus(ray.getSource());
+			Vec2d d2 = edges.get(i).p2.minus(ray.getSource());
+			
+			double cp1 = d1.cross(ray.getDirection());
+			double cp2 = d2.cross(ray.getDirection());
+			
+			
+			if((int)cp1 * (int)cp2 >= 0)
+			{
+			  	continue;
+			}
+			
+			double t = d2.dot(n)/ray.getDirection().dot(n);
+			
+			if(t > 0 && t < min)
+			{
+				min = t;
+			}
+			
+		}
+		
+		if(min != MAXIMUM_RANGE)
+		{
+			return min;
+		}
+		
+		return 0;
 	}
 	
 	

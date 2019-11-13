@@ -1,5 +1,10 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import fxengine.UISystem.UIConstants;
 import fxengine.graphics.ShapeConstants;
 import fxengine.math.Vec2d;
@@ -358,6 +363,20 @@ public class GraphicsComponent extends Component{
 	    return acceptedValues;
 	         
    }
+
+	@Override
+	public Element saveState() {
+		
+		Element graphics = doc.createElement("Component");
+		graphics.setAttribute("name", this.myName);
+			
+		return graphics;
+	}
+
+	@Override
+	public void loadState(Node node) {
+		
+	}
 
 	
 }

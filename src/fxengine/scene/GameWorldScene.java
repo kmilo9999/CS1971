@@ -2,6 +2,28 @@ package fxengine.scene;
 
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import fxengine.application.GameApplication;
 import fxengine.components.Component;
 import fxengine.components.ComponentContants;
@@ -19,6 +41,7 @@ import fxengine.system.GraphicsSystem;
 import fxengine.system.KeyboardEventSystem;
 import fxengine.system.MouseEventSystem;
 import fxengine.system.PhysicsSystem;
+import fxengine.system.TickableSystem;
 import fxengine.system.TransformSystem;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -33,13 +56,14 @@ public class GameWorldScene extends BaseScene{
 	protected MouseEventSystem myMouseSystem = new MouseEventSystem();
 	protected KeyboardEventSystem myKeyBoardSystem = new KeyboardEventSystem();
 	protected BaseGameSystem myGhrapicsSystem = new GraphicsSystem();
-	protected BaseGameSystem myCollSystem = new CollisionSystem();
+	//protected BaseGameSystem myCollSystem = new CollisionSystem();
 	protected BaseGameSystem myAnimationSystem = new AnimationSystem();
 	protected BaseGameSystem myPhysicsSystem = new PhysicsSystem();
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	protected BaseGameSystem myAISystem = new AiSystem();
+	protected BaseGameSystem myTickableSystem = new TickableSystem();
 	
-	
+	protected String myFileToLoad;
 
 	public GameWorldScene(String name, GameApplication application) {
 		super(name, application);
@@ -59,14 +83,16 @@ public class GameWorldScene extends BaseScene{
 		
 		this.mySceneCleared = true;
 		this.mySceneInitializing = true;
+		this.myGameWorld.addSystem(ComponentContants.tickable, myTickableSystem);
 		this.myGameWorld.addSystem(ComponentContants.transform, myTransformSystem);
 		this.myGameWorld.addSystem(ComponentContants.graphics,myGhrapicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.mouseEvents,myMouseSystem);
 		this.myGameWorld.addSystem(ComponentContants.keyEvents,myKeyBoardSystem);
-		this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
+		//this.myGameWorld.addSystem(ComponentContants.collision,myCollSystem);
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.AI, myAISystem);
+		
 		
 		this.myGameWorld.initialize();
 		
@@ -77,7 +103,7 @@ public class GameWorldScene extends BaseScene{
 		camera.addComponent(cameraMouseControllerComponent);
 		camera.addComponent(cameraKeyControllerComponent);
 		
-		this.myGameWorld.addGameObject(camera, GameWorld.FrontLayer);
+		this.myGameWorld.setSceneCamera(camera);
 		///----------------------------------
 		
 		super.initScene();
@@ -197,15 +223,19 @@ public class GameWorldScene extends BaseScene{
 		Event event;
 		if(ke.getCode() == KeyCode.SHIFT)
 		{
-			 event = new Event(EventsConstants.KeyReleased,"SHIFT");
+			 event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.SHIFT_KEY);
 		}
 		else if(ke.getCode() == KeyCode.CONTROL)
 		{
-			event = new Event(EventsConstants.KeyReleased,"CONTROL");
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.CONTROL_KEY);
 		}
 		else if(ke.getCode() == KeyCode.ALT)
 		{
-			event = new Event(EventsConstants.KeyReleased,"ALT");
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.ALT_KEY);
+		}
+		else if(ke.getCode() == KeyCode.SPACE)
+		{
+			event = new Event(EventsConstants.KeyReleased,KeyboardEventSystem.SPACEBAR_KEY);
 		}
 		else
 		{
@@ -229,12 +259,17 @@ public class GameWorldScene extends BaseScene{
 		{
 			event = new Event(EventsConstants.KeyPressed,KeyboardEventSystem.ALT_KEY);
 		}
+		else if(ke.getCode() == KeyCode.SPACE)
+		{
+			event = new Event(EventsConstants.KeyPressed,KeyboardEventSystem.SPACEBAR_KEY);
+		}
 		else
 		{
 			 event = new Event(EventsConstants.KeyPressed,ke.getText());	
 		}
 		
 		myKeyBoardSystem.onNotify(event);
+		super.onKeyPressed(ke);
 	}
 	
     public GameWorld getGameWorld() {
@@ -261,6 +296,127 @@ public class GameWorldScene extends BaseScene{
 		}
 		
 		return -1;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		Element scene = doc.createElement("GameWorldScene");
+		scene.setAttribute("name", this.mySceneName);
+		for(int i =0; i< this.myGameWorld.numLayers ; i++)
+		{
+			List<GameObject> gameObjectsPerLayer =this.myGameWorld.getGameObjectsByLayer(i);
+			
+			if(!gameObjectsPerLayer.isEmpty())
+			{
+				Element layer = doc.createElement("Layer");
+				layer.setAttribute("order", "" +i);
+				
+				for(GameObject gameObject:gameObjectsPerLayer)
+				{
+					Element gameObjectState = gameObject.saveState();
+					layer.appendChild(gameObjectState);
+				}
+				scene.appendChild(layer);
+			}	
+			
+		}
+		
+		
+		doc.appendChild(scene);
+		
+		 Transformer tr;
+		try {
+			tr = TransformerFactory.newInstance().newTransformer();
+			 tr.setOutputProperty(OutputKeys.INDENT, "yes");
+	         tr.setOutputProperty(OutputKeys.METHOD, "xml");
+	         tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	         
+	         // send DOM to file
+	         tr.transform(new DOMSource(doc), 
+	                              new StreamResult(new File(this.mySceneName+".xml")));
+		} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		
+		return null;
+	}
+
+	
+	public void loadState(String filepath) {
+		// TODO Auto-generated method stub
+		myFileToLoad = filepath;
+		
+		Document doc;
+		try {
+			doc = docBuilder.parse(myFileToLoad);
+			doc.getDocumentElement().normalize();
+			
+			NodeList nodeList = doc.getChildNodes();
+			
+			if(nodeList.getLength() > 0)
+			{
+				Node tempNode = nodeList.item(0);
+				this.loadState(tempNode);	
+			}
+			System.out.println(filepath+" Loaded completed");
+			
+		} catch (SAXException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
+		if (node.hasChildNodes()) {
+			  
+			NodeList nodeList = node.getChildNodes();
+			 for (int count = 0; count < nodeList.getLength(); count++) {
+
+					Node tempNode = nodeList.item(count);
+					// make sure it's element node.
+					if (tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "Layer") {
+						
+						NamedNodeMap nodeMap = tempNode.getAttributes();
+						Node layerOrder = nodeMap.item(0);
+						String layerNumber = layerOrder.getNodeValue();
+						int layerInt = Integer.parseInt(layerNumber);
+						
+						NodeList layerList = tempNode.getChildNodes();
+						
+						
+						 for (int i = 0; i < layerList.getLength(); i++) {
+						     Node gameObjectTag = layerList.item(i);
+						     if(gameObjectTag.getNodeType() == Node.ELEMENT_NODE 
+						    		 && gameObjectTag.getNodeName() == "GameObject")
+						     {
+						    	 GameObject go = GameObject.buildGameObject(gameObjectTag);
+						    	 System.out.println("GameObject " + go.getId()+" completed");
+						    	 
+								 this.myGameWorld.addGameObject(go, layerInt);	 
+						     }
+							 
+						 }
+						
+						
+						
+						//this.myGameWorld.addGameObject(go, 0);
+					}
+			 }
+			
+		}
+		
 	}
 
 	

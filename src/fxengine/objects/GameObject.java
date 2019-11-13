@@ -3,9 +3,16 @@ package fxengine.objects;
 import java.util.HashMap;
 import java.util.Map;
 
-import fxengine.components.Component;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class GameObject {
+import fxengine.components.Component;
+import fxengine.components.ComponentFactory;
+import fxengine.datamanagement.Serializable;
+
+public class GameObject extends Serializable{
 
 	private GameWorld myGameWorld;
 	
@@ -23,10 +30,73 @@ public class GameObject {
 	private boolean isInitialized = false;
 	
 	private boolean markForDestoryed = false;
-
-
 	
+	
+	public static GameObject buildGameObject(Node node)
+	{
+		 
+		if (node.hasAttributes()) {
+            			
+			
+			NamedNodeMap nodeMap = node.getAttributes();
+			String id = nodeMap.item(0).getNodeValue();
+			
+			GameObject go = new GameObject(id);
+			
 
+			// Components
+			if (node.hasChildNodes()) {
+                
+				NodeList nodeList = node.getChildNodes();
+				for (int count = 0; count < nodeList.getLength(); count++) 
+				{
+				   Node tempNode = nodeList.item(count);
+				   if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "Components")
+				   {
+					   NodeList componenList = tempNode.getChildNodes();
+					   for (int index = 0; index < componenList.getLength(); index++) 
+					   {
+						   Node tempNode2 = componenList.item(index);
+						   
+						   if(tempNode2.getNodeType() == Node.ELEMENT_NODE
+									&&  tempNode2.getNodeName() == "Component")
+						   {
+							   NamedNodeMap componentNodeMap = tempNode2.getAttributes();
+							   String componentName = componentNodeMap.item(0).getNodeValue();
+							   Component component = ComponentFactory.getInstance().createComponent(componentName);
+							   component.loadState(tempNode2);
+							   go.addComponent(component);
+							   
+						   }
+						  
+						  
+					   }
+					 
+				   }
+				   if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "Tag")
+				   {
+					   NamedNodeMap massMap = tempNode.getAttributes();
+					   Node massAttr = massMap.item(0);
+					   String massStr = massAttr.getNodeValue();
+					   go.setTag(massStr);
+					   
+				   }
+				  
+				}
+
+			}
+			
+			return go;
+			
+		}
+		
+		// it should never get to this point
+		return null;
+	}
+	
+	
 	public void initialize()
 	{
 		
@@ -60,6 +130,11 @@ public class GameObject {
 		this.myId =id;	
 	}
 	
+	
+	public void onTick(long nanosSincePreviousTick)
+	{
+		
+	}
 	
 	public void addComponent(Component component)
 	{
@@ -141,5 +216,41 @@ public class GameObject {
 
 	public void setMarkForDestoryed(boolean markForDestoryed) {
 		this.markForDestoryed = markForDestoryed;
+	}
+
+	@Override
+	public Element saveState() {
+		
+		Element gameObject = doc.createElement("GameObject");
+		gameObject.setAttribute("name", ""+this.getId());
+		
+		
+		
+		if(!myComponents.isEmpty())
+		{
+			Element components = doc.createElement("Components");
+			for (Map.Entry<String,Component> entry : myComponents.entrySet())  
+			{
+				Element componentElement = entry.getValue().saveState();
+				components.appendChild(componentElement);
+			}	
+			gameObject.appendChild(components);	
+		}
+		
+		if(this.myTag != "")
+		{
+			Element tag = doc.createElement("Tag");
+			tag.setAttribute("name", this.myTag);
+			gameObject.appendChild(tag);
+		}
+		
+		return gameObject;
+		
+	}
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
 	}
 }

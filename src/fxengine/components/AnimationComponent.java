@@ -3,6 +3,9 @@ package fxengine.components;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import javafx.scene.canvas.GraphicsContext;
 
 public class AnimationComponent extends Component{
@@ -43,10 +46,14 @@ public class AnimationComponent extends Component{
 			if(spriteAnimation != null)
 			{
 				myCurrentAnimation = myAnimations.get(this.myCurrentAnimationName);
-				spriteAnimation.setCurrentFrame(0);
-				spriteAnimation.setFramePosition(myCurrentAnimation.getTexturePosition());
-				spriteAnimation.setFrameSize(myCurrentAnimation.getFrameSize());
-				spriteAnimation.setNumFrames(myCurrentAnimation.getNumFrames());
+				if(myCurrentAnimation != null)
+				{
+					spriteAnimation.setCurrentFrame(0);
+					spriteAnimation.setFramePosition(myCurrentAnimation.getTexturePosition());
+					spriteAnimation.setFrameSize(myCurrentAnimation.getFrameSize());
+					spriteAnimation.setNumFrames(myCurrentAnimation.getNumFrames());	
+				}
+				
 			}	
 			
 			this.needsUpdate = false;
@@ -144,6 +151,18 @@ public class AnimationComponent extends Component{
 
 	public void setMyCurrentFrame(int myCurrentFrame) {
 		this.myCurrentFrame = myCurrentFrame;
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

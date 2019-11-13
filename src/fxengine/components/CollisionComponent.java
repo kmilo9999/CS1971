@@ -2,7 +2,13 @@ package fxengine.components;
 
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import fxengine.collision.Collision;
 import fxengine.collision.CollisionConstants;
@@ -28,6 +34,8 @@ public class CollisionComponent extends Component{
 	private Collision myCollisionInfo;
 	
 	private boolean isStatic = false;
+	
+	private boolean isSpring = false;
 
 	public CollisionComponent(String name) {
 		super(name);
@@ -48,6 +56,16 @@ public class CollisionComponent extends Component{
 		
 		if(!isInitialized)
 		{
+			if(!this.myParent.getComponent(ComponentContants.transform).isInitialized())
+			{
+				this.myParent.getComponent(ComponentContants.transform).initialize();
+			}
+			
+			if(!this.myParent.getComponent(ComponentContants.graphics).isInitialized())
+			{
+				this.myParent.getComponent(ComponentContants.graphics).initialize();
+			}
+			
 			TransformComponent tranform = (TransformComponent)this.myParent.getComponent(ComponentContants.transform);
 			GraphicsComponent graphics = (GraphicsComponent)this.myParent.getComponent(ComponentContants.graphics);
 			
@@ -153,5 +171,83 @@ public class CollisionComponent extends Component{
 		this.isStatic = isStatic;
 	}
 
+	public boolean isSpring() {
+		return isSpring;
+	}
+
+	public void setSpring(boolean isSpring) {
+		this.isSpring = isSpring;
+	}
+
+	@Override
+	public Element saveState() {
+		
+		Element collision = doc.createElement("Component");
+		collision.setAttribute("name", this.myName);
+		
+		Element isStatic = doc.createElement("isStatic");
+		isStatic.setAttribute("boolean", ""+this.isStatic);
+		Element isSpring = doc.createElement("isSpring");
+		isSpring.setAttribute("boolean", ""+this.isSpring);
+		
+		Iterator<String> itr = myHitList.iterator();
+		while(itr.hasNext()){
+			  
+			Element hitElement = doc.createElement("hitElement");
+			hitElement.setAttribute("name", (String)itr.next());
+			collision.appendChild(hitElement);
+		}
+		
+		collision.appendChild(isStatic);
+		
+		collision.appendChild(isSpring);
+		return collision;
+	}
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		if (node.hasChildNodes()) {
+			NodeList nodeList = node.getChildNodes();
+			 for (int index = 0; index < nodeList.getLength(); index++) 
+			 {
+				 Node tempNode = nodeList.item(index);
+				   
+				 if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "isStatic")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.isStatic = Boolean.parseBoolean(nodeStr);
+					
+				 }
+				 
+				 else if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "isSpring")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.isSpring = Boolean.parseBoolean(nodeStr);
+				 }
+				 
+				 else if(tempNode.getNodeType() == Node.ELEMENT_NODE
+							&&  tempNode.getNodeName() == "hitElement")
+				 {
+					 
+					 NamedNodeMap nodeMap = tempNode.getAttributes();
+					 Node nodeAttr = nodeMap.item(0);
+					 String nodeStr = nodeAttr.getNodeValue();
+					 this.myHitList.add(nodeStr);
+				 }
+			 }
+		
+		}
+	}
+	
+	
 
 }

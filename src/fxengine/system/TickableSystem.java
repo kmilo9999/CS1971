@@ -22,6 +22,9 @@ public class TickableSystem extends BaseGameSystem{
 	@Override
 	public void update(long nanosSincePreviousTick) {
 		// TODO Auto-generated method stub
+		for (int i = 0; i < myGameObjects.size(); i++) {
+			myGameObjects.get(i).onTick(nanosSincePreviousTick);
+		}
 		
 	}
 

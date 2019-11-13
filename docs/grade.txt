@@ -1,0 +1,74 @@
+[ ] - Playtesting
+[ ] - Primary
+[ ] - Secondary
+Total: -/4
+
+Retries used: NONE (2 extra retries remaining)
+
+[ x] - Attended a design check
+[ x] - Completed playtesting
+
+========================================
+
+Playtesting Requirements
+========================================
+[ ] - Your handin meets all Nin1 primary requirements.
+[X] - The player must be able to fire projectiles.
+
+
+Primary Engine Requirements
+========================================
+[x] - Your engine must correctly implement saving and loading through serialization.
+[x] - Your engine must correctly support raycasting for polygons and AABs.
+
+Primary Game Requirements
+========================================
+[ x] - Your game must load from a txt file.
+[x ] - You must have at least one txt file for us to load (unless your game loads from our default level file)
+[ x] - Player must be able to
+	[ x] - save game state
+	[x ] - restart the game
+	[ x] - load their saved state
+[x ] - The player must always be in view
+[x] - The TA debugger must be completed to demonstrate correct raycasting for polygons and AABs.
+[x ] - It must be possible to start a new game without restarting the program
+
+Secondary Engine Requirements
+=======================================
+[x ] - Handin meets all primary engine requirements
+[ x] - Your engine must support raycasting for circles
+
+Secondary Game Requirements
+======================================
+[x ] - Handin meets all primary game requirements
+[x ] - The TA debugger must be completed to demonstrate correct raycasting for circles.
+[x ] - Raycasting must be implemented in your game as follows:
+	[ x] - player can fire bullets which travel instantly
+	[ x] - bullets must apply an impulse to whatever they hit in the direction of the ray
+[x ] - Your game meets at least two of the Nin extra requirements (please list which ones you chose!)
+           A non-trivial puzzle: try to get to the carrot. You have to move the blocks strategicaly
+		   Any other feature(s) you can think of:  One of the blocks acts as a spring, alowing the bunny to jump higher.
+
+Global Playtesting Requirements (you don't need to show how to verify these)
+======================================
+[X] - Eclipse project or ant build file
+[X] - No external dependencies
+[X] - Handin runs on department machines
+[X] - Handin runs 20+ UPS
+[X] - Handin only crashes on edge cases
+
+Global Primary Requirements (you don't need to show how to verify these)
+======================================
+[X] - README
+    [X] - has a copy of the rubric
+    [X] - shows how to verify non-global requirements
+    [X] - documents known bugs
+    [X] - approximate hours to complete checkpoint
+[X] - INSTRUCTIONS file included
+[X] - Engine and game in separate packages
+[X] - Engine and game logically separated
+[X] - Engine code is well designed
+[X] - Game code is reasonably designed
+[ ] - Handin isn't permanent fixed size
+[X] - Handin never crashes
+[X] - Handin meets all playtesting requirements

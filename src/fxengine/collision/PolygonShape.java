@@ -1,6 +1,7 @@
 package fxengine.collision;
 
 import fxengine.math.Vec2d;
+import fxengine.raycasting.Ray;
 
 public  class PolygonShape extends CollisionShape {
 	
@@ -70,6 +71,12 @@ public  class PolygonShape extends CollisionShape {
 	public Vec2d collidingPoint(Vec2d s2) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double raycast(Ray ray) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

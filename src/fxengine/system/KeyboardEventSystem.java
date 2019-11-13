@@ -14,10 +14,12 @@ public class KeyboardEventSystem extends EventSystem{
 	public static final String SHIFT_KEY = "Shift";
 	public static final String CONTROL_KEY = "CONTROL";
 	public static final String ALT_KEY = "ALT";
+	public static final String SPACEBAR_KEY = "SPACE";
 	
 	public static final int SHIFT_KEYCODE = 0;
 	public static final int CONTROL_KEYCODE = 1;
 	public static final int ALT_KEYCODE = 2;
+	public static final int SPACEBAR_KEYCODE = 3;
 	
 	@Override
 	public void onNotify(Event evt) {

@@ -2,6 +2,7 @@ package fxengine.collision;
 
 
 import fxengine.math.Vec2d;
+import fxengine.raycasting.Ray;
 
 public  class CircleCollisionShape extends CollisionShape {
 	
@@ -111,6 +112,53 @@ public  class CircleCollisionShape extends CollisionShape {
 			return s2;
 		}
 		return null;
+	}
+
+	@Override
+	public double raycast(Ray ray) {
+		if(getCenter().dist(ray.getSource()) > getRadius())
+		{
+			
+			// outside circle
+			Vec2d l = getCenter().minus(ray.getSource()).projectOnto(ray.getDirection());
+			Vec2d pointOnAxis = l.plus(ray.getSource());
+			double tca = getCenter().minus(ray.getSource()).dot(ray.getDirection().normalize());
+			double d2 = l.dot(l) - ( tca * tca);
+			double thc = Math.sqrt(getRadius() * getRadius()  - d2 * d2);
+			double t =  tca - thc;
+			
+			if(tca > 0 && pointOnAxis.dist2(getCenter()) <= getRadius()*getRadius())
+			{
+				return t;
+			}
+			
+			return 0;
+			
+			
+			
+		}
+		else
+		{
+		
+			// inside circle
+			Vec2d l = getCenter().minus(ray.getSource()).projectOnto(ray.getDirection().normalize());
+			Vec2d pointOnAxis = l.plus(ray.getSource());
+			/*float d2 = pointOnAxis.minus(s1.center).mag();
+			float tca = l.dot(l);
+			float thc = (float)Math.sqrt(s1.getRadius() * s1.getRadius()  - d2 * d2);
+			float t =  tca + thc;
+			//Vec2f point = s2.src.plus(s2.dir.smult(t));*/
+
+			double d2 = pointOnAxis.minus(getCenter()).mag2();
+			double t = l.mag() + (float)Math.sqrt(getRadius() * getRadius()  - d2 );
+			
+			if( pointOnAxis.dist2(getCenter()) <= getRadius() * getRadius())
+			{
+				return t;
+			}
+			
+			return 0;
+		}
 	}
 	
 	

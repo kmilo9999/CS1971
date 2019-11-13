@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<GameWorldScene name="level1">
+    <Layer order="0">
+        <GameObject name="sky">
+            <Components>
+                <Component name="TRANSFORM">
+                    <position Vec2d="0.0 0.0"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/sky.png"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name=""/>
+        </GameObject>
+    </Layer>
+    <Layer order="1">
+        <GameObject name="mainCharacter">
+            <Components>
+                <Component name="CONTROLLER_KEY_EVENTS">
+                    <speed float="0.85"/>
+                    <maxImpulse float="0.009"/>
+                </Component>
+                <Component name="COLLISION">
+                    <hitElement name="enemyCharacter"/>
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/bunny.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="338.2379281618456 217.970073121632"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="1.0"/>
+                    <restitution double="0.25"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="character"/>
+        </GameObject>
+    </Layer>
+    <Layer order="2">
+        <GameObject name="brick1">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/otherBrick.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="147.39684453668528 218.0000000000001"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="1.5"/>
+                    <restitution double="0.27"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="enemyCharacter"/>
+        </GameObject>
+        <GameObject name="brick2">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/otherBrick.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="885.4564921222094 17212.53790428467"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="1.5"/>
+                    <restitution double="0.27"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="enemyCharacter"/>
+        </GameObject>
+        <GameObject name="ball1">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/tenisball.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="178.92507798912322 186.00000000000017"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="0.5"/>
+                    <restitution double="0.55"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="enemyCharacter"/>
+        </GameObject>
+        <GameObject name="carrot">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/carrot.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="520.0 118.00000000000003"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="1.5"/>
+                    <restitution double="0.0"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="enemyCharacter"/>
+        </GameObject>
+        <GameObject name="spring1">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="false"/>
+                    <isSpring boolean="true"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/spring.png"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="521.2352463251198 1274.4545072405185"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="0.5"/>
+                    <restitution double="0.3"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name="enemyCharacter"/>
+        </GameObject>
+    </Layer>
+    <Layer order="3">
+        <GameObject name="ground1">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="true"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="30.0 250.0"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/ground2.png"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="2.0E9"/>
+                    <restitution double="1.0"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name=""/>
+        </GameObject>
+        <GameObject name="ground2">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="true"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="300.0 250.0"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/ground2.png"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="2.0E9"/>
+                    <restitution double="1.0"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name=""/>
+        </GameObject>
+        <GameObject name="ground3">
+            <Components>
+                <Component name="COLLISION">
+                    <isStatic boolean="true"/>
+                    <isSpring boolean="false"/>
+                </Component>
+                <Component name="TRANSFORM">
+                    <position Vec2d="500.0 150.0"/>
+                </Component>
+                <Component name="SPRITE">
+                    <filePath String="img/ground2.png"/>
+                </Component>
+                <Component name="PHYSICS">
+                    <mass float="2.0E9"/>
+                    <restitution double="1.0"/>
+                </Component>
+                <Component name="GRAPHICS"/>
+            </Components>
+            <Tag name=""/>
+        </GameObject>
+    </Layer>
+</GameWorldScene>

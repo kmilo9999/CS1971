@@ -1,5 +1,8 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.objects.GameObject;
@@ -9,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class KeyEventComponent extends ObservableComponent{
 
 	protected boolean[] keys = new boolean[256];
-	protected boolean[] specialKeys = new boolean[3]; 
+	protected boolean[] specialKeys = new boolean[4]; 
 	
 	
 	public KeyEventComponent(String name) {
@@ -54,6 +57,9 @@ public class KeyEventComponent extends ObservableComponent{
 		} else if (value.equals(KeyboardEventSystem.ALT_KEY)) {
 			specialKeys[2] = false;
 		}
+		else if (value.equals(KeyboardEventSystem.SPACEBAR_KEY)) {
+			specialKeys[3] = false;
+		}
 	}
 
 	private final void onKeyPressed(String value) {
@@ -71,6 +77,9 @@ public class KeyEventComponent extends ObservableComponent{
 			specialKeys[1] = true;
 		} else if (value.equals(KeyboardEventSystem.ALT_KEY)) {
 			specialKeys[2] = true;
+		}
+		else if (value.equals(KeyboardEventSystem.SPACEBAR_KEY)) {
+			specialKeys[3] = true;
 		}
 	}
 
@@ -107,6 +116,18 @@ public class KeyEventComponent extends ObservableComponent{
 	public boolean getSpecialKeyState(int keycode)
 	{
 		return specialKeys[keycode];
+	}
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadState(Node node) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,5 +1,8 @@
 package fxengine.components;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import fxengine.event.Event;
 import fxengine.event.EventsConstants;
 import fxengine.math.Vec2d;
@@ -112,6 +115,20 @@ public class MouseEventComponent extends ObservableComponent {
 
 	@Override
 	public void draw(GraphicsContext graphicsCx) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Element saveState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void loadState(Node node) {
 		// TODO Auto-generated method stub
 		
 	}

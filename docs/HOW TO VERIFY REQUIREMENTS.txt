@@ -1,26 +1,54 @@
 ﻿
 Primary Engine Requirements
 
- - Your engine must support A* pathfinding: fxengine.PathFinding.PathFinding . This class is used inside the GameTileMap class whenever a path from two nodes is requested
- - Your engine must implement an AI library
-     [X] - If  using behavior trees, you must implement the following:
-         - Behavior Tree class : check class fxengine.behaviortree
-         - Selector class : fxengine.behaviortree.Selector
-         - Sequence class : fxengine.behaviortree.Sequence
-         - Action interface: fxengine.behaviortree.Action
-         - Condition interface: fxengine.behaviortree.Condition
+---------------------------------
+
+- Your engine must correctly implement saving and loading through serialization.: the ui of the game lets you save the state of the scene in a file located
+    in the same fodler the program is runing. You can load that file using the command line as java -jar nin2.jar "Absolute_Path_To_file".
+- Your engine must correctly support raycasting for polygons and AABs: the game has AAB ray cast. The implementations are in the classes:
+     fxengine.collision.AABCollideShape.raycast(Ray ray)
+     fxengine.collision.CircleCollisionShape.raycast(Ray ray)
+     fxengine.collision.PolygonColliderShape.raycast(Ray ray)
 
 Primary Game Requirements
 
-  - The enemy unit should use your engine's AI framework. : chekc the class Level1 and level2, where the enemies are initialized.
-                                                         The behavior tree is initialized, and added to the AIComponent
-  - All AI tools included in the engine requirements should be used
-  - It must be possible to start a new game without restarting the program: if you die, you can restart the game pressing any key
-  - The game must meet at least two of the extra game requirements that weren't used last week: I have a switch that disables fog of war for 3 seconds
-                                                                                                I have 2 different enemies in the two maps.
-    
+----------------------------------
+
+- Your game must load from a txt file. : im using xml files
+- You must have at least one txt file for us to load (unless your game loads from our default level file): in the executable folder, there is a level xml file to test
+- Player must be able to
+	
+    - save game state
+	: bottom button at the right side of the scene viewport
+    - restart the game
+	: top button at the right of the scene viewport
+    - load their saved state : using the command line run java -jar nin2.jar "Absolute_Path_To_file"
+
+- The player must always be in view: the bunny start in the viewport
+- The TA debugger must be completed to demonstrate correct raycasting for polygons and AABs: the debuuger has benn modified to support ray casting
+   debugger.collisions.Week6
+- It must be possible to start a new game without restarting the program: top button at the right of the scene viewport
+
+Secondary Engine Requirements
+---------------------------------
+
+ - Your engine must support raycasting for circles: class fxengine.collision.CircleCollisionShape.raycast(Ray ray)
+
+Secondary Game Requirements
+------------------------------
+  - Raycasting must be implemented in your game as follows:
+      - player can fire bullets which travel instantly: press the space bar, a ray will be draw from the center of the bunny indicating the direction of the ray.
+
+  -Your game meets at least two of the Nin extra requirements (please list which ones you chose!)
+          
+      A non-trivial puzzle: try to get to the carrot. You have to move the blocks strategicaly
+		   
+      Any other feature(s) you can think of:  One of the blocks acts as a spring, alowing the bunny to jump higher.
+      The player and enemies are drawn with sprites (and animations when appropriate) instead of vector graphics. All in the scen are sprites. 
+      The ray is the only vector graphics in the scene.
+
+approximate hours to complete checkpoint:  30 hours.
+
 
 
-
-
-It took me a TON of time to get this far  :D. 
+      - bullets must apply an impulse to whatever they hit in the direction of the ray: play the game

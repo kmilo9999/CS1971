@@ -1,9 +1,10 @@
 package fxengine.components;
 
+import fxengine.datamanagement.Serializable;
 import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Component {
+public abstract class Component extends Serializable{
 
 	
 	protected GameObject myParent;
