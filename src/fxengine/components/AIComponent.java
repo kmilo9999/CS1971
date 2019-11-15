@@ -7,7 +7,7 @@ import fxengine.behaviortree.BehaviorTree;
 import javafx.scene.canvas.GraphicsContext;
 
 public class AIComponent extends Component{
-
+	
 	private BehaviorTree myBehaviorTree;
 	
 	public AIComponent(String name) {
