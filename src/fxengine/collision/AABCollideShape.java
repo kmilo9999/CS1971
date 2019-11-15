@@ -305,13 +305,13 @@ public class AABCollideShape extends CollisionShape {
 	@Override
 	public boolean isCollidingPolygon(PolygonColliderShape o) {
 		// TODO Auto-generated method stub
-		return false;
+		return o.isCollidingAAB(this);
 	}
 
 	@Override
 	public Vec2d collidingPolygon(PolygonColliderShape o) {
 		// TODO Auto-generated method stub
-		return null;
+		return o.collisionAABS(this);
 	}
 	
 	

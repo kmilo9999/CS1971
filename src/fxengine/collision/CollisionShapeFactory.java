@@ -1,5 +1,7 @@
 package fxengine.collision;
 
+import java.util.ArrayList;
+
 import fxengine.math.Vec2d;
 
 public class CollisionShapeFactory {
@@ -32,7 +34,10 @@ public class CollisionShapeFactory {
 		{
 			return new CircleCollisionShape(new Vec2d(0,0), 0);
 		}
-		
+		else if(shapeName.equals(CollisionConstants.POLYGONShape))
+		{
+			return new PolygonColliderShape(new ArrayList<Vec2d>());
+		}
 		return null;
 	}
 }

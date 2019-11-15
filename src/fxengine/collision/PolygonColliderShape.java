@@ -22,38 +22,38 @@ public class PolygonColliderShape extends CollisionShape {
 	
 	
 	private List<Vec2d> myPoints = new ArrayList<Vec2d>();
-    
-    
+	private List<Vec2d> myPositions = new ArrayList<Vec2d>();
+	private Vec2d myPosition;
+	private Vec2d mySize;
+	
+	public PolygonColliderShape(List<Vec2d> points) {
+		this.myPoints = points;
+	}
+	
     private List<Edge> pointsToEdges()
     {
     	List<Edge> edges = new ArrayList<PolygonColliderShape.Edge>();
-    	for(int i = this.myPoints.size() - 1; i > 0; i--)
+    	for(int i = this.myPositions.size() - 1; i > 0; i--)
 		{
-			Vec2d p1 = this.myPoints.get(i);
-			Vec2d p2 = this.myPoints.get(i - 1);
-			Vec2d normal = p2.minus(p1);
-			normal = new Vec2d(normal.y, -normal.x).normalize();
-			Edge edge = new Edge(p1, p2, normal);
+			Vec2d temp1 = this.myPositions.get(i);
+			Vec2d temp2 = this.myPositions.get(i - 1);
+			Vec2d normalP = temp2.minus(temp1).normalize();
+			normalP = new Vec2d(normalP.y, -normalP.x);
+			Edge edge = new Edge(temp1, temp2, normalP);
 			edges.add(edge);
 		}
 		
 		
-		Vec2d p1 = this.myPoints.get(0);
-		Vec2d p2 = this.myPoints.get(this.myPoints.size() - 1);
-		Vec2d normal = p2.minus(p1);
-		normal = new Vec2d(normal.y, -normal.x).normalize();
+		Vec2d p1 = this.myPositions.get(0);
+		Vec2d p2 = this.myPositions.get(this.myPositions.size() - 1);
+		Vec2d normal = p2.minus(p1).normalize();
+		normal = new Vec2d(normal.y, -normal.x);
 		Edge edge = new Edge(p1, p2, normal);
 		edges.add(edge);
     	
 		return edges;
     }
     
-	
-	public PolygonColliderShape(List<Vec2d> points) {
-		this.myPoints = points;
-		
-	}
-
 	@Override
 	public boolean isCollidingCircle(CircleCollisionShape c) {
 		
@@ -121,78 +121,86 @@ public class PolygonColliderShape extends CollisionShape {
 	@Override
 	public boolean isCollidingAAB(AABCollideShape aab) {
 		
-		 
-		    List<Edge> edges = pointsToEdges();
-			boolean isProjecting = true;
+        List<Edge> edges = pointsToEdges();
+		
+		boolean isProjecting = true;
+		
+		List<IntervalsOnAxis> projectedAxis = new ArrayList<IntervalsOnAxis>();
+		
+		List<Vec2d> axes = new ArrayList<Vec2d>();
+		axes.add(new Vec2d(1,0));
+		axes.add(new Vec2d(0,1));
+		for(Edge edge:edges)
+		{
+			axes.add(edge.normal);
+		}
+		
+		for(int i = 0; i < axes.size() && isProjecting ; i++)
+		{
+		    // for each edge, find it's normal	
+			Vec2d axis = axes.get(i);
 			
-			List<IntervalsOnAxis> projectedAxis = new ArrayList<IntervalsOnAxis>();
+			// project all points of Polygon  to the axis
+			double min1 = Double.MAX_VALUE;// this.myPositions.get(0).dot(axis); 
+			double max1 = -Double.MAX_VALUE; //min1;
 			
-			for(int i = 0; i < edges.size() && isProjecting ; i++)
+			for(int j = 0 ; j < this.myPositions.size(); j++)
 			{
-			    // for each edge, find it's normal	
-				Vec2d edgeNormal = edges.get(i).normal;
-				
-				// project all points of s1 to the axis
-				double min1 = this.myPoints.get(0).dot(edgeNormal); 
-				double max1 = min1;
-				for(int j = 1 ; j < this.myPoints.size(); j++)
-				{
-				   double p = this.myPoints.get(j).dot(edgeNormal);
-				   if( p < min1)
-				   {
-					   min1 = p;
-				   }
-				   else if( p > max1)
-				   {
-					   max1 = p;
-				   }
-				}
-				
-				// project all points of s2 to the axis
-				Vec2d aabPoints[] = new Vec2d[4];
-				aabPoints[0] = aab.getTopLeft();
-				aabPoints[1] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
-				aabPoints[2] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y + aab.getSize().y) ;
-				aabPoints[3] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
-				
-				double min2 = aabPoints[0].dot(edgeNormal); 
-				double max2 = aabPoints[0].dot(edgeNormal);
-				
-			    for(int j = 1 ; j < aabPoints.length; j++)
-			    {
-			    	double p = aabPoints[j].dot(edgeNormal);
-					   if( p < min2)
-					   {
-						   min2 = p;
-					   }
-					   else if( p > max2)
-					   {
-						   max2 = p;
-					   }
-			    }
-			    
-			    Interval intervalx1 = new Interval(min1,max1);
-				Interval intervalx2 = new Interval(min2,max2);
-				
-				if(! intervalx1.overlap(intervalx2))
-				{
-					isProjecting = false;
-					projectedAxis.clear();
-				}
-				else
-				{
-					IntervalsOnAxis intervalsOnAxis = new IntervalsOnAxis(intervalx2,intervalx1,edgeNormal);
-					projectedAxis.add(intervalsOnAxis);
-				}
-				
+			   double projection = this.myPositions.get(j).dot(axis);	
+			   if( projection < min1)
+			   {
+				   min1 = projection;
+			   }
+			   if( projection > max1)
+			   {
+				   max1 = projection;
+			   }
 			}
 			
-			if(isProjecting)
+			// project all points of s2 to the axis
+			Vec2d aabPoints[] = new Vec2d[4];
+			aabPoints[0] = aab.getTopLeft();
+			aabPoints[1] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
+			aabPoints[2] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y + aab.getSize().y) ;
+			aabPoints[3] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
+			
+			double min2 = Double.MAX_VALUE; 
+			double max2 = -Double.MAX_VALUE;
+			
+		    for(int j = 0 ; j < aabPoints.length; j++)
+		    {
+		    	double projection = aabPoints[j].dot(axis);
+				if( projection < min2)
+				{
+				   min2 = projection;
+				}
+				if( projection > max2)
+				{
+				   max2 = projection;
+				}
+		    }
+		    
+		    Interval intervalx1 = new Interval(min1,max1);
+			Interval intervalx2 = new Interval(min2,max2);
+			
+			if(!intervalx1.overlap(intervalx2))
 			{
-				return true; 
+				isProjecting = false;
+			}
+			else
+			{
+				IntervalsOnAxis intervalsOnAxis = new IntervalsOnAxis(intervalx1,intervalx2,axis);
+				projectedAxis.add(intervalsOnAxis);
 			}
 			
-			return false;
+		}
+		
+		if(isProjecting)
+		{
+			return  true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -295,66 +303,80 @@ public class PolygonColliderShape extends CollisionShape {
 		
 		List<Edge> edges = pointsToEdges();
 		
-		boolean isProjecting = true;
+		Vec2d aabCenter = new Vec2d(aab.getTopLeft().plus(aab.getSize().smult(0.5)));
+		Vec2d center =  new Vec2d(this.myPosition.plus(this.mySize.smult(0.5)));
+		Vec2d dirVector  = aabCenter.minus(center).normalize();
 		
+		
+		boolean isProjecting = true;
 		
 		List<IntervalsOnAxis> projectedAxis = new ArrayList<IntervalsOnAxis>();
 		
-		for(int i = 0; i < edges.size() && isProjecting ; i++)
+		List<Vec2d> axes = new ArrayList<Vec2d>();
+		axes.add(new Vec2d(1,0));
+		axes.add(new Vec2d(0,1));
+		for(Edge edge:edges)
+		{
+			axes.add(edge.normal);
+		}
+		
+		for(int i = 0; i < axes.size() && isProjecting ; i++)
 		{
 		    // for each edge, find it's normal	
-			Vec2d edgeNormal = edges.get(i).normal;
+			Vec2d axis = axes.get(i);
 			
-			// project all points of s1 to the axis
-			double min1 = this.myPoints.get(0).dot(edgeNormal); 
-			double max1 = min1;
-			for(int j = 1 ; j < this.myPoints.size(); j++)
+			// project all points of Polygon  to the axis
+			double min1 = Double.MAX_VALUE;// this.myPositions.get(0).dot(axis); 
+			double max1 = -Double.MAX_VALUE; //min1;
+			
+			for(int j = 0 ; j < this.myPositions.size(); j++)
 			{
-			   double p = this.myPoints.get(j).dot(edgeNormal);
-			   if( p < min1)
+			   double projection = this.myPositions.get(j).dot(axis);	
+			   if( projection < min1)
 			   {
-				   min1 = p;
+				   min1 = projection;
 			   }
-			   else if( p > max1)
+			   if( projection > max1)
 			   {
-				   max1 = p;
+				   max1 = projection;
 			   }
+			
 			}
 			
 			// project all points of s2 to the axis
 			Vec2d aabPoints[] = new Vec2d[4];
 			aabPoints[0] = aab.getTopLeft();
-			aabPoints[1] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
+			aabPoints[3] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
 			aabPoints[2] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y + aab.getSize().y) ;
-			aabPoints[3] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
+			aabPoints[1] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
 			
-			double min2 = aabPoints[0].dot(edgeNormal); 
-			double max2 = aabPoints[0].dot(edgeNormal);
+			double min2 = Double.MAX_VALUE; 
+			double max2 = -Double.MAX_VALUE;
 			
-		    for(int j = 1 ; j < aabPoints.length; j++)
+		    for(int j = 0 ; j < aabPoints.length; j++)
 		    {
-		    	double p = aabPoints[j].dot(edgeNormal);
-				   if( p < min2)
-				   {
-					   min2 = p;
-				   }
-				   else if( p > max2)
-				   {
-					   max2 = p;
-				   }
+		    	double projection = aabPoints[j].dot(axis);
+				if( projection < min2)
+				{
+				   min2 = projection;
+				}
+				if( projection > max2)
+				{
+				   max2 = projection;
+				}
+		    
 		    }
 		    
 		    Interval intervalx1 = new Interval(min1,max1);
 			Interval intervalx2 = new Interval(min2,max2);
 			
-			if(! intervalx1.overlap(intervalx2))
+			if(!intervalx1.overlap(intervalx2))
 			{
 				isProjecting = false;
-				projectedAxis.clear();
 			}
 			else
 			{
-				IntervalsOnAxis intervalsOnAxis = new IntervalsOnAxis(intervalx2,intervalx1,edgeNormal);
+				IntervalsOnAxis intervalsOnAxis = new IntervalsOnAxis(intervalx1,intervalx2,axis);
 				projectedAxis.add(intervalsOnAxis);
 			}
 			
@@ -362,7 +384,12 @@ public class PolygonColliderShape extends CollisionShape {
 		
 		if(isProjecting)
 		{
-			return shapeMTV(projectedAxis); 
+			Vec2d mtv = shapeMTV(projectedAxis); 
+			/*if(dirVector.dot(mtv) > 0)
+			{
+				dirVector = dirVector.reflect();
+			}*/
+			return  mtv;
 		}
 		
 		return null;
@@ -371,7 +398,7 @@ public class PolygonColliderShape extends CollisionShape {
 	@Override
 	public Vec2d colliding(CollisionShape o) {
 		// TODO Auto-generated method stub
-		return null;
+		return o.collidingPolygon(this);
 	}
 
 	@Override
@@ -387,11 +414,15 @@ public class PolygonColliderShape extends CollisionShape {
 	@Override
 	public void update(Vec2d position, Vec2d size) {
 		// TODO Auto-generated method stub
-		for(Vec2d point:this.myPoints)
+		this.myPosition = position;
+		this.mySize =  size;
+		for(int i = 0; i < this.myPoints.size() ; i++)
 		{
-			point = point.plus(position);
+			Vec2d point = this.myPoints.get(i);
+		    point =	point.plus(this.myPosition);
+		    this.myPositions.set(i, point);
 		}
-		// size;
+		
 	}
 
 
@@ -513,6 +544,7 @@ public class PolygonColliderShape extends CollisionShape {
 	@Override
 	public Vec2d collidingPolygon(PolygonColliderShape other) {
 		
+		
 		List<Edge> edges = pointsToEdges();
 		
 		double min1 = 100000; 
@@ -586,6 +618,12 @@ public class PolygonColliderShape extends CollisionShape {
 
 	public void setPoints(List<Vec2d> points) {
 		this.myPoints = points;
+		this.myPositions = new ArrayList<Vec2d>();
+		for(int i = 0 ; i < points.size(); i++)
+		{
+			this.myPositions.add(new Vec2d(0));
+		}
+		
 	}
 	
 	public Vec2d shapeMTV(List<IntervalsOnAxis> shapesIntervals)
@@ -594,7 +632,7 @@ public class PolygonColliderShape extends CollisionShape {
 		Vec2d mtv = null;
 		for( IntervalsOnAxis shapesInterval : shapesIntervals)
 		{
-			 Float mtv1d = intervalMTV(shapesInterval.s1,shapesInterval.s2);
+			Double mtv1d = intervalMTV(shapesInterval.s1,shapesInterval.s2);
 			 if( mtv1d == null)
 			 {
 				 return null;
@@ -610,10 +648,10 @@ public class PolygonColliderShape extends CollisionShape {
 		
 	}
 	
-	private Float intervalMTV(Interval s1, Interval s2) 
+	private Double intervalMTV(Interval s1, Interval s2) 
 	{
-		Float aRight = (float) (s2.max - s1.min);
-		Float aLeft =(float)( s1.max - s2.min);
+		Double aRight =  (s2.max - s1.min);
+		Double aLeft = ( s1.max - s2.min);
 		if( aLeft < 0 || aRight < 0)
 		{
 			 return null;
