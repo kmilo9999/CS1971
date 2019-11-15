@@ -160,6 +160,18 @@ public  class CircleCollisionShape extends CollisionShape {
 			return 0;
 		}
 	}
+
+	@Override
+	public boolean isCollidingPolygon(PolygonColliderShape o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Vec2d collidingPolygon(PolygonColliderShape o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

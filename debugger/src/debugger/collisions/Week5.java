@@ -359,8 +359,8 @@ public final class Week5 extends Week5Reqs {
 			edgesPolygon.add(edge);
 		}
 
-		Vec2f p1 = s2.points[1];
-		Vec2f p2 = s2.points[0];
+		Vec2f p1 = s2.points[0];
+		Vec2f p2 = s2.points[ s2.points.length - 1];
 		Vec2f normal = p2.minus(p1);
 		normal = new Vec2f(normal.y, -normal.x).normalize();
 		Edge edge = new Edge(p1, p2, normal);
