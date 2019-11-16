@@ -81,15 +81,9 @@ public class NinScene  extends GameWorldScene{
 	List<NinProjectile> projectiles = new ArrayList<NinProjectile>();
 	int numProjectiles = 0 ;
 	
-	public NinScene(String name, GameApplication application, String loadFile) {
+	public NinScene(String name, GameApplication application) {
 		super(name, application);
-		if(!loadFile.isEmpty())
-		{
-			levelFileName = loadFile;
-			showIntro = false;
-			loadingFromFile = true;
-			ninIntroPos = new Vec2d(1500, 100);
-		}
+		this.loadingFromFile = false;
 	}
 	
 	@Override
