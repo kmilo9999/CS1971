@@ -379,10 +379,10 @@ public class CollisionCanvas {
 			}
 		}
 		for(int p = 0; p < _polygons.length; p++) {
-			mtv = _collisions.collision(_boxes[i], _polygons[p]);
+			mtv = _collisions.collision(_circles[i], _polygons[p]);
 			if(mtv != null) {
 				collision = true;
-				_boxes[i].addMTV(getLine(), mtv);
+				_circles[i].addMTV(getLine(), mtv);
 			}
 		}
 		
@@ -416,7 +416,7 @@ public class CollisionCanvas {
 			
 			p.setStroke(UIConstants.BLACK);
 			p.setStrokeWidth(2);
-			runCircleCollisions(i);
+			runPolygonCollisions(i);
 
 		}
 	}
@@ -445,7 +445,7 @@ public class CollisionCanvas {
 		}
 		for(int p = 0; p < _polygons.length; p++) {
 			if(p != i) {
-				mtv = _collisions.collision(_boxes[i], _polygons[p]);
+				mtv = _collisions.collision(_polygons[i], _polygons[p]);
 				if(mtv != null) {
 					collision = true;
 					_boxes[i].addMTV(getLine(), mtv);

@@ -175,15 +175,14 @@ public class PhysicsSystem extends BaseGameSystem{
 				if (enemy.hasComponent(ComponentContants.collision)) {
 					CollisionComponent collisionComponent2 = (CollisionComponent) enemy
 							.getComponent(ComponentContants.collision);
-					//collisionComponent.setCollided(false);
-					//collisionComponent.setCollisionInfo(null);
+				
 
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
 
 						if (collisionComponent.getHitList().contains(enemy.getTag())) {
 						
-							//collisionComponent.setCollided(true);
+				
 							this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 						}
 					}
@@ -198,33 +197,21 @@ public class PhysicsSystem extends BaseGameSystem{
 				if (staticObject.hasComponent(ComponentContants.collision)) {
 					CollisionComponent collisionComponent2 = (CollisionComponent) staticObject
 							.getComponent(ComponentContants.collision);
-					// collisionComponent.setCollided(false);
-					// collisionComponent.setCollisionInfo(null);
+					
 
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
 
-						//collisionComponent.setCollided(true);
+					
 						Vec2d mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 						if(mvt != null)
 						{
 							collDirection  = mvt.normalize();
 							
 						}
-						//Vec2d mvt = this.resolveStaticCollision(collisionComponent, collisionComponent2);
-						
-						//TransformComponent transform = (TransformComponent) myGameObjects.get(i)
-						//		.getComponent(ComponentContants.transform);
-						//transform.setPosition(transform.getPosition().plus(mvt));
+				
 					}
-					//else
-					//{
-					//	if(collisionComponent.getParent().hasComponent(ComponentContants.physics) 
-					//			&& ((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).isOnStacticObject())
-					//	{
-					//		((PhysicsComponent)collisionComponent.getParent().getComponent(ComponentContants.physics)).setOnStacticObject(false);
-					//	}
-					//}
+				
 				}
 				
 				if(collDirection == null || collDirection.dot(new Vec2d(0,1)) == 0)

@@ -2,8 +2,8 @@ package fxengine.collision;
 
 public final class Interval {
 	
-	private double min;
-	private double max;
+	public double min;
+	public double max;
 	
 	public Interval(double min, double max) {
 		// TODO Auto-generated constructor stub

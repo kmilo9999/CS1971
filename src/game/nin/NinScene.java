@@ -3,30 +3,21 @@ package game.nin;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Element;
-
 import fxengine.UISystem.UIConstants;
 import fxengine.UISystem.UILine;
 import fxengine.UISystem.UISprite;
 import fxengine.application.GameApplication;
-import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
 import fxengine.components.SpriteComponent;
 import fxengine.components.TransformComponent;
-import fxengine.event.Event;
-import fxengine.event.EventsConstants;
-import fxengine.graphics.Line;
 import fxengine.math.Vec2d;
-import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.raycasting.Ray;
-import fxengine.raycasting.RayCastingTest;
 import fxengine.scene.GameWorldScene;
 import fxengine.system.PhysicsSystem;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -36,7 +27,7 @@ public class NinScene  extends GameWorldScene{
 	
 	private ResetButton myResetButton;
 	private SaveButton mySaveButton;
-	private LoadButton myLoadButton;
+	
 	
     public UISprite myFiledSavedMessage;
     public UISprite myIntroMessage;
@@ -51,6 +42,8 @@ public class NinScene  extends GameWorldScene{
 	GameObject ball;
 	GameObject brick;
 	GameObject brick2;
+	GameObject polygon1;
+	
 	GameObject spring;
 	GameObject carrot;
 	UILine rayLine;
@@ -61,11 +54,13 @@ public class NinScene  extends GameWorldScene{
 	Vec2d ninCharacterInitPos = new Vec2d(50, 100);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
 	Vec2d ninBrickInitPos = new Vec2d(105, 40);
-	Vec2d ninSpringInitPos = new Vec2d(350, 180);
+	Vec2d ninSpringInitPos = new Vec2d(220, 180);
 	Vec2d ninCarrotInitPos = new Vec2d(520, 120);
 	Vec2d ninBrick2InitPos = new Vec2d(350, 220);	
+	Vec2d ninPolygonInitPos = new Vec2d(350, 40);
 
-	Vec2d ninIntroPos = new Vec2d(250, 100);
+	//Vec2d ninIntroPos = new Vec2d(250, 100);
+	Vec2d ninIntroPos = new Vec2d(10000, 10000);
     
     
     public boolean isShowing = false;
@@ -73,7 +68,7 @@ public class NinScene  extends GameWorldScene{
     int currentSeconds =0;
     
     boolean showing;
-    boolean showIntro = true;
+    boolean showIntro = false;
     
     boolean loadingFromFile;
 	String levelFileName;
@@ -86,15 +81,9 @@ public class NinScene  extends GameWorldScene{
 	List<NinProjectile> projectiles = new ArrayList<NinProjectile>();
 	int numProjectiles = 0 ;
 	
-	public NinScene(String name, GameApplication application, String loadFile) {
+	public NinScene(String name, GameApplication application) {
 		super(name, application);
-		if(!loadFile.isEmpty())
-		{
-			levelFileName = loadFile;
-			showIntro = false;
-			loadingFromFile = true;
-			ninIntroPos = new Vec2d(1500, 100);
-		}
+		this.loadingFromFile = false;
 	}
 	
 	@Override
@@ -109,7 +98,7 @@ public class NinScene  extends GameWorldScene{
 		rayLine  = new UILine(0, 0, 0, 0, UIConstants.RED);
 				
 		addProp(myResetButton);
-		addProp(mySaveButton);
+		//addProp(mySaveButton);
 		addProp(myFiledSavedMessage);
 		addProp(myIntroMessage);
 		addProp(rayLine);
@@ -157,30 +146,34 @@ public class NinScene  extends GameWorldScene{
 
 			mainCharater = new NinControllableCharacter("mainCharacter",ninCharacterInitPos,"img/bunny.png" ,1.f,0.25);
 			
-			
-			
-			//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
-			
 			backgroundImage = new NinBackground("sky");
-			ground = new NinPlatform("ground1", new Vec2d(30, 250), "img/ground2.png");
-			ground2 = new NinPlatform("ground2", new Vec2d(300, 250), "img/ground2.png");
-			ground3 = new NinPlatform("ground3", new Vec2d(500, 150), "img/ground2.png");
+			ground = new NinPlatform("ground1", new Vec2d(30, 250), "img/ground3.png");
+			//ground2 = new NinPlatform("ground2", new Vec2d(300, 250), "img/ground2.png");
+			//ground3 = new NinPlatform("ground3", new Vec2d(500, 150), "img/ground2.png");
 			ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.5f, 0.55);
 			brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
 			brick2 = new NinElement("brick2",ninBrick2InitPos , "img/otherBrick.png",  1.50f, 0.27);
 			carrot = new NinElement("carrot",ninCarrotInitPos , "img/carrot.png",  1.50f, 0.0);
 			spring = new NinSpring("spring1",ninSpringInitPos , "img/spring.png",  0.50f, 0.3);
 			
+			List<Vec2d> polygonPoints = new ArrayList<Vec2d>();
+			polygonPoints.add(new Vec2d(0,0));
+			polygonPoints.add(new Vec2d(34,32));
+			polygonPoints.add(new Vec2d(0,32));
+			polygon1 = new NinPolygon("polygon1", ninPolygonInitPos, "img/polygon.png", 1.5f, 0.2, polygonPoints);
+			
+			
 			
 			this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
 			this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 			this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
-			this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
-			this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
+			//this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
+			this.myGameWorld.addGameObject(polygon1, GameWorld.EnemyLayer);
+			//this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
 		    this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
-		    this.myGameWorld.addGameObject(brick2, GameWorld.EnemyLayer);
+		    //this.myGameWorld.addGameObject(brick2, GameWorld.EnemyLayer);
 			this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(carrot, GameWorld.EnemyLayer);
+			//this.myGameWorld.addGameObject(carrot, GameWorld.EnemyLayer);
 			this.myGameWorld.addGameObject(spring, GameWorld.EnemyLayer);
 			
 		}
@@ -205,7 +198,7 @@ public class NinScene  extends GameWorldScene{
 					 if(collision.getCollisionShape().raycast(ray) > 0)
 					 {
 						 PhysicsComponent physicsCmponent = (PhysicsComponent)gameObject.getComponent(ComponentContants.physics);
-						 physicsCmponent.applyImpulse(ray.getDirection());
+					//	 physicsCmponent.applyImpulse(ray.getDirection());
 						 rayLine.setColor(UIConstants.GOLD);
 						 break;
 					 }
@@ -289,14 +282,18 @@ public class NinScene  extends GameWorldScene{
 		((PhysicsComponent)ball.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)ball.getComponent(ComponentContants.transform)).setPosition(ninBallInitPos);
 		
-		((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrick2InitPos);
+		//((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
+		//((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrick2InitPos);
 		
 		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninSpringInitPos);
+
+		((PhysicsComponent)polygon1.getComponent(ComponentContants.physics)).resetComponent();
+		((TransformComponent)polygon1.getComponent(ComponentContants.transform)).setPosition(ninPolygonInitPos);
 		
-		((PhysicsComponent)carrot.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
+		
+		//((PhysicsComponent)carrot.getComponent(ComponentContants.physics)).resetComponent();
+		//((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
 	}
 	
 	@Override
@@ -314,7 +311,7 @@ public class NinScene  extends GameWorldScene{
 	@Override
 	public void onKeyPressed(KeyEvent ke) 
 	{		
-		if(ke.getCode() == KeyCode.SPACE && !showRay)
+		/*if(ke.getCode() == KeyCode.SPACE && !showRay)
 		{
           // fire projectile
 		 	Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
@@ -348,21 +345,21 @@ public class NinScene  extends GameWorldScene{
 			//Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
 			//ray = new Ray(characterPosition, new Vec2d(10,0));
 			
-		}
+		}*/
 		super.onKeyPressed(ke);
 	}
 	
 	@Override
 	public void onKeyReleased(KeyEvent ke) {
 		
-		if(ke.getCode() == KeyCode.SPACE)
+		/*if(ke.getCode() == KeyCode.SPACE)
 		{
           // fire projectile
 			//fired = false;
 			showRay = false;
 			ray = null;
 			//rayLine.setColor(UIConstants.RED);
-		}
+		}*/
 		
 
 		

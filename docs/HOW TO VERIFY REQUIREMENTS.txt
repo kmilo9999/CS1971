@@ -3,52 +3,40 @@ Primary Engine Requirements
 
 ---------------------------------
 
-- Your engine must correctly implement saving and loading through serialization.: the ui of the game lets you save the state of the scene in a file located
-    in the same fodler the program is runing. You can load that file using the command line as java -jar nin2.jar "Absolute_Path_To_file".
-- Your engine must correctly support raycasting for polygons and AABs: the game has AAB ray cast. The implementations are in the classes:
-     fxengine.collision.AABCollideShape.raycast(Ray ray)
-     fxengine.collision.CircleCollisionShape.raycast(Ray ray)
-     fxengine.collision.PolygonColliderShape.raycast(Ray ray)
+
+- Your engine must correctly implement a PhysicsBehavior that holds and updates mass, force, impulse, velocity, and restitution to generate a physically correct response to collisions
+    Check class: fxengine.components.PhysicsComponent: It has the physic attributes of gameobjects such as mass, velocit, restitution.
+    Check class: fxengine.collision.PhysicsCollision: It resolve the collisions betwwen objects usignt the COR
+     
+
+-  Your engine should be able to handle static objects (other PhysicsBehaviors should collide with static objects, but static objects shouldn't accumulate force or impulse)
+    Check class: fxengine.system.PhysicsSystem::applyGravity() and fxengine.system.PhysicsSystem::applyImpulse() where I check if the object is static.
+
+
 
 Primary Game Requirements
 
 ----------------------------------
 
-- Your game must load from a txt file. : im using xml files
-- You must have at least one txt file for us to load (unless your game loads from our default level file): in the executable folder, there is a level xml file to test
-- Player must be able to
-	
-    - save game state
-	: bottom button at the right side of the scene viewport
-    - restart the game
-	: top button at the right of the scene viewport
-    - load their saved state : using the command line run java -jar nin2.jar "Absolute_Path_To_file"
-
-- The player must always be in view: the bunny start in the viewport
-- The TA debugger must be completed to demonstrate correct raycasting for polygons and AABs: the debuuger has benn modified to support ray casting
-   debugger.collisions.Week6
-- It must be possible to start a new game without restarting the program: top button at the right of the scene viewport
+- The player should have a constant downward acceleration: The player starts in the air and falls due to gravity. If you press the key W it will jump
+- The player should be able to jump only when standing on a platform (double-jumping and wall-jumping are allowed): press the key W on a platform. In mid air it wont jump.
+- Your game must have three objects with visibly different restitution values that can collide with each other:  There are 3 blocks in scene. A ball with a low restitution, a brick with high restitution, 
+  and a spring very low restitution value.
+- It must be possible to start a new game without restarting the program: at the top right there is a button that lets you restart the scene
 
 Secondary Engine Requirements
 ---------------------------------
 
- - Your engine must support raycasting for circles: class fxengine.collision.CircleCollisionShape.raycast(Ray ray)
+- Your engine must support collisions and MTVs with convex polygons
+  check files: fxengine.collision.PolygonColliderShape
+
 
 Secondary Game Requirements
 ------------------------------
-  - Raycasting must be implemented in your game as follows:
-      - player can fire bullets which travel instantly: press the space bar, a ray will be draw from the center of the bunny indicating the direction of the ray.
+- The TA debuger should be extended to show collisions and MTVs with convex polygons
+  The debuuger is ready to run week5 tests
 
-  -Your game meets at least two of the Nin extra requirements (please list which ones you chose!)
-          
-      A non-trivial puzzle: try to get to the carrot. You have to move the blocks strategicaly
-		   
-      Any other feature(s) you can think of:  One of the blocks acts as a spring, alowing the bunny to jump higher.
-      The player and enemies are drawn with sprites (and animations when appropriate) instead of vector graphics. All in the scen are sprites. 
-      The ray is the only vector graphics in the scene.
+- Your game should include a convex polygon:
+  There is a triangle in the scece, but the collision mtv are applyed incorrectly. I still dont know why :(
 
-approximate hours to complete checkpoint:  30 hours.
-
-
-
-      - bullets must apply an impulse to whatever they hit in the direction of the ray: play the game
+It took me a lot of time getting this far.

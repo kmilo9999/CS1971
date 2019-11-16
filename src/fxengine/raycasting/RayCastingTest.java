@@ -123,49 +123,6 @@ public class RayCastingTest {
 		}
 	}
 	
-	public static double raycast(PolygonColliderShape plgShape, Ray ray) {
-		
-		
-		double min = MAXIMUM_RANGE;
-		
-		List<PolygonColliderShape.Edge> edges = plgShape.getEdges();
-		
-		
-		for(int i = 0; i < edges.size()  ; i++)
-		{
-			
-			Vec2d m = edges.get(i).p2.minus(edges.get(i).p1).normalize();
-			Vec2d n = new Vec2d(-m.y,m.x).normalize();
-					
-			Vec2d d1 = edges.get(i).p1.minus(ray.getSource());
-			Vec2d d2 = edges.get(i).p2.minus(ray.getSource());
-			
-			double cp1 = d1.cross(ray.getDirection());
-			double cp2 = d2.cross(ray.getDirection());
-			
-			
-			if((int)cp1 * (int)cp2 >= 0)
-			{
-			  	continue;
-			}
-			
-			double t = d2.dot(n)/ray.getDirection().dot(n);
-			
-			if(t > 0 && t < min)
-			{
-				min = t;
-			}
-			
-		}
-		
-		if(min != MAXIMUM_RANGE)
-		{
-			return min;
-		}
-		
-		return 0;
-		
-	}
 
 	
 }

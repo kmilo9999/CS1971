@@ -75,7 +75,7 @@ public class Display extends Application {
 		} else {
 			week = 2;
 		}
-		week=6;
+		week=5;
 		
 		launch();
 	}

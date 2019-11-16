@@ -21,16 +21,28 @@ public class NinElement extends GameObject{
 	private String textFilePath;
 	private double restitution;
 	private float mass;
+	private String collisionType = CollisionConstants.AABShape;
 	
-	public NinElement(String id, Vec2d initialPosition, String texture, float mass ,double restitution) {
+	public NinElement(String id, Vec2d initialPosition, String texture, float mass ,double restitution) 
+	{
 		super(id);
 		// TODO Auto-generated constructor stub
 		this.originalPos =  initialPosition;
 		this.textFilePath = texture;
 		this.restitution = restitution;
 		this.mass = mass;
+		
 	}
 	
+	public NinElement(String id, Vec2d initialPosition, String texture, float mass ,double restitution, String collisionType) 
+	{
+		super(id);
+		this.originalPos =  initialPosition;
+		this.textFilePath = texture;
+		this.restitution = restitution;
+		this.mass = mass;
+		this.collisionType = collisionType;
+	}
 
 	@Override
 	public void initialize() {
@@ -42,7 +54,7 @@ public class NinElement extends GameObject{
 	    Component tranformComponent = ComponentFactory.getInstance().createComponent(ComponentContants.transform);
 	    ((TransformComponent) tranformComponent).setPosition(originalPos);
 	    Component collisionComponemt = ComponentFactory.getInstance().createComponent(ComponentContants.collision);
-		  CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(CollisionConstants.AABShape);
+		  CollisionShape myCollisionShape = CollisionShapeFactory.getInstance().createShape(this.collisionType);
 		  ((CollisionComponent) collisionComponemt).setCollisionShape(myCollisionShape);
 		  
 		  Component physicsComponent =  ComponentFactory.getInstance().createComponent(ComponentContants.physics);
