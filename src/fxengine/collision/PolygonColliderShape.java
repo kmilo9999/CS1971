@@ -33,21 +33,22 @@ public class PolygonColliderShape extends CollisionShape {
     private List<Edge> pointsToEdges()
     {
     	List<Edge> edges = new ArrayList<PolygonColliderShape.Edge>();
-    	for(int i = this.myPositions.size() - 1; i > 0; i--)
+    	//for(int i = this.myPositions.size() - 1; i > 0; i--)
+    	for(int i = 0; i < this.myPositions.size() - 1; i++)
 		{
 			Vec2d temp1 = this.myPositions.get(i);
-			Vec2d temp2 = this.myPositions.get(i - 1);
+			Vec2d temp2 = this.myPositions.get(i+ 1);
 			Vec2d normalP = temp2.minus(temp1).normalize();
-			normalP = new Vec2d(normalP.y, -normalP.x);
+			normalP = new Vec2d(-normalP.y, normalP.x);
 			Edge edge = new Edge(temp1, temp2, normalP);
 			edges.add(edge);
 		}
 		
 		
-		Vec2d p1 = this.myPositions.get(0);
-		Vec2d p2 = this.myPositions.get(this.myPositions.size() - 1);
+		Vec2d p1 = this.myPositions.get(this.myPositions.size() - 1);
+		Vec2d p2 = this.myPositions.get(0);
 		Vec2d normal = p2.minus(p1).normalize();
-		normal = new Vec2d(normal.y, -normal.x);
+		normal = new Vec2d(-normal.y, normal.x);
 		Edge edge = new Edge(p1, p2, normal);
 		edges.add(edge);
     	
@@ -160,9 +161,9 @@ public class PolygonColliderShape extends CollisionShape {
 			// project all points of s2 to the axis
 			Vec2d aabPoints[] = new Vec2d[4];
 			aabPoints[0] = aab.getTopLeft();
-			aabPoints[1] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
+			aabPoints[3] = new Vec2d(aab.getTopLeft().x,aab.getTopLeft().y + aab.getSize().y) ;
 			aabPoints[2] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y + aab.getSize().y) ;
-			aabPoints[3] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
+			aabPoints[1] = new Vec2d(aab.getTopLeft().x + aab.getSize().x,aab.getTopLeft().y) ;
 			
 			double min2 = Double.MAX_VALUE; 
 			double max2 = -Double.MAX_VALUE;
@@ -384,7 +385,7 @@ public class PolygonColliderShape extends CollisionShape {
 		
 		if(isProjecting)
 		{
-			Vec2d mtv = shapeMTV(projectedAxis); 
+			Vec2d mtv = shapeMTV(projectedAxis, dirVector); 
 			/*if(dirVector.dot(mtv) > 0)
 			{
 				dirVector = dirVector.reflect();
@@ -393,6 +394,31 @@ public class PolygonColliderShape extends CollisionShape {
 		}
 		
 		return null;
+	}
+
+	private Vec2d shapeMTV(List<IntervalsOnAxis> projectedAxis, Vec2d dirVector) {
+		double minMagnitude = 10000000;
+		Vec2d mtv = null;
+		for( IntervalsOnAxis shapesInterval : projectedAxis)
+		{
+			Double mtv1d = intervalMTV(shapesInterval.s1,shapesInterval.s2);
+			 if( mtv1d == null)
+			 {
+				 return null;
+			 }
+			 if(Math.abs(mtv1d) < minMagnitude)
+			 {
+				 minMagnitude = Math.abs(mtv1d);
+				 /*if(dirVector.dot(shapesInterval.axis) > 0)
+				 {
+					 mtv1d *= -1;
+				 }*/
+				 mtv = shapesInterval.axis.smult(mtv1d);
+			 }
+		}
+		
+	    return mtv;
+		
 	}
 
 	@Override
