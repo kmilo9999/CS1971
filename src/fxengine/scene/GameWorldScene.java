@@ -37,6 +37,7 @@ import fxengine.system.AiSystem;
 import fxengine.system.AnimationSystem;
 import fxengine.system.BaseGameSystem;
 import fxengine.system.CollisionSystem;
+import fxengine.system.EmitterSystem;
 import fxengine.system.GraphicsSystem;
 import fxengine.system.KeyboardEventSystem;
 import fxengine.system.MouseEventSystem;
@@ -62,6 +63,9 @@ public class GameWorldScene extends BaseScene{
 	protected BaseGameSystem myTransformSystem = new TransformSystem();
 	protected BaseGameSystem myAISystem = new AiSystem();
 	protected BaseGameSystem myTickableSystem = new TickableSystem();
+	protected BaseGameSystem myPatriclesSystem = new EmitterSystem();
+	
+	
 	
 	protected String myFileToLoad;
 
@@ -92,6 +96,7 @@ public class GameWorldScene extends BaseScene{
 		this.myGameWorld.addSystem(ComponentContants.animation, myAnimationSystem);
 		this.myGameWorld.addSystem(ComponentContants.physics, myPhysicsSystem);
 		this.myGameWorld.addSystem(ComponentContants.AI, myAISystem);
+		this.myGameWorld.addSystem(ComponentContants.particles,myPatriclesSystem);
 		
 		
 		this.myGameWorld.initialize();

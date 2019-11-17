@@ -1,5 +1,7 @@
 package fxengine.components;
 
+import fxengine.system.EmitterSystem;
+
 public class ComponentFactory {
 
 	private ComponentFactory()
@@ -116,6 +118,10 @@ public class ComponentFactory {
 		else if(componentName.equals(ComponentContants.physics))
 		{
 			return new PhysicsComponent(componentName);
+		}
+		else if(componentName.equals(ComponentContants.particles))
+		{
+			return new ParticleEmitterComponent(componentName);
 		}
 		
 		return null;

@@ -29,7 +29,7 @@ public class GameObject extends Serializable{
 	
 	private boolean isInitialized = false;
 	
-	private boolean markForDestoryed = false;
+	private boolean markForDestroyed = false;
 	
 	
 	public static GameObject buildGameObject(Node node)
@@ -211,11 +211,11 @@ public class GameObject extends Serializable{
 	}
 	
 	public boolean isMarkForDestoryed() {
-		return markForDestoryed;
+		return markForDestroyed;
 	}
 
 	public void setMarkForDestoryed(boolean markForDestoryed) {
-		this.markForDestoryed = markForDestoryed;
+		this.markForDestroyed = markForDestoryed;
 	}
 
 	@Override

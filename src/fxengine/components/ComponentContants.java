@@ -22,6 +22,7 @@ public class ComponentContants {
 	public static final String AIMovement = "AIMOVEMENT";
 	public static final String AutoAnimation = "AUTOANIMATION";
 	public static final String AI = "AI";
+	public static final String particles = "Particles";
 	
 	
 	

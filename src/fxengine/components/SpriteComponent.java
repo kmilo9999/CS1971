@@ -79,7 +79,8 @@ public class SpriteComponent extends Component {
 					
 					if(loadImageSprite())
 					{
-						myLayout = new Layout(transform.getPosition().x, transform.getPosition().y, this.myImageWidth, this.myImageHeight, UIConstants.TRANSPARENT);
+						Vec2d position = transform.getPosition();
+						myLayout = new Layout(position.x, position.y, this.myImageWidth, this.myImageHeight, UIConstants.TRANSPARENT);
 					}
 					else
 					{

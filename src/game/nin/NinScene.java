@@ -164,17 +164,17 @@ public class NinScene  extends GameWorldScene{
 			
 			
 			
-			this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
+			//this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
 			this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
 			this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
 			//this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
-			this.myGameWorld.addGameObject(polygon1, GameWorld.EnemyLayer);
+			//this.myGameWorld.addGameObject(polygon1, GameWorld.EnemyLayer);
 			//this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
-		    this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
+		    //this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
 		    //this.myGameWorld.addGameObject(brick2, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
+			//this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
 			//this.myGameWorld.addGameObject(carrot, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(spring, GameWorld.EnemyLayer);
+			//this.myGameWorld.addGameObject(spring, GameWorld.EnemyLayer);
 			
 		}
 	}

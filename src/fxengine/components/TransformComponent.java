@@ -6,7 +6,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import fxengine.math.Vec2d;
-import fxengine.objects.GameObject;
 import javafx.scene.canvas.GraphicsContext;
 
 public class TransformComponent extends Component {
@@ -18,12 +17,17 @@ public class TransformComponent extends Component {
 	public TransformComponent(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
+		myPosition = new Vec2d(0);
 	}
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-		isInitialized = true;
+		if(!isInitialized)
+		{
+			
+			isInitialized = true;
+		}
+	
 	}
 
 	@Override

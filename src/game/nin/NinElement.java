@@ -17,11 +17,11 @@ import fxengine.objects.GameObject;
 public class NinElement extends GameObject{
 
 	
-	private Vec2d originalPos;
-	private String textFilePath;
-	private double restitution;
-	private float mass;
-	private String collisionType = CollisionConstants.AABShape;
+	protected Vec2d originalPos;
+	protected String textFilePath;
+	protected double restitution;
+	protected float mass;
+	protected String collisionType = CollisionConstants.AABShape;
 	
 	public NinElement(String id, Vec2d initialPosition, String texture, float mass ,double restitution) 
 	{
