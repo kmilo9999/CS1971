@@ -57,7 +57,11 @@ public class NinControllableCharacter extends NinElement{
 	@Override
 	public void onCollide(GameObject other)
 	{
-		System.out.println(other.getId());
+		if(other.getId() == "carrot")
+		{
+			System.out.println("you win");	
+		}
+		
 	}
 
 }

@@ -1,32 +1,22 @@
 package game.nin;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.w3c.dom.Element;
 
 import fxengine.UISystem.UIConstants;
 import fxengine.UISystem.UILine;
 import fxengine.UISystem.UISprite;
 import fxengine.application.GameApplication;
-import fxengine.components.Animation;
 import fxengine.components.CollisionComponent;
 import fxengine.components.ComponentContants;
 import fxengine.components.PhysicsComponent;
 import fxengine.components.SpriteComponent;
 import fxengine.components.TransformComponent;
-import fxengine.event.Event;
-import fxengine.event.EventsConstants;
-import fxengine.graphics.Line;
 import fxengine.math.Vec2d;
-import fxengine.math.Vec2i;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
 import fxengine.raycasting.Ray;
-import fxengine.raycasting.RayCastingTest;
 import fxengine.scene.GameWorldScene;
 import fxengine.system.PhysicsSystem;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -41,6 +31,8 @@ public class NinScene  extends GameWorldScene{
     public UISprite myFiledSavedMessage;
     public UISprite myIntroMessage;
 	
+    public LevelState myLevelState;
+    
 	public static String PLAYER = "playerCharacter";
 	public static String ENEMY = "enemyCharacter";
 	
@@ -83,18 +75,20 @@ public class NinScene  extends GameWorldScene{
 	int bulletTime = 1;
 	long bulletTimer = 0;
 	
-	List<NinProjectile> projectiles = new ArrayList<NinProjectile>();
-	int numProjectiles = 0 ;
 	
-	public NinScene(String name, GameApplication application, String loadFile) {
+	public NinScene(String name, GameApplication application, LevelState levelstate) {
 		super(name, application);
-		if(!loadFile.isEmpty())
+		
+		this.myLevelState = levelstate;
+		this.myLevelState.setScene(this);
+		
+		/*if(!loadFile.isEmpty())
 		{
 			levelFileName = loadFile;
 			showIntro = false;
 			loadingFromFile = true;
 			ninIntroPos = new Vec2d(1500, 100);
-		}
+		}*/
 	}
 	
 	@Override
@@ -117,73 +111,16 @@ public class NinScene  extends GameWorldScene{
 		 // Initialize game world
 		super.initScene();
 		
+		mainCharater = new NinControllableCharacter("mainCharacter",ninCharacterInitPos,"img/bunny.png" ,1.f,0.25);
+		backgroundImage = new NinBackground("sky");
 		
-		if(loadingFromFile)
-		{
-			this.loadState(levelFileName);
-			
-			mainCharater = this.myGameWorld.getGameObjectsByLayer(GameWorld.PlayerLayer).get(0);
-			
-			List<GameObject> enemies = this.myGameWorld.getGameObjectsByLayer(GameWorld.EnemyLayer); 
-            for(GameObject go:enemies)
-            {
-            	if(go.getId().equals("ball1") )
-            	{
-            		ball = go;	
-            	}
-            	else if(go.getId().equals("brick1"))
-            	{
-            		brick = go;			
-            	}
-            	else if(go.getId().equals("brick2"))
-            	{
-            		brick2 = go;	
-            	}
-            	else if(go.getId().equals("carrot"))
-            	{
-            		carrot = go;
-            	}
-            	else if(go.getId().equals("spring1"))
-            	{
-            		spring = go;	
-            	}
-    			
-    				
-            }
-		    
-		}
-		else
-		{
-
-			mainCharater = new NinControllableCharacter("mainCharacter",ninCharacterInitPos,"img/bunny.png" ,1.f,0.25);
-			
-			
-			
-			//aiCharater = new NinAICharacter("ai1", new Vec2d(120, 250),animations);
-			
-			backgroundImage = new NinBackground("sky");
-			ground = new NinPlatform("ground1", new Vec2d(30, 250), "img/ground2.png");
-			ground2 = new NinPlatform("ground2", new Vec2d(300, 250), "img/ground2.png");
-			ground3 = new NinPlatform("ground3", new Vec2d(500, 150), "img/ground2.png");
-			ball =  new NinElement("ball1", ninBallInitPos, "img/tenisball.png",  0.5f, 0.55);
-			brick = new NinElement("brick1",ninBrickInitPos , "img/otherBrick.png",  1.50f, 0.27);
-			brick2 = new NinElement("brick2",ninBrick2InitPos , "img/otherBrick.png",  1.50f, 0.27);
-			carrot = new NinElement("carrot",ninCarrotInitPos , "img/carrot.png",  1.50f, 0.0);
-			spring = new NinSpring("spring1",ninSpringInitPos , "img/spring.png",  0.50f, 0.3);
-			
-			
-			this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
-			this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
-			this.myGameWorld.addGameObject(ground, GameWorld.StaticObjectLayer);
-			this.myGameWorld.addGameObject(ground2, GameWorld.StaticObjectLayer);
-			this.myGameWorld.addGameObject(ground3, GameWorld.StaticObjectLayer);
-		    this.myGameWorld.addGameObject(brick, GameWorld.EnemyLayer);
-		    this.myGameWorld.addGameObject(brick2, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(ball, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(carrot, GameWorld.EnemyLayer);
-			this.myGameWorld.addGameObject(spring, GameWorld.EnemyLayer);
-			
-		}
+		this.myGameWorld.addGameObject(backgroundImage, GameWorld.BackLayer);
+		this.myGameWorld.addGameObject(mainCharater, GameWorld.PlayerLayer);
+		
+		
+		this.myLevelState.initialize();
+		
+		
 	}
 	
 	@Override
@@ -282,21 +219,7 @@ public class NinScene  extends GameWorldScene{
 		((PhysicsComponent)mainCharater.getComponent(ComponentContants.physics)).resetComponent();
 		((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).setPosition(ninCharacterInitPos);
 		
-		((PhysicsComponent)brick.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)brick.getComponent(ComponentContants.transform)).setPosition(ninBrickInitPos);
-		
-		
-		((PhysicsComponent)ball.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)ball.getComponent(ComponentContants.transform)).setPosition(ninBallInitPos);
-		
-		((PhysicsComponent)brick2.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)brick2.getComponent(ComponentContants.transform)).setPosition(ninBrick2InitPos);
-		
-		((PhysicsComponent)spring.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)spring.getComponent(ComponentContants.transform)).setPosition(ninSpringInitPos);
-		
-		((PhysicsComponent)carrot.getComponent(ComponentContants.physics)).resetComponent();
-		((TransformComponent)carrot.getComponent(ComponentContants.transform)).setPosition(ninCarrotInitPos);
+		myLevelState.onResetLevel();
 	}
 	
 	@Override
