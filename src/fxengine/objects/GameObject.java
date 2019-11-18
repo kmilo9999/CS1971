@@ -31,6 +31,10 @@ public class GameObject extends Serializable{
 	
 	private boolean markForDestroyed = false;
 	
+	public GameObject(String id)
+	{
+		this.myId =id;	
+	}
 	
 	public static GameObject buildGameObject(Node node)
 	{
@@ -125,10 +129,10 @@ public class GameObject extends Serializable{
 		
 	}
 	
-	public GameObject(String id)
-	{
-		this.myId =id;	
-	}
+    public void onCollide(GameObject other)
+    {
+    	//to be implemented in game code
+    }
 	
 	
 	public void onTick(long nanosSincePreviousTick)

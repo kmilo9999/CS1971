@@ -6,6 +6,7 @@ import fxengine.components.ComponentContants;
 import fxengine.components.ComponentFactory;
 import fxengine.components.ParticleEmitterComponent;
 import fxengine.math.Vec2d;
+import fxengine.objects.GameObject;
 import fxengine.system.PhysicsSystem;
 
 public class NinControllableCharacter extends NinElement{
@@ -23,6 +24,8 @@ public class NinControllableCharacter extends NinElement{
 		this.setTag("character");
 		Component keyControllerComponent = ComponentFactory.getInstance()
 				.createComponent(ComponentContants.controllerKeyEvents);
+		
+		
 		
 		ParticleEmitterComponent emitterComponent = (ParticleEmitterComponent)ComponentFactory.getInstance()
 				.createComponent(ComponentContants.particles);
@@ -48,6 +51,13 @@ public class NinControllableCharacter extends NinElement{
 		
 
 	   
+	}
+	
+	
+	@Override
+	public void onCollide(GameObject other)
+	{
+		System.out.println(other.getId());
 	}
 
 }

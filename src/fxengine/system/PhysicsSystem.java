@@ -162,10 +162,10 @@ public class PhysicsSystem extends BaseGameSystem{
 		}
 		
 		//check collisions between player layer and other layers
-		for(GameObject playerLayer:myLayerGameObjects.get(GameWorld.PlayerLayer))
+		for(GameObject player:myLayerGameObjects.get(GameWorld.PlayerLayer))
 		{
 			
-			CollisionComponent collisionComponent = (CollisionComponent) playerLayer.getComponent(ComponentContants.collision);
+			CollisionComponent collisionComponent = (CollisionComponent) player.getComponent(ComponentContants.collision);
 			//collisionComponent.update((long)deltaTIme);
 			
 			// Enemy Layer
@@ -175,14 +175,14 @@ public class PhysicsSystem extends BaseGameSystem{
 				if (enemy.hasComponent(ComponentContants.collision)) {
 					CollisionComponent collisionComponent2 = (CollisionComponent) enemy
 							.getComponent(ComponentContants.collision);
-				
-
+				    
 					if (collisionComponent.getCollisionShape()
 							.isColliding(collisionComponent2.getCollisionShape())) {
 
 						if (collisionComponent.getHitList().contains(enemy.getTag())) {
 						
-				
+							collisionComponent.onCollide(enemy);
+							enemy.onCollide(player);
 							this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 						}
 					}

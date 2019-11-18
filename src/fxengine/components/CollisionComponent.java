@@ -103,6 +103,12 @@ public class CollisionComponent extends Component{
 		}
 	}
 
+	
+	public void onCollide(GameObject other)
+	{
+		this.myParent.onCollide(other);
+	}
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
