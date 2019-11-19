@@ -2,7 +2,6 @@ package fxengine.components;
 
 import fxengine.math.Vec2d;
 import fxengine.math.Vec2i;
-import game.wiz.WizCharacter;
 
 
 public class Animation {

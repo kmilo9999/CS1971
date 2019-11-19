@@ -134,6 +134,10 @@ public class GameObject extends Serializable{
     	//to be implemented in game code
     }
 	
+    public void onJump()
+    {
+    	//to be implemented in game code
+    }
 	
 	public void onTick(long nanosSincePreviousTick)
 	{

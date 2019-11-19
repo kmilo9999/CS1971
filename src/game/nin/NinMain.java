@@ -15,13 +15,13 @@ public class NinMain {
 		}
 		
 		BaseScene level1 = new NinScene("level1", game,new NinLevel1(false, loadFile));
-		BaseScene level2 = new NinScene("level2", game,new NinLevel1(false, loadFile));
+		BaseScene level2 = new NinScene("level2", game,new NinLevel2(false, loadFile));
 		
 		
 		game.addScene(level1);
 		game.addScene(level2);
 		
-		game.setActiveScreen("level1");
+		game.setActiveScreen("level2");
 		game.start(); 
 		
 	}

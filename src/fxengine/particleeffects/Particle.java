@@ -87,8 +87,14 @@ public class Particle extends GameObject{
 		    {
 		    	myTimeToLive--;
 		    	myCurrentTimeLife = 0;
+		       	
 		    }
 		}
+		else
+		{
+			this.getGameWorld().removeGameObject(this.getId());
+		}
+		
 		
 	}
 

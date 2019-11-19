@@ -182,7 +182,7 @@ public class PhysicsSystem extends BaseGameSystem{
 						if (collisionComponent.getHitList().contains(enemy.getTag())) {
 						
 							collisionComponent.onCollide(enemy);
-							enemy.onCollide(player);
+							collisionComponent2.onCollide(player);
 							this.checkPhysicsCollision(collisionComponent, collisionComponent2);
 						}
 					}
@@ -190,6 +190,26 @@ public class PhysicsSystem extends BaseGameSystem{
 				}
 			}
 
+			//destructable layer
+			List<GameObject> destructableLayer = myLayerGameObjects.get(GameWorld.DestructableLayer);
+			for (GameObject destructable : destructableLayer) {
+				
+				if (destructable.hasComponent(ComponentContants.collision)) {
+					CollisionComponent collisionComponent2 = (CollisionComponent) destructable
+							.getComponent(ComponentContants.collision);
+				    
+					if (collisionComponent.getCollisionShape()
+							.isColliding(collisionComponent2.getCollisionShape())) {
+
+						collisionComponent.onCollide(destructable);
+						this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						
+					}
+
+				}
+			}
+			
+			
 			// Static Objects Layer
 			List<GameObject> staticObjectsLayer = myLayerGameObjects.get(GameWorld.StaticObjectLayer);
 			for (GameObject staticObject : staticObjectsLayer) {

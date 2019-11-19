@@ -1,17 +1,13 @@
 package game.nin;
 
+import java.util.List;
+
+import fxengine.components.ComponentContants;
+import fxengine.components.PhysicsComponent;
+import fxengine.components.TransformComponent;
 import fxengine.math.Vec2d;
 import fxengine.objects.GameObject;
 import fxengine.objects.GameWorld;
-import fxengine.scene.BaseScene;
-
-import java.util.List;
-
-import fxengine.components.CollisionComponent;
-import fxengine.components.ComponentContants;
-import fxengine.components.PhysicsComponent;
-import fxengine.components.SpriteComponent;
-import fxengine.components.TransformComponent;
 
 public class NinLevel1 extends LevelState{
 	

@@ -21,13 +21,14 @@ import javafx.scene.transform.Affine;
 public class GameWorld {
 
 	public static final int CameraLayer = 99;
+	public static final int DestructableLayer = 5;
 	public static final int ParticlesLayer = 4;
 	public static final int StaticObjectLayer = 3;
 	public static final int EnemyLayer = 2;
 	public static final int PlayerLayer = 1;
 	public static final int BackLayer = 0;
 	
-	public int numLayers = 5; 
+	public int numLayers = 6; 
 	
 	private List<List<GameObject>> myGameObjects;
 	

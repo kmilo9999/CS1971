@@ -17,7 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class ParticleEmitterComponent extends Component{
 
 	private int myDuration;
-	private boolean myLooping;
+	private boolean myLooping = false;
 	private int myMaxParticles;
 	private int myInitParticles;
 	private String parentName;
@@ -29,8 +29,10 @@ public class ParticleEmitterComponent extends Component{
 	private Vec2d myParticlesIntialDirection;
 	private Vec2d myParticlesInitialPosition;	
 	
+	
+	
 
-	private double delayToCreateParticle;
+	private double myDelayToCreateParticle;
 	
 	private List<Particle> myParticles = new ArrayList<Particle>();
 	private Queue<Integer> myParticlesToRemove = new LinkedList<Integer>();
@@ -50,10 +52,49 @@ public class ParticleEmitterComponent extends Component{
 
 	@Override
 	public void initialize() {
+		
+	}
+
+	@Override
+	public void update(long nanosSincePreviousTick) {
+		// TODO Auto-generated method stub
+		
+		if(!this.isEnabled)
+		{
+			return;
+		}
+		
+		if(!myLooping)
+		{
+			initializeParticles();
+			myLooping = true;
+		}
+		
+	    while(!myParticlesToRemove.isEmpty())
+		{
+			Integer index = myParticlesToRemove.remove();
+			Particle p = myParticles.get(index);
+			myParticles.remove(index);
+			this.myParent.getGameWorld().removeGameObject(p.getId());
+		}
+		
+		
+		for(int i = 0 ; i < myParticles.size();i++)
+		{
+			if(myParticles.get(i).getTimeToLive() <= 0)
+			{
+				myParticlesToRemove.add(i);
+			}
+		
+		}
+	}
+
+	public void initializeParticles()
+	{
 		parentName = this.myParent.getId();
 		Random rand = new Random(); 
 		double rand_int1 = rand.nextDouble()+numberId;
-		this.delayToCreateParticle = 0.5;
+		//this.delayToCreateParticle = 0.5;
 	    
 		double anglesDt = (360.0/myInitParticles) * (Math.PI/180);
 		
@@ -75,29 +116,7 @@ public class ParticleEmitterComponent extends Component{
 			currentAngle += anglesDt;
 		}
 	}
-
-	@Override
-	public void update(long nanosSincePreviousTick) {
-		// TODO Auto-generated method stub
-		while(!myParticlesToRemove.isEmpty())
-		{
-			Integer index = myParticlesToRemove.remove();
-			Particle p = myParticles.get(index);
-			myParticles.remove(index);
-			this.myParent.getGameWorld().removeGameObject(p.getId());
-		}
-		
-		
-		for(int i = 0 ; i < myParticles.size();i++)
-		{
-			if(myParticles.get(i).getTimeToLive() <= 0)
-			{
-				myParticlesToRemove.add(i);
-			}
-		
-		}
-	}
-
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -201,5 +220,14 @@ public class ParticleEmitterComponent extends Component{
 	public void setParticlesInitialPosition(Vec2d particlesInitialPosition) {
 		this.myParticlesInitialPosition = particlesInitialPosition;
 	}
+
+	public double getMyDelayToCreateParticle() {
+		return myDelayToCreateParticle;
+	}
+
+	public void setMyDelayToCreateParticle(double myDelayToCreateParticle) {
+		this.myDelayToCreateParticle = myDelayToCreateParticle;
+	}
+
   
 }

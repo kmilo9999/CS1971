@@ -42,7 +42,9 @@ public class AWSDKeyControllerBehaviorComponent extends KeyEventComponent{
 			PhysicsComponent physicsComponent = (PhysicsComponent) this.myParent
 					.getComponent(ComponentContants.physics);
 			if (physicsComponent != null && physicsComponent.isOnStacticObject()) {
+				this.myParent.onJump();
 				physicsComponent.applyImpulse(new Vec2d(0, -2.5));
+				
 				jumped = true;
 			}
 			
