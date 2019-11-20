@@ -6,7 +6,7 @@ public abstract class LevelState {
 
 	 GameWorldScene myScene;
 	 boolean myLoadFromFile;
-	 String myFileName;
+	 public String myFileName;
 	
 	 public LevelState(boolean loadFromFIle, String fileName) {
 		 this.myLoadFromFile = loadFromFIle;

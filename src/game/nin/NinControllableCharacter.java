@@ -31,6 +31,7 @@ public class NinControllableCharacter extends NinElement{
 
 	
 	private AudioClip jumpSound;
+	private boolean gotCarrot = false;
 	
 	public NinControllableCharacter(String id, Vec2d initialPosition,String filePath, float mass, double restitution) {
 		super(id, initialPosition,  filePath,  mass , restitution);
@@ -67,6 +68,7 @@ public class NinControllableCharacter extends NinElement{
 	{
 		if(other.getId() == "carrot")
 		{
+			gotCarrot = true;
 			System.out.println("you win");	
 		}
 		if(other.getLayerOrder() == GameWorld.DestructableLayer)
@@ -81,5 +83,13 @@ public class NinControllableCharacter extends NinElement{
 	public void onJump()
 	{
 		 jumpSound.play();
+	}
+
+	public boolean isGotCarrot() {
+		return gotCarrot;
+	}
+
+	public void setGotCarrot(boolean gotCarrot) {
+		this.gotCarrot = gotCarrot;
 	}
 }

@@ -51,6 +51,7 @@ public class NinScene  extends GameWorldScene{
 	GameObject backgroundImage;
 	
 	Vec2d ninCharacterInitPos = new Vec2d(50, 100);
+	//Vec2d ninCharacterInitPos = new Vec2d(520, -10);
 	Vec2d ninBallInitPos = new Vec2d(105, 0);
 	Vec2d ninBrickInitPos = new Vec2d(105, 40);
 	Vec2d ninSpringInitPos = new Vec2d(350, 180);
@@ -65,7 +66,7 @@ public class NinScene  extends GameWorldScene{
     int currentSeconds =0;
     
     boolean showing;
-    boolean showIntro = false ;
+    boolean showIntro = true ;
     
     boolean loadingFromFile;
 	String levelFileName;
@@ -74,22 +75,29 @@ public class NinScene  extends GameWorldScene{
 	boolean fired = false;
 	int bulletTime = 1;
 	long bulletTimer = 0;
+	int currentLevel;
+	boolean changedLevel = false;
 	
 	
-	public NinScene(String name, GameApplication application, LevelState levelstate) {
+	public NinScene(int level ,String name, GameApplication application, LevelState levelstate) {
 		super(name, application);
 		
 		this.myLevelState = levelstate;
 		this.myLevelState.setScene(this);
-		
-		/*if(!loadFile.isEmpty())
+		this.currentLevel = level;
+		if(!this.myLevelState.myFileName.isEmpty())
 		{
-			levelFileName = loadFile;
+			levelFileName = this.myLevelState.myFileName;
 			showIntro = false;
 			loadingFromFile = true;
 			ninIntroPos = new Vec2d(1500, 100);
-		}*/
-		ninIntroPos = new Vec2d(1500, 100);
+		}
+		
+		if(this.currentLevel !=1)
+		{
+			ninIntroPos = new Vec2d(1500, 100);
+		}
+		
 	}
 	
 	@Override
@@ -127,91 +135,90 @@ public class NinScene  extends GameWorldScene{
 	@Override
 	public void onTick(long nanosSincePreviousTick)
 	{
-	  //if(fired)
-	  //{
-	//	  System.out.println("IS FIRED");
-    	  if(ray != null)
-		  {
-			  
-	//		  System.out.println("RAY IS READY TO CHECK");
-			  List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.EnemyLayer);
-			  for(GameObject gameObject: gameObjects)
-			  {
-				 if(gameObject.hasComponent(ComponentContants.collision))
-				 {
-					 CollisionComponent collision = (CollisionComponent)gameObject.getComponent(ComponentContants.collision);
-					 if(collision.getCollisionShape().raycast(ray) > 0)
-					 {
-						 PhysicsComponent physicsCmponent = (PhysicsComponent)gameObject.getComponent(ComponentContants.physics);
-						 physicsCmponent.applyImpulse(ray.getDirection());
-						 rayLine.setColor(UIConstants.GOLD);
-						 break;
-					 }
-				 }				 
-				 
-			  }
-	//		  ray = null;
-		 }
-		  
-		  
-		  bulletTimer += nanosSincePreviousTick;
-		  if(bulletTimer >= 1000000000)
-		  {
-			  bulletTimer = 0;
-			  bulletTime--;
-		  }
-		  if(bulletTime <= 0)
-		  {
-			
-			  bulletTime = 1;
-			  rayLine.setColor(UIConstants.RED);
-			  fired = false;
-		  }
-	  //}
-	  
-	  if(mainCharater != null)
-	  {
-		  Vec2d characterPosition = ((TransformComponent)mainCharater.getComponent(ComponentContants.transform)).getPosition();
-		  Vec2d characterSize = new Vec2d(
-								((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getWidth(),
-								((SpriteComponent)mainCharater.getComponent(ComponentContants.sprite)).getHeight());
+		if(((NinControllableCharacter)mainCharater).isGotCarrot() && !this.changedLevel)
+		{
+		  	if(currentLevel == 1)
+		  	{
+		  		((NinGame)this.myApplication).setActiveScreen("level2");
+		  		this.changedLevel = true;
+		  		return;
+		  	}
+		  	else {
+		  		((NinGame)this.myApplication).setActiveScreen("End");
+		  	}
+		}
 		
-		  Vec2d coodinatesToGame = this.myGameWorld.gameToScreenTransform(new Vec2d(characterPosition.x + characterSize.x * 0.5,
-	                         characterPosition.y + characterSize.y * 0.5)); 
-		  
-		  rayLine.setStartPos(coodinatesToGame);
-		  if(showRay)
-		  {
-			  rayLine.setEndPos(new Vec2d(rayLine.geStartPos().x + 25, rayLine.geStartPos().y));  
-		  }
-		  else
-		  {
-			  rayLine.setEndPos(coodinatesToGame);
-		  }  
-	  }
-	  
-	  
-	  
-	
-	  if(isShowing)
-	  {
-		  countShowing+= nanosSincePreviousTick;
-		  if(countShowing >= 1000000000)
-		  {
-			  currentSeconds++;
-			  countShowing = 0;
-		  }
-				  
-		  if(currentSeconds > 2)
-		  {
-			  myFiledSavedMessage.setPosition(new Vec2d(1000, 1000)) ;
-			  currentSeconds = 0;
-			  countShowing = 0;
-			  isShowing = false;
-		  }
-	  }
-	  
-	  super.onTick(nanosSincePreviousTick);	
+		if (ray != null) {
+
+			List<GameObject> gameObjects = this.myGameWorld.getGameObjectsByLayer(GameWorld.EnemyLayer);
+			for (GameObject gameObject : gameObjects) {
+				if (gameObject.hasComponent(ComponentContants.collision)) {
+					CollisionComponent collision = (CollisionComponent) gameObject
+							.getComponent(ComponentContants.collision);
+					if (collision.getCollisionShape().raycast(ray) > 0) {
+						PhysicsComponent physicsCmponent = (PhysicsComponent) gameObject
+								.getComponent(ComponentContants.physics);
+						physicsCmponent.applyImpulse(ray.getDirection());
+						rayLine.setColor(UIConstants.GOLD);
+						break;
+					}
+				}
+
+			}
+			// ray = null;
+		}
+
+		bulletTimer += nanosSincePreviousTick;
+		if (bulletTimer >= 1000000000) {
+			bulletTimer = 0;
+			bulletTime--;
+		}
+		if (bulletTime <= 0) {
+
+			bulletTime = 1;
+			rayLine.setColor(UIConstants.RED);
+			fired = false;
+		}
+		// }
+
+		if (mainCharater != null) {
+			Vec2d characterPosition = ((TransformComponent) mainCharater.getComponent(ComponentContants.transform))
+					.getPosition();
+			Vec2d characterSize = new Vec2d(
+					((SpriteComponent) mainCharater.getComponent(ComponentContants.sprite)).getWidth(),
+					((SpriteComponent) mainCharater.getComponent(ComponentContants.sprite)).getHeight());
+
+			Vec2d coodinatesToGame = this.myGameWorld.gameToScreenTransform(new Vec2d(
+					characterPosition.x + characterSize.x * 0.5, characterPosition.y + characterSize.y * 0.5));
+
+			if(coodinatesToGame != null)
+			{
+				rayLine.setStartPos(coodinatesToGame);
+				if (showRay) {
+					rayLine.setEndPos(new Vec2d(rayLine.geStartPos().x + 25, rayLine.geStartPos().y));
+				} else {
+					rayLine.setEndPos(coodinatesToGame);
+				}	
+			}
+			
+		}
+
+		if (isShowing) {
+			countShowing += nanosSincePreviousTick;
+			if (countShowing >= 1000000000) {
+				currentSeconds++;
+				countShowing = 0;
+			}
+
+			if (currentSeconds > 2) {
+				myFiledSavedMessage.setPosition(new Vec2d(1000, 1000));
+				currentSeconds = 0;
+				countShowing = 0;
+				isShowing = false;
+			}
+		}
+
+		super.onTick(nanosSincePreviousTick);	
 	}
 	
 	public void onResetScene()
