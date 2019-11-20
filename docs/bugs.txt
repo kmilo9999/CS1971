@@ -1,3 +1,3 @@
 It doesnt resize the game elements on the screen. 
 It zooms but it doesnt clip elements in the scaled viewport.
-Polygons Colliders are returning mtv and axis in the same direction. Which causes the collision to continue happening indefinitely
+If one block is on top of another block, both are able to gloat in the air. I still dont kwow why.
