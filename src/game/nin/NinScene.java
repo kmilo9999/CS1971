@@ -65,7 +65,7 @@ public class NinScene  extends GameWorldScene{
     int currentSeconds =0;
     
     boolean showing;
-    boolean showIntro = true;
+    boolean showIntro = false ;
     
     boolean loadingFromFile;
 	String levelFileName;
@@ -89,6 +89,7 @@ public class NinScene  extends GameWorldScene{
 			loadingFromFile = true;
 			ninIntroPos = new Vec2d(1500, 100);
 		}*/
+		ninIntroPos = new Vec2d(1500, 100);
 	}
 	
 	@Override

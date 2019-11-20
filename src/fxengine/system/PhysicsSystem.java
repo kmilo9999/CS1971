@@ -202,7 +202,16 @@ public class PhysicsSystem extends BaseGameSystem{
 							.isColliding(collisionComponent2.getCollisionShape())) {
 
 						collisionComponent.onCollide(destructable);
-						this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						Vec2d mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						
+						Vec2d collDirection  = mvt.normalize();
+						if(collDirection.dot(new Vec2d(0,1)) == 0 ||
+						   collDirection.dot(new Vec2d(1,0)) == 0 || 
+						   collDirection.dot(new Vec2d(-1,0)) == 0 )
+						{
+							collisionComponent2.setStatic(true);
+						}
+						
 						
 					}
 
@@ -283,6 +292,33 @@ public class PhysicsSystem extends BaseGameSystem{
 				}
 				
 			
+			}
+			
+			
+			//destructable layer
+			List<GameObject> destructableLayer = myLayerGameObjects.get(GameWorld.DestructableLayer);
+			for (GameObject destructable : destructableLayer) {
+				
+				if (destructable.hasComponent(ComponentContants.collision)) {
+					CollisionComponent collisionComponent2 = (CollisionComponent) destructable
+							.getComponent(ComponentContants.collision);
+				    
+					if (collisionComponent.getCollisionShape()
+							.isColliding(collisionComponent2.getCollisionShape())) {
+
+						collisionComponent.onCollide(destructable);
+						mvt = this.checkPhysicsCollision(collisionComponent, collisionComponent2);
+						if(mvt != null)
+						{
+							collDirection  = mvt.normalize();
+							if(collDirection.dot(new Vec2d(0,-1)) > 0)
+							{
+								collisionComponent2.setStatic(true);
+							}
+						}
+					}
+
+				}
 			}
 			
 			
